@@ -1,7 +1,5 @@
 package ca.usherbrooke.notifius.entities;
 
-import org.apache.catalina.User;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,6 +32,4 @@ public class UserEntity implements Serializable
         setId(id);
         return this;
     }
-
-
 }

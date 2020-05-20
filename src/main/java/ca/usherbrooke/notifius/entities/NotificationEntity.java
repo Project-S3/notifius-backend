@@ -11,16 +11,14 @@ public class NotificationEntity
     @Id
     @GeneratedValue
     private Long id;
-
     private String title;
-
     private String content;
-
     private Date date;
 
 
     public NotificationEntity()
-    {}
+    {
+    }
 
     public Long getId()
     {
