@@ -47,6 +47,7 @@ public class NotificationController
 
         NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
         notificationRepository.save(notificationEntity);
+
         return notification;
     }
 

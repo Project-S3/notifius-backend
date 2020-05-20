@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
+@Entity(name = "notification")
 public class NotificationEntity
 {
     @Id

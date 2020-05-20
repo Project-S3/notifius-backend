@@ -3,7 +3,7 @@ package ca.usherbrooke.notifius.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "settings")
 public class SettingEntity
 {
     @Id
