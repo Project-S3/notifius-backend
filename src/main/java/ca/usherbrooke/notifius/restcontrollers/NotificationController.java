@@ -46,6 +46,8 @@ public class NotificationController
                                                       @PathVariable("activityId") String activityId,
                                                       @RequestBody Notification notification)
     {
+        notificationValidator.validNotificationThrowIfNotValid(notification);
+
         return null;
     }
 
@@ -57,6 +59,7 @@ public class NotificationController
                                                         @PathVariable("trimesterId") String trimesterId,
                                                         @RequestBody Notification notification)
     {
+        notificationValidator.validNotificationThrowIfNotValid(notification);
         return null;
     }
 }
