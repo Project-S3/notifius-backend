@@ -13,7 +13,7 @@ public class NotificationValidator
     @Value("${notifius.request.max-string-length}")
     private Integer maxStringLength;
 
-    public boolean validNotification(Notification notification)
+    public void validNotificationThrowIfNotValid(Notification notification)
     {
         if (notification.getContent().length() > maxStringLength)
             throw new ContentTooLongException();
@@ -29,23 +29,5 @@ public class NotificationValidator
 
         if (notification.getDate().compareTo(new Date()) > 0)
             throw new DateInvalidException();
-
-        return true;
-    }
-
-    public Integer getMaxStringLength()
-    {
-        return maxStringLength;
-    }
-
-    public void setMaxStringLength(Integer maxStringLength)
-    {
-        this.maxStringLength = maxStringLength;
-    }
-
-    public NotificationValidator withMaxStringLength(Integer maxStringLength)
-    {
-        setMaxStringLength(maxStringLength);
-        return this;
     }
 }

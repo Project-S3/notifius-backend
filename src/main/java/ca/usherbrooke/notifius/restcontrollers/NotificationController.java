@@ -1,9 +1,10 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
-import ca.usherbrooke.notifius.entities.NotificationEntity;
 import ca.usherbrooke.notifius.models.Notification;
+import ca.usherbrooke.notifius.validators.NotificationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,9 @@ import java.util.List;
 public class NotificationController
 {
     private final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+
+    @Autowired
+    private NotificationValidator notificationValidator;
 
     @GetMapping(value = "/users/{userId}/notifications",
                 produces = "application/json")
@@ -30,6 +34,8 @@ public class NotificationController
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                  @RequestBody Notification notification)
     {
+        notificationValidator.validNotificationThrowIfNotValid(notification);
+
         return null;
     }
 
