@@ -13,7 +13,8 @@ public class NotificationController
 {
     private final Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
-    @GetMapping("/users/{userId}/notifications")
+    @GetMapping(value = "/users/{userId}/notifications",
+                produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Notification> getNotifications(@PathVariable("userId") String userId,
                                                @RequestParam(value = "service", required = false) String serviceId,

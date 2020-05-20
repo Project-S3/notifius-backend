@@ -7,16 +7,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SettingsController
 {
-    @GetMapping("/users/{userID}/settings")
+    @GetMapping(value = "/users/{userID}/settings",
+                produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
     public Settings getSettingByUser(@PathVariable("userID") String userID)
     {
         return null;
     }
 
-    @PostMapping("/users/{userID}/settings")
+    @PostMapping(value = "/users/{userID}/settings",
+                 consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Settings setSettingByUser(@PathVariable("userID") String userID)
+    public Settings setSettingByUser(@PathVariable("userID") String userID,
+                                     @RequestBody Settings settings)
     {
         return null;
     }
