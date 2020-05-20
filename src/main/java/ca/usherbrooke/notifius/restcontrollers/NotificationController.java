@@ -60,6 +60,9 @@ public class NotificationController
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
+        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
+        notificationRepository.save(notificationEntity);
+
         return notification;
     }
 
@@ -72,6 +75,10 @@ public class NotificationController
                                                         @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
+
+        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
+        notificationRepository.save(notificationEntity);
+
         return notification;
     }
 }
