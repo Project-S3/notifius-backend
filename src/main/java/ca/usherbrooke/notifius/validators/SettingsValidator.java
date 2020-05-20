@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SettingsValidator
 {
-    public boolean validSettings(Settings settings)
+    public void validNotificationThrowIfNotValid(Settings settings)
     {
-        return false;
+
     }
 }

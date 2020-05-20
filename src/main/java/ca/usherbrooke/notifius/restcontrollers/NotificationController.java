@@ -36,7 +36,7 @@ public class NotificationController
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        return null;
+        return notification;
     }
 
     @PostMapping(value = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
@@ -48,7 +48,7 @@ public class NotificationController
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        return null;
+        return notification;
     }
 
     @PostMapping(value = "/departments/{departmentId}/sessions/{sessionId}/trimesters/{trimesterId}/users/notifications",
@@ -60,6 +60,6 @@ public class NotificationController
                                                         @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
-        return null;
+        return notification;
     }
 }
