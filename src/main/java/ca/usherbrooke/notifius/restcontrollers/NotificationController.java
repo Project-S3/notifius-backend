@@ -1,5 +1,6 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
+import ca.usherbrooke.notifius.entities.NotificationEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
