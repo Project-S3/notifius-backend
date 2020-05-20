@@ -1,6 +1,7 @@
 package ca.usherbrooke.notifius.validators;
 
 import ca.usherbrooke.notifius.models.Notification;
+import ca.usherbrooke.notifius.resterrors.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +15,19 @@ public class NotificationValidator
 
     public boolean validNotification(Notification notification)
     {
-        if(notification.getContent().length() > maxStringLength)
+        if (notification.getContent().length() > maxStringLength)
             throw new ContentTooLongException();
 
-        if(notification.getContent().isEmpty())
+        if (notification.getContent().isEmpty())
             throw new ContentEmptyException();
 
-        if(notification.getTitle().length() > maxStringLength)
+        if (notification.getTitle().length() > maxStringLength)
             throw new TitleTooLongException();
 
-        if(notification.getContent().isEmpty())
+        if (notification.getTitle().isEmpty())
             throw new TitleEmptyException();
 
-        if(notification.getDate().compareTo(new Date()) > 0 )
+        if (notification.getDate().compareTo(new Date()) > 0)
             throw new DateInvalidException();
 
         return true;
@@ -44,7 +45,7 @@ public class NotificationValidator
 
     public NotificationValidator withMaxStringLength(Integer maxStringLength)
     {
-       setMaxStringLength(maxStringLength);
-       return this;
+        setMaxStringLength(maxStringLength);
+        return this;
     }
 }
