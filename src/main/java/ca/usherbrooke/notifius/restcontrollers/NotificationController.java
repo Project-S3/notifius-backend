@@ -3,6 +3,7 @@ package ca.usherbrooke.notifius.restcontrollers;
 import ca.usherbrooke.notifius.entities.NotificationEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
+import ca.usherbrooke.notifius.services.EmailService;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
 import org.slf4j.Logger;
@@ -20,12 +21,12 @@ public class NotificationController
 
     @Autowired
     private NotificationValidator notificationValidator;
-
     @Autowired
     private NotificationToEntityTranslator notificationToEntityTranslator;
-
     @Autowired
     private NotificationRepository notificationRepository;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping(value = "/users/{userId}/notifications",
                 produces = "application/json")
@@ -34,6 +35,7 @@ public class NotificationController
                                                @RequestParam(value = "service", required = false) String serviceId,
                                                @RequestParam(value = "date", required = false) String date)
     {
+
         return null;
     }
 
@@ -47,6 +49,10 @@ public class NotificationController
 
         NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
         notificationRepository.save(notificationEntity);
+
+        emailService.sendEmail("lemj0601@usherbrooke.ca",
+                               notification.getTitle(),
+                               notification.getContent());
 
         return notification;
     }
