@@ -1,11 +1,32 @@
 package ca.usherbrooke.notifius.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class UserEntity
+public class UserEntity implements Serializable
 {
     @Id
-    private Long id;
+    @Column(unique = true)
+    private String id;
+
+    public UserEntity()
+    {
+    }
+
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+
+
 }
