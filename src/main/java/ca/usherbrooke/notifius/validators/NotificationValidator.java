@@ -14,9 +14,21 @@ public class NotificationValidator
 
     public boolean validNotification(Notification notification)
     {
-        if (notification.getContent().length() > maxStringLength) return false;
-        if (notification.getTitle().length() > maxStringLength) return false;
-        if (notification.getDate().compareTo(new Date()) > 0) return false;
+        if(notification.getContent().length() > maxStringLength)
+            throw new ContentTooLongException();
+
+        if(notification.getContent().isEmpty())
+            throw new ContentEmptyException();
+
+        if(notification.getTitle().length() > maxStringLength)
+            throw new TitleTooLongException();
+
+        if(notification.getContent().isEmpty())
+            throw new TitleEmptyException();
+
+        if(notification.getDate().compareTo(new Date()) > 0 )
+            throw new DateInvalidException();
+
         return true;
     }
 
