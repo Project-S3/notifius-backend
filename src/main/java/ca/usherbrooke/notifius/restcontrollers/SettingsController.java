@@ -1,12 +1,16 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.models.Settings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class SettingsController
 {
+    private final Logger logger = LoggerFactory.getLogger(SettingsController.class);
+
     @GetMapping(value = "/users/{userID}/settings",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)

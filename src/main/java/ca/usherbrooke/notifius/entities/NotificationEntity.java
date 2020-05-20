@@ -15,7 +15,6 @@ public class NotificationEntity
     private String content;
     private Date date;
 
-
     public NotificationEntity()
     {
     }

@@ -14,9 +14,25 @@ public class NotificationValidator
 
     public boolean validNotification(Notification notification)
     {
-        if(notification.getContent().length() > maxStringLength) return false;
-        if(notification.getTitle().length() > maxStringLength) return false;
-        if(notification.getDate().compareTo(new Date()) > 0 ) return false;
+        if (notification.getContent().length() > maxStringLength) return false;
+        if (notification.getTitle().length() > maxStringLength) return false;
+        if (notification.getDate().compareTo(new Date()) > 0) return false;
         return true;
+    }
+
+    public Integer getMaxStringLength()
+    {
+        return maxStringLength;
+    }
+
+    public void setMaxStringLength(Integer maxStringLength)
+    {
+        this.maxStringLength = maxStringLength;
+    }
+
+    public NotificationValidator withMaxStringLength(Integer maxStringLength)
+    {
+       setMaxStringLength(maxStringLength);
+       return this;
     }
 }

@@ -9,5 +9,6 @@ public enum Service
     TUTORING,
     STEWARD,
     GRADE,
-    MESSAGE
+    MESSAGE,
+    TEST
 }

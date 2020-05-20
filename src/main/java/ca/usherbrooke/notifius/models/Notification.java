@@ -13,6 +13,10 @@ public class Notification implements Serializable
     private Date date;
     private Service service;
 
+    public Notification()
+    {
+    }
+
     public Notification(@JsonProperty("title") String title,
                         @JsonProperty("content") String content,
                         @JsonProperty("date") Date date,
@@ -82,7 +86,8 @@ public class Notification implements Serializable
         this.service = service;
     }
 
-    public Notification withService(Service service) {
+    public Notification withService(Service service)
+    {
         setService(service);
         return this;
     }
