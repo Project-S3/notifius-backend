@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "notifius.request.max-string-length",
+      "type": "java.lang.Integer",
+      "description": "Description for notifius.request.max-string-length."
+    }
+  ] }
