@@ -14,6 +14,7 @@ public class EmailService
     public void sendEmail(String to, String subject, String text)
     {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("Notifius <notifius.dev@gmail.com>");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
