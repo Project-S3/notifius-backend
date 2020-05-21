@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,8 +36,7 @@ public class NotificationController
                                                @RequestParam(value = "service", required = false) String serviceId,
                                                @RequestParam(value = "date", required = false) String date)
     {
-
-        return null;
+        return new ArrayList<>();
     }
 
     @PostMapping(value = "/users/{userId}/notifications",
