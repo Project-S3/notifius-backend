@@ -1,8 +1,6 @@
 package ca.usherbrooke.notifius.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "notification")
@@ -15,9 +13,15 @@ public class NotificationEntity
     private String content;
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private UserEntity user;
+
     public NotificationEntity()
     {
     }
+
+
 
     public Long getId()
     {
@@ -80,6 +84,22 @@ public class NotificationEntity
     public NotificationEntity withDate(Date date)
     {
         setDate(date);
+        return this;
+    }
+
+    public UserEntity getUser()
+    {
+        return user;
+    }
+
+    public void setUser(UserEntity user)
+    {
+        this.user = user;
+    }
+
+    public NotificationEntity withUser(UserEntity user)
+    {
+        setUser(user);
         return this;
     }
 }

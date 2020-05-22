@@ -1,8 +1,12 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.entities.NotificationEntity;
+import ca.usherbrooke.notifius.entities.SettingEntity;
+import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
+import ca.usherbrooke.notifius.repositories.SettingsRepository;
+import ca.usherbrooke.notifius.repositories.UserRepository;
 import ca.usherbrooke.notifius.services.EmailService;
 import ca.usherbrooke.notifius.services.SmsService;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
@@ -34,6 +38,12 @@ public class NotificationController
     @Autowired
     private SmsService smsService;
 
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private SettingsRepository settingRepository;
+
+
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
@@ -50,18 +60,29 @@ public class NotificationController
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                  @RequestBody Notification notification)
     {
+        UserEntity userEntity = new UserEntity(userId);
+        userRepository.save(userEntity);
+
+        SettingEntity settingEntity = new SettingEntity(userEntity);
+        settingRepository.save(settingEntity);
+
+
+
+
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
+        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(userEntity);
         notificationRepository.save(notificationEntity);
 
         emailService.sendEmail(String.format(USHERBROOKE_EMAIL_FORMAT, userId),
-                               notification.getTitle(),
+                              notification.getTitle(),
                                notification.getContent());
 
-        smsService.sendSMS("+18199051016", notification.getTitle()
-                                           + "\n\n" + notification.getContent()
-                                           + "\n\nEnvoyé par Notifius");
+//        smsService.sendSMS("+18199051016", notification.getTitle()
+//                                           + "\n\n" + notification.getContent()
+//                                           + "\n\nEnvoyé par Notifius");
+
+
 
         return notification;
     }

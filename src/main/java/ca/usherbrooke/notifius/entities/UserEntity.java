@@ -1,19 +1,37 @@
 package ca.usherbrooke.notifius.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.io.Serializable;
+import ca.usherbrooke.notifius.repositories.SettingsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity(name = "user")
-public class UserEntity implements Serializable
+import javax.persistence.*;
+import java.util.Set;
+
+
+
+
+
+@Entity(name = "notifius_user")
+public class UserEntity
 {
     @Id
     @Column(unique = true)
     private String id;
 
+    @OneToOne(mappedBy = "user")
+    private SettingEntity setting;
+
+    @OneToMany(mappedBy="user")
+    private Set<NotificationEntity> notifications;
+
     public UserEntity()
     {
+
+    }
+
+    public UserEntity(String id)
+    {
+        this.id = id;
+
     }
 
     public String getId()
