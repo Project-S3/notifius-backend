@@ -29,7 +29,7 @@ public class NotificationController
     @Autowired
     private EmailService emailService;
 
-    @GetMapping(value = "/users/{userId}/notifications",
+    @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Notification> getNotifications(@PathVariable("userId") String userId,
@@ -39,7 +39,7 @@ public class NotificationController
         return new ArrayList<>();
     }
 
-    @PostMapping(value = "/users/{userId}/notifications",
+    @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
@@ -57,7 +57,7 @@ public class NotificationController
         return notification;
     }
 
-    @PostMapping(value = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
+    @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Notification createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
@@ -72,7 +72,7 @@ public class NotificationController
         return notification;
     }
 
-    @PostMapping(value = "/departments/{departmentId}/sessions/{sessionId}/trimesters/{trimesterId}/users/notifications",
+    @PostMapping(path = "/departments/{departmentId}/sessions/{sessionId}/trimesters/{trimesterId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Notification createNotificationsByDepartment(@PathVariable("departmentId") String departmentId,
