@@ -44,5 +44,10 @@
       "name": "twilio.phone_number",
       "type": "java.lang.String",
       "description": "Description for twilio.phone_number."
+    },
+    {
+      "name": "notifius.email.display-Name",
+      "type": "java.lang.String",
+      "description": "Description for notifius.email.display-Name."
     }
   ] }

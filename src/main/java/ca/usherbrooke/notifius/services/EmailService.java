@@ -3,6 +3,7 @@ package ca.usherbrooke.notifius.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,15 @@ public class EmailService
     @Autowired
     private JavaMailSender emailSender;
 
+    @Value("${spring.mail.username}")
+    private String notifiusEmail;
+    @Value("${notifius.email.display-Name}")
+    private String notifiusEmailDisplayName;
+
     public void sendEmail(String to, String subject, String text)
     {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("Notifius <notifius.dev@gmail.com>");
+        message.setFrom(String.format("%s <%s>", notifiusEmailDisplayName, notifiusEmail));
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
