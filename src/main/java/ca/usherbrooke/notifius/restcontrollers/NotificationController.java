@@ -51,6 +51,11 @@ public class NotificationController
                                                @RequestParam(value = "service", required = false) String serviceId,
                                                @RequestParam(value = "date", required = false) String date)
     {
+        UserEntity user = new UserEntity("gram3405");
+        SettingEntity settings = new SettingEntity(user);
+        userRepository.save(user);
+        settingRepository.save(settings);
+
         return new ArrayList<>();
     }
 
