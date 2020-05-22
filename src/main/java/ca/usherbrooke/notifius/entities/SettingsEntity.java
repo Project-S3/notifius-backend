@@ -1,9 +1,8 @@
 package ca.usherbrooke.notifius.entities;
 
-import ca.usherbrooke.notifius.repositories.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "settings")
@@ -17,36 +16,17 @@ public class SettingsEntity
     @Column
     private Boolean smsService = false;
 
-    @Column
-    private Boolean book = true;
-    @Column
-    private Boolean schedule = true;
-    @Column
-    private Boolean mentoring = true;
-    @Column
-    private Boolean exam = true;
-    @Column
-    private Boolean tutoring = true;
-    @Column
-    private Boolean steward = true;
-    @Column
-    private Boolean grade = true;
-    @Column
-    private Boolean message = true;
+    @ManyToMany
+    @JoinTable(
+            name = "settings_services",
+            joinColumns = @JoinColumn(name = "settings_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private Set<ServiceEntity> enableServices = new HashSet<>();
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "settings_services",
-//            joinColumns = @JoinColumn(name = "settings_id"),
-//            inverseJoinColumns = @JoinColumn(name = "service_id"))
-//    Set<ServiceEntity> enableServices;
 
-    @Autowired
-    private ServiceRepository serviceRepository;
 
     public SettingsEntity()
     {
-       //this.enableServices.add(serviceRepository.getOne("GRADE"));
 
     }
 
@@ -98,131 +78,19 @@ public class SettingsEntity
         return this;
     }
 
-    public Boolean getBook()
+    public Set<ServiceEntity> getEnableServices()
     {
-        return book;
+        return enableServices;
     }
 
-    public void setBook(Boolean book)
+    public void setEnableServices(Set<ServiceEntity> enableServices)
     {
-        this.book = book;
+        this.enableServices = enableServices;
     }
 
-    public SettingsEntity withBook(Boolean book)
+    public SettingsEntity withEnableServices(Set<ServiceEntity> enableServices)
     {
-        setBook(book);
-        return this;
-    }
-
-    public Boolean getSchedule()
-    {
-        return schedule;
-    }
-
-    public void setSchedule(Boolean schedule)
-    {
-        this.schedule = schedule;
-    }
-
-    public SettingsEntity withSchedule(Boolean schedule)
-    {
-        setSchedule(schedule);
-        return this;
-    }
-
-    public Boolean getMentoring()
-    {
-        return mentoring;
-    }
-
-    public void setMentoring(Boolean mentoring)
-    {
-        this.mentoring = mentoring;
-    }
-
-    public SettingsEntity withMentoring(Boolean mentoring)
-    {
-        setMentoring(mentoring);
-        return this;
-    }
-
-    public Boolean getExam()
-    {
-        return exam;
-    }
-
-    public void setExam(Boolean exam)
-    {
-        this.exam = exam;
-    }
-
-    public SettingsEntity withExam(Boolean exam)
-    {
-        setExam(exam);
-        return this;
-    }
-
-    public Boolean getTutoring()
-    {
-        return tutoring;
-    }
-
-    public void setTutoring(Boolean tutoring)
-    {
-        this.tutoring = tutoring;
-    }
-
-    public SettingsEntity withTutoring(Boolean tutoring)
-    {
-        setTutoring(tutoring);
-        return this;
-    }
-
-    public Boolean getSteward()
-    {
-        return steward;
-    }
-
-    public void setSteward(Boolean steward)
-    {
-        this.steward = steward;
-    }
-
-    public SettingsEntity withSteward(Boolean steward)
-    {
-        setSteward(steward);
-        return this;
-    }
-
-    public Boolean getGrade()
-    {
-        return grade;
-    }
-
-    public void setGrade(Boolean grade)
-    {
-        this.grade = grade;
-    }
-
-    public SettingsEntity withGrade(Boolean grade)
-    {
-        setGrade(grade);
-        return this;
-    }
-
-    public Boolean getMessage()
-    {
-        return message;
-    }
-
-    public void setMessage(Boolean message)
-    {
-        this.message = message;
-    }
-
-    public SettingsEntity withMessage(Boolean message)
-    {
-        setMessage(message);
+        this.setEnableServices(enableServices);
         return this;
     }
 }
