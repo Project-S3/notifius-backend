@@ -14,7 +14,7 @@ public class UserEntity
     @Column
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.DETACH)
     private SettingsEntity settings;
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
@@ -23,10 +23,11 @@ public class UserEntity
     {
     }
 
-    public UserEntity(String id)
+    public UserEntity(String id, SettingsEntity settings)
     {
         this.id = id;
         this.email = String.format("%s@usherbrooke.ca", id);
+        this.settings = settings;
     }
 
     public String getId()

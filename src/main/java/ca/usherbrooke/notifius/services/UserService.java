@@ -17,10 +17,10 @@ public class UserService
 
     public UserEntity createUser(String userId)
     {
-        UserEntity user = new UserEntity(userId);
-        userRepository.save(user);
-        SettingsEntity settings = new SettingsEntity(user);
+        SettingsEntity settings = new SettingsEntity();
         settingsRepository.save(settings);
+        UserEntity user = new UserEntity(userId, settings);
+        userRepository.save(user);
         return user;
     }
 }
