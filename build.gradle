@@ -20,6 +20,8 @@ repositories {
 }
 
 dependencies {
+    compile('org.springframework.social:spring-social-facebook:2.0.3.RELEASE')
+
     compile('org.jasig.cas.client:cas-client-support-springboot:3.6.0')
 
     implementation('com.twilio.sdk:twilio:7.50.1')
