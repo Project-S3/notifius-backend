@@ -18,7 +18,9 @@ import java.util.List;
 @RestController
 public class NotificationController
 {
-    private final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+    private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+
+    private static final String USHERBROOKE_EMAIL_FORMAT = "%s@usherbrooke.ca";
 
     @Autowired
     private NotificationValidator notificationValidator;
@@ -50,7 +52,7 @@ public class NotificationController
         NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
         notificationRepository.save(notificationEntity);
 
-        emailService.sendEmail(userId + "@usherbrooke.ca",
+        emailService.sendEmail(String.format(USHERBROOKE_EMAIL_FORMAT, userId),
                                notification.getTitle(),
                                notification.getContent());
 

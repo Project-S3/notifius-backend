@@ -20,18 +20,17 @@ public class SettingsController
         Settings body = new Settings();
         HttpHeaders headers = new HttpHeaders();
         headers.add("is-auth", "true");
-        return new ResponseEntity<Settings>(body, headers, HttpStatus.OK);
+        return new ResponseEntity<>(body, headers, HttpStatus.OK);
     }
 
     @PostMapping(path = "/auth/users/{userID}/settings",
                  consumes = "application/json")
-    @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Settings> setSettingByUser(@PathVariable("userID") String userID,
                                                      @RequestBody Settings settings)
     {
         Settings body = new Settings();
         HttpHeaders headers = new HttpHeaders();
         headers.add("is-auth", "true");
-        return new ResponseEntity<Settings>(body, headers, HttpStatus.OK);
+        return new ResponseEntity<>(body, headers, HttpStatus.CREATED);
     }
 }
