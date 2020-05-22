@@ -1,6 +1,10 @@
 package ca.usherbrooke.notifius.entities;
 
+import ca.usherbrooke.notifius.repositories.ServiceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "settings")
 public class SettingsEntity
@@ -30,8 +34,20 @@ public class SettingsEntity
     @Column
     private Boolean message = true;
 
+//    @ManyToMany
+//    @JoinTable(
+//            name = "settings_services",
+//            joinColumns = @JoinColumn(name = "settings_id"),
+//            inverseJoinColumns = @JoinColumn(name = "service_id"))
+//    Set<ServiceEntity> enableServices;
+
+    @Autowired
+    private ServiceRepository serviceRepository;
+
     public SettingsEntity()
     {
+       //this.enableServices.add(serviceRepository.getOne("GRADE"));
+
     }
 
     public Long getId()

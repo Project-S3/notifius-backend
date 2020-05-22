@@ -32,6 +32,7 @@ public class NotificationSenderService
 
         UserEntity userEntity = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
 
+
         NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(userEntity);
         notificationRepository.save(notificationEntity);
 
