@@ -1,7 +1,7 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.entities.NotificationEntity;
-import ca.usherbrooke.notifius.entities.SettingEntity;
+import ca.usherbrooke.notifius.entities.SettingsEntity;
 import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
@@ -52,7 +52,7 @@ public class NotificationController
                                                @RequestParam(value = "date", required = false) String date)
     {
         UserEntity user = new UserEntity("gram3405");
-        SettingEntity settings = new SettingEntity(user);
+        SettingsEntity settings = new SettingsEntity(user);
         userRepository.save(user);
         settingRepository.save(settings);
 
@@ -68,8 +68,8 @@ public class NotificationController
         UserEntity userEntity = new UserEntity(userId);
         userRepository.save(userEntity);
 
-        SettingEntity settingEntity = new SettingEntity(userEntity);
-        settingRepository.save(settingEntity);
+        SettingsEntity settingsEntity = new SettingsEntity(userEntity);
+        settingRepository.save(settingsEntity);
 
 
 

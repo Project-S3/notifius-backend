@@ -5,7 +5,7 @@ import ca.usherbrooke.notifius.models.Service;
 import javax.persistence.*;
 
 @Entity(name = "settings")
-public class SettingEntity
+public class SettingsEntity
 {
     @Id
     @GeneratedValue
@@ -28,7 +28,7 @@ public class SettingEntity
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
-    public SettingEntity(UserEntity user)
+    public SettingsEntity(UserEntity user)
     {
         this.user = user;
     }

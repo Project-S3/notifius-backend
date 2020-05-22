@@ -15,7 +15,7 @@ public class UserEntity
     private String phoneNumber;
 
     @OneToOne(mappedBy = "user")
-    private SettingEntity settings;
+    private SettingsEntity settings;
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
 
@@ -76,17 +76,17 @@ public class UserEntity
         return this;
     }
 
-    public SettingEntity getSettings()
+    public SettingsEntity getSettings()
     {
         return settings;
     }
 
-    public void setSettings(SettingEntity settings)
+    public void setSettings(SettingsEntity settings)
     {
         this.settings = settings;
     }
 
-    public UserEntity withSettings(SettingEntity settings)
+    public UserEntity withSettings(SettingsEntity settings)
     {
         setSettings(settings);
         return this;
