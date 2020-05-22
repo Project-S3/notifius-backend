@@ -29,5 +29,20 @@
       "name": "cas.validation-url-patterns",
       "type": "java.lang.String",
       "description": "Description for cas.validation-url-patterns."
+    },
+    {
+      "name": "twilio.account_sid",
+      "type": "java.lang.String",
+      "description": "Description for twilio.acount_sid."
+    },
+    {
+      "name": "twilio.account_token",
+      "type": "java.lang.String",
+      "description": "Description for twilio.acount_token."
+    },
+    {
+      "name": "twilio.phone_number",
+      "type": "java.lang.String",
+      "description": "Description for twilio.phone_number."
     }
   ] }
