@@ -9,7 +9,7 @@ public class UserEntity
 {
     @Id
     private String id;
-    @Column
+    @Column(nullable = false)
     private String email;
     @Column
     private String phoneNumber;
@@ -26,6 +26,7 @@ public class UserEntity
     public UserEntity(String id)
     {
         this.id = id;
+        this.email = String.format("%s@usherbrooke.ca", id);
     }
 
     public String getId()

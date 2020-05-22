@@ -1,14 +1,13 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.entities.NotificationEntity;
-import ca.usherbrooke.notifius.entities.SettingsEntity;
 import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
 import ca.usherbrooke.notifius.repositories.SettingsRepository;
-import ca.usherbrooke.notifius.repositories.UserRepository;
 import ca.usherbrooke.notifius.services.EmailService;
 import ca.usherbrooke.notifius.services.SmsService;
+import ca.usherbrooke.notifius.services.UserService;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
 import org.slf4j.Logger;
@@ -37,9 +36,8 @@ public class NotificationController
     private EmailService emailService;
     @Autowired
     private SmsService smsService;
-
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private SettingsRepository settingRepository;
 
@@ -51,10 +49,7 @@ public class NotificationController
                                                @RequestParam(value = "service", required = false) String serviceId,
                                                @RequestParam(value = "date", required = false) String date)
     {
-        UserEntity user = new UserEntity("gram3405");
-        SettingsEntity settings = new SettingsEntity(user);
-        userRepository.save(user);
-        settingRepository.save(settings);
+        UserEntity entity = userService.createUser(userId);
 
         return new ArrayList<>();
     }
@@ -65,19 +60,10 @@ public class NotificationController
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                  @RequestBody Notification notification)
     {
-        UserEntity userEntity = new UserEntity(userId);
-        userRepository.save(userEntity);
-
-        SettingsEntity settingsEntity = new SettingsEntity(userEntity);
-        settingRepository.save(settingsEntity);
-
-
-
-
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(userEntity);
-        notificationRepository.save(notificationEntity);
+//        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(userEntity);
+//        notificationRepository.save(notificationEntity);
 
         emailService.sendEmail(String.format(USHERBROOKE_EMAIL_FORMAT, userId),
                               notification.getTitle(),
