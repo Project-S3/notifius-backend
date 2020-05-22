@@ -59,7 +59,9 @@ public class NotificationController
                                notification.getTitle(),
                                notification.getContent());
 
-        smsService.sendSMS("","");
+        smsService.sendSMS("+18199051016",notification.getTitle()
+                                                     +"\n\n"+notification.getContent()
+                                                    +"\n\nEnvoyé par Notifius");
 
         return notification;
     }
