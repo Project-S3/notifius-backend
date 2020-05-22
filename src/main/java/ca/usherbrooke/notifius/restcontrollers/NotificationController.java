@@ -4,6 +4,7 @@ import ca.usherbrooke.notifius.entities.NotificationEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
 import ca.usherbrooke.notifius.services.EmailService;
+import ca.usherbrooke.notifius.services.SmsService;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class NotificationController
     private NotificationRepository notificationRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private SmsService smsService;
 
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
@@ -55,6 +58,8 @@ public class NotificationController
         emailService.sendEmail(String.format(USHERBROOKE_EMAIL_FORMAT, userId),
                                notification.getTitle(),
                                notification.getContent());
+
+        smsService.sendSMS("","");
 
         return notification;
     }
