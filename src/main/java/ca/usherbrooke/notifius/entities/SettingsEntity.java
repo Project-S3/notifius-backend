@@ -76,7 +76,7 @@ public class SettingsEntity
         this.smsService = smsService;
     }
 
-    public SettingsEntity withSmsService(boolean smsService)
+    public SettingsEntity withSmsService(Boolean smsService)
     {
         setSmsService(smsService);
         return this;
@@ -92,6 +92,12 @@ public class SettingsEntity
         this.book = book;
     }
 
+    public SettingsEntity withBook(Boolean book)
+    {
+        setBook(book);
+        return this;
+    }
+
     public Boolean getSchedule()
     {
         return schedule;
@@ -100,6 +106,12 @@ public class SettingsEntity
     public void setSchedule(Boolean schedule)
     {
         this.schedule = schedule;
+    }
+
+    public SettingsEntity withSchedule(Boolean schedule)
+    {
+        setSchedule(schedule);
+        return this;
     }
 
     public Boolean getMentoring()
@@ -112,6 +124,12 @@ public class SettingsEntity
         this.mentoring = mentoring;
     }
 
+    public SettingsEntity withMentoring(Boolean mentoring)
+    {
+        setMentoring(mentoring);
+        return this;
+    }
+
     public Boolean getExam()
     {
         return exam;
@@ -120,6 +138,12 @@ public class SettingsEntity
     public void setExam(Boolean exam)
     {
         this.exam = exam;
+    }
+
+    public SettingsEntity withExam(Boolean exam)
+    {
+        setExam(exam);
+        return this;
     }
 
     public Boolean getTutoring()
@@ -132,6 +156,12 @@ public class SettingsEntity
         this.tutoring = tutoring;
     }
 
+    public SettingsEntity withTutoring(Boolean tutoring)
+    {
+        setTutoring(tutoring);
+        return this;
+    }
+
     public Boolean getSteward()
     {
         return steward;
@@ -140,6 +170,12 @@ public class SettingsEntity
     public void setSteward(Boolean steward)
     {
         this.steward = steward;
+    }
+
+    public SettingsEntity withSteward(Boolean steward)
+    {
+        setSteward(steward);
+        return this;
     }
 
     public Boolean getGrade()
@@ -152,6 +188,12 @@ public class SettingsEntity
         this.grade = grade;
     }
 
+    public SettingsEntity withGrade(Boolean grade)
+    {
+        setGrade(grade);
+        return this;
+    }
+
     public Boolean getMessage()
     {
         return message;
@@ -160,5 +202,11 @@ public class SettingsEntity
     public void setMessage(Boolean message)
     {
         this.message = message;
+    }
+
+    public SettingsEntity withMessage(Boolean message)
+    {
+        setMessage(message);
+        return this;
     }
 }
