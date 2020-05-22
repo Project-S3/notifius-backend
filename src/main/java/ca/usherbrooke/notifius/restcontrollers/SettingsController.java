@@ -27,7 +27,7 @@ public class SettingsController
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Settings> setSettingByUser(@PathVariable("userID") String userID,
-                                     @RequestBody Settings settings)
+                                                     @RequestBody Settings settings)
     {
         Settings body = new Settings();
         HttpHeaders headers = new HttpHeaders();

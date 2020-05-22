@@ -50,7 +50,7 @@ public class NotificationController
         NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification);
         notificationRepository.save(notificationEntity);
 
-        emailService.sendEmail(userId+"@usherbrooke.ca",
+        emailService.sendEmail(userId + "@usherbrooke.ca",
                                notification.getTitle(),
                                notification.getContent());
 
