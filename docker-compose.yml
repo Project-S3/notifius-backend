@@ -12,4 +12,4 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: project
+      POSTGRES_DB: notifius
