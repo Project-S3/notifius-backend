@@ -5,8 +5,7 @@ import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
 import ca.usherbrooke.notifius.repositories.SettingsRepository;
-import ca.usherbrooke.notifius.services.EmailService;
-import ca.usherbrooke.notifius.services.SmsService;
+import ca.usherbrooke.notifius.services.NotificationSenderService;
 import ca.usherbrooke.notifius.services.UserService;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
@@ -33,13 +32,11 @@ public class NotificationController
     @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
-    private EmailService emailService;
-    @Autowired
-    private SmsService smsService;
-    @Autowired
     private UserService userService;
     @Autowired
     private SettingsRepository settingRepository;
+    @Autowired
+    private NotificationSenderService notificationSenderService;
 
 
     @GetMapping(path = "/users/{userId}/notifications",
@@ -60,21 +57,7 @@ public class NotificationController
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                  @RequestBody Notification notification)
     {
-        notificationValidator.validNotificationThrowIfNotValid(notification);
-
-//        NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(userEntity);
-//        notificationRepository.save(notificationEntity);
-
-        emailService.sendEmail(String.format(USHERBROOKE_EMAIL_FORMAT, userId),
-                              notification.getTitle(),
-                               notification.getContent());
-
-//        smsService.sendSMS("+18199051016", notification.getTitle()
-//                                           + "\n\n" + notification.getContent()
-//                                           + "\n\nEnvoyé par Notifius");
-
-
-
+        notificationSenderService.sendNotifications(notification,userId);
         return notification;
     }
 

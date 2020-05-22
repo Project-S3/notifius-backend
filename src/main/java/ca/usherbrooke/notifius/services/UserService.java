@@ -7,6 +7,8 @@ import ca.usherbrooke.notifius.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService
 {
@@ -23,4 +25,10 @@ public class UserService
         userRepository.save(user);
         return user;
     }
+
+    public Optional<UserEntity> getUser(String userId)
+    {
+        return userRepository.findById(userId);
+    }
+
 }
