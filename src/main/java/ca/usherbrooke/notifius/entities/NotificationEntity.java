@@ -9,19 +9,18 @@ public class NotificationEntity
     @Id
     @GeneratedValue
     private Long id;
+    @Column
     private String title;
+    @Column
     private String content;
+    @Column
     private Date date;
+    @OneToOne
+    private ServiceEntity service;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private UserEntity user;
-
-    public NotificationEntity()
-    {
-    }
-
-
 
     public Long getId()
     {
@@ -100,6 +99,22 @@ public class NotificationEntity
     public NotificationEntity withUser(UserEntity user)
     {
         setUser(user);
+        return this;
+    }
+
+    public ServiceEntity getService()
+    {
+        return service;
+    }
+
+    public void setService(ServiceEntity service)
+    {
+        this.service = service;
+    }
+
+    public NotificationEntity withService(ServiceEntity service)
+    {
+        setService(service);
         return this;
     }
 }

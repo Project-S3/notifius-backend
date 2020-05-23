@@ -19,17 +19,6 @@ public class UserEntity
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
 
-    public UserEntity()
-    {
-    }
-
-    public UserEntity(String id, SettingsEntity settings)
-    {
-        this.id = id;
-        this.email = String.format("%s@usherbrooke.ca", id);
-        this.settings = settings;
-    }
-
     public String getId()
     {
         return id;

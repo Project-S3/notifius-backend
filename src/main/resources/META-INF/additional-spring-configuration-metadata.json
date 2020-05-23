@@ -49,5 +49,10 @@
       "name": "notifius.email.display-Name",
       "type": "java.lang.String",
       "description": "Description for notifius.email.display-Name."
+    },
+    {
+      "name": "notifius.email.domain",
+      "type": "java.lang.String",
+      "description": "Description for notifius.email.domain."
     }
   ] }

@@ -10,4 +10,9 @@ public class UserNotFoundException extends ResponseStatusException
     {
         super(HttpStatus.BAD_REQUEST, "L'utilisateur n'existe pas.");
     }
+
+    public UserNotFoundException(String userId)
+    {
+        super(HttpStatus.BAD_REQUEST, String.format("L'utilisateur %s n'existe pas.", userId));
+    }
 }

@@ -1,13 +1,8 @@
 package ca.usherbrooke.notifius.services;
 
-import ca.usherbrooke.notifius.entities.NotificationEntity;
-import ca.usherbrooke.notifius.entities.ServiceEntity;
-import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
-import ca.usherbrooke.notifius.repositories.NotificationRepository;
-import ca.usherbrooke.notifius.repositories.ServiceRepository;
+import ca.usherbrooke.notifius.models.User;
 import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
-import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,44 +17,33 @@ public class NotificationSenderService
     @Autowired
     private UserService userService;
     @Autowired
+    private NotificationService notificationService;
+    @Autowired
     private NotificationValidator notificationValidator;
-    @Autowired
-    private NotificationToEntityTranslator notificationToEntityTranslator;
-    @Autowired
-    private NotificationRepository notificationRepository;
-    @Autowired
-    private ServiceRepository serviceRepository;
 
+    // TODO METTRE DES LOGS
     public void sendNotifications(Notification notification, String userId)
     {
-
-        // TODO METTRE DES LOGS
-
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        UserEntity userEntity = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
+        User user = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
 
-        ServiceEntity service = serviceRepository.findById(notification.getService()).get();
-
-        if (userEntity.getSettings().getEnableServices().contains(service))
+        if (user.getSettings().getEnableServices().contains(notification.getService()))
         {
-            NotificationEntity notificationEntity = notificationToEntityTranslator.toEntity(notification).withUser(
-                    userEntity);
-            notificationRepository.save(notificationEntity);
+            notificationService.saveNotification(notification, userId);
 
-            if (userEntity.getSettings().getEmailService()) {
-                emailService.sendEmail(userEntity.getEmail(),
+            if (user.getSettings().getEmailServiceEnable()) {
+                emailService.sendEmail(user.getEmail(),
                                        notification.getTitle(),
                                        notification.getContent());
             }
-            if (userEntity.getSettings().getSmsService()) {
-                smsService.sendSMS(userEntity.getPhoneNumber(),
+            //toto valid settings
+            if (user.getSettings().getSmsServiceEnable()) {
+                smsService.sendSMS(user.getPhoneNumber(),
                                    String.format("%s\n\n%s\n\nEnvoyé par Notifius",
                                                  notification.getTitle(),
                                                  notification.getContent()));
             }
         }
-
     }
-
 }

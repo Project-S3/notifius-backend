@@ -4,9 +4,9 @@ import ca.usherbrooke.notifius.models.Settings;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SettingsValidator
+public class UserValidator
 {
-    // todo user validator
+    //todo user validator
     public void validNotificationThrowIfNotValid(Settings settings)
     {
 

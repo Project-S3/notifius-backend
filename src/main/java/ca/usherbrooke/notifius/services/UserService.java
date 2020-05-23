@@ -1,16 +1,20 @@
 package ca.usherbrooke.notifius.services;
 
+import ca.usherbrooke.notifius.entities.ServiceEntity;
 import ca.usherbrooke.notifius.entities.SettingsEntity;
 import ca.usherbrooke.notifius.entities.UserEntity;
+import ca.usherbrooke.notifius.models.User;
 import ca.usherbrooke.notifius.repositories.ServiceRepository;
 import ca.usherbrooke.notifius.repositories.SettingsRepository;
 import ca.usherbrooke.notifius.repositories.UserRepository;
-import com.twilio.rest.chat.v1.ServiceReader;
+import ca.usherbrooke.notifius.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService
@@ -21,21 +25,27 @@ public class UserService
     private SettingsRepository settingsRepository;
     @Autowired
     private ServiceRepository serviceRepository;
-    public UserEntity createUser(String userId)
+    @Autowired
+    private UserToEntityTranslator userToEntityTranslator;
+
+    @Value("${notifius.email.domain}")
+    private String notifiusEmailDomain;
+
+    public void createUser(String userId)
     {
-        SettingsEntity settings = new SettingsEntity();
-        settings.setEnableServices(new HashSet<>(serviceRepository.findAll()));
-        settingsRepository.save(settings);
-        UserEntity user = new UserEntity(userId, settings);
-        userRepository.save(user);
-        return user;
+        Set<ServiceEntity> allService = new HashSet<>(serviceRepository.findAll());
+        SettingsEntity settingsEntity = new SettingsEntity().withEmailServiceEnable(true)
+                                                            .withSmsServiceEnable(false)
+                                                            .withEnableServices(allService);
+        settingsRepository.save(settingsEntity);
 
-
+        userRepository.save(new UserEntity().withId(userId)
+                                            .withEmail(String.format("%s@%s", userId, notifiusEmailDomain))
+                                            .withSettings(settingsEntity));
     }
 
-    public Optional<UserEntity> getUser(String userId)
+    public Optional<User> getUser(String userId)
     {
-        return userRepository.findById(userId);
+        return userRepository.findById(userId).map(userToEntityTranslator::toModel);
     }
-
 }

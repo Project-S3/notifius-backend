@@ -1,8 +1,6 @@
 package ca.usherbrooke.notifius.entities;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "settings")
@@ -12,23 +10,16 @@ public class SettingsEntity
     @GeneratedValue
     private Long id;
     @Column
-    private Boolean emailService = true;
+    private Boolean emailServiceEnable;
     @Column
-    private Boolean smsService = false;
+    private Boolean smsServiceEnable;
 
     @ManyToMany
     @JoinTable(
             name = "settings_services",
             joinColumns = @JoinColumn(name = "settings_id"),
             inverseJoinColumns = @JoinColumn(name = "service_id"))
-    private Set<ServiceEntity> enableServices = new HashSet<>();
-
-
-
-    public SettingsEntity()
-    {
-
-    }
+    private Set<ServiceEntity> enableServices;
 
     public Long getId()
     {
@@ -46,35 +37,35 @@ public class SettingsEntity
         return this;
     }
 
-    public Boolean getEmailService()
+    public Boolean getEmailServiceEnable()
     {
-        return emailService;
+        return emailServiceEnable;
     }
 
-    public void setEmailService(Boolean emailService)
+    public void setEmailServiceEnable(Boolean emailService)
     {
-        this.emailService = emailService;
+        this.emailServiceEnable = emailService;
     }
 
-    public SettingsEntity withEmailService(Boolean emailService)
+    public SettingsEntity withEmailServiceEnable(Boolean emailService)
     {
-        setEmailService(emailService);
+        setEmailServiceEnable(emailService);
         return this;
     }
 
-    public Boolean getSmsService()
+    public Boolean getSmsServiceEnable()
     {
-        return smsService;
+        return smsServiceEnable;
     }
 
-    public void setSmsService(Boolean smsService)
+    public void setSmsServiceEnable(Boolean smsService)
     {
-        this.smsService = smsService;
+        this.smsServiceEnable = smsService;
     }
 
-    public SettingsEntity withSmsService(Boolean smsService)
+    public SettingsEntity withSmsServiceEnable(Boolean smsService)
     {
-        setSmsService(smsService);
+        setSmsServiceEnable(smsService);
         return this;
     }
 
