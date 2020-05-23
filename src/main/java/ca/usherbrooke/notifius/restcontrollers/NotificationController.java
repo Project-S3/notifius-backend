@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
+// todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
+
 @RestController
 public class NotificationController
 {
