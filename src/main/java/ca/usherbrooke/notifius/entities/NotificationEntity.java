@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "notification")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "content", "date", "user_id", "service_id"})})
 public class NotificationEntity
 {
     @Id
@@ -19,7 +20,7 @@ public class NotificationEntity
     private ServiceEntity service;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     public Long getId()

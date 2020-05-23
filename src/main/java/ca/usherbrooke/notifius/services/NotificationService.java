@@ -1,5 +1,6 @@
 package ca.usherbrooke.notifius.services;
 
+import ca.usherbrooke.notifius.entities.NotificationEntity;
 import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.Service;
@@ -8,6 +9,7 @@ import ca.usherbrooke.notifius.repositories.UserRepository;
 import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.translators.ServiceToEntityTranslator;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -26,11 +28,18 @@ public class NotificationService
     @Autowired
     private ServiceToEntityTranslator serviceToEntityTranslator;
 
-    public void saveNotification(Notification notification, String userId)
+    public boolean createOrUpdateNotification(Notification notification, String userId)
     {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
-                                                                  .withUser(userEntity));
+        try {
+            NotificationEntity temp = notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
+                                                                                                .withUser(userEntity));
+            return true;
+        } catch (Exception e) {
+            if (((ConstraintViolationException) e.getCause()).getSQLException().getSQLState().equals("23505")) {
+                return false;
+            } else throw e;
+        }
     }
 
     public Set<Notification> getAllNotificationsForUserWithService(String userId, Service service)

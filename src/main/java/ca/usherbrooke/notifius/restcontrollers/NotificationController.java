@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,8 @@ import java.util.Set;
 public class NotificationController
 {
     private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
+
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     @Autowired
     private UserService userService;
@@ -40,42 +43,56 @@ public class NotificationController
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
-    public Set<Notification> getNotifications(@PathVariable("userId") String userId,
-                                              @RequestParam(value = "service", required = false) String service,
-                                              @RequestParam(value = "date", required = false) String date)
-            throws ParseException
+    public Set<Notification> getNotifications(@PathVariable("userId") String userIdParam,
+                                              @RequestParam(value = "service", required = false) String serviceParam,
+                                              @RequestParam(value = "date", required = false) String dateParam)
     {
-        // todo better error handling
+        String userId = userIdParam.toLowerCase();
         User user = userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
 
-        if (StringUtils.hasText(service) && StringUtils.hasText(date)) {
-            Service s = Service.valueOf(service.strip());
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date d =  dateFormat.parse(date.strip());
-            return notificationService.getAllNotificationsForUserWithServiceAndDateSince(userId, s, d);
+        Service service = null;
+        if (StringUtils.hasText(serviceParam)) {
+            try {
+                service = Service.valueOf(serviceParam.strip().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // todo on fait quoi si le service existe pas
+            }
         }
-        if (StringUtils.hasText(service)) {
-            Service s = Service.valueOf(service.strip());
-            return notificationService.getAllNotificationsForUserWithService(userId, s);
-        }
-        if (StringUtils.hasText(date)) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date d =  dateFormat.parse(date.strip());
-            return notificationService.getAllNotificationsForUserWithDateSince(userId, d);
+        Date date = null;
+        if (StringUtils.hasText(dateParam)) {
+            try {
+                date = dateFormat.parse(dateParam.strip());
+            } catch (ParseException e) {
+                // todo on fait quoi si la date est mal formaté
+            }
         }
 
+        if (service != null && date != null) {
+            return notificationService.getAllNotificationsForUserWithServiceAndDateSince(userId, service, date);
+        }
+        if (service != null) {
+            return notificationService.getAllNotificationsForUserWithService(userId, service);
+        }
+        if (date != null) {
+            return notificationService.getAllNotificationsForUserWithDateSince(userId, date);
+        }
         return user.getNotifications();
     }
 
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public Notification createNotificationByUser(@PathVariable("userId") String userId,
-                                                 @RequestBody Notification notification)
+    public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userIdParam,
+                                                                @RequestBody Notification notification)
     {
-        //todo quand j'envoie une notif deux fois de suite elle ne devrait pas etre deux fois en bd
-        notificationSenderService.sendNotifications(notification,userId);
-        return notification;
+        String userId = userIdParam.toLowerCase();
+        notificationValidator.validNotificationThrowIfNotValid(notification);
+
+        if (notificationService.createOrUpdateNotification(notification, userId)) {
+            notificationSenderService.sendNotifications(notification, userId);
+        } else {
+            return new ResponseEntity<>(notification, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(notification, HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
