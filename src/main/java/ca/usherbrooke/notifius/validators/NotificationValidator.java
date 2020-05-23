@@ -29,5 +29,7 @@ public class NotificationValidator
 
         if (notification.getDate().compareTo(new Date()) > 0)
             throw new DateInvalidException();
+
+        // todo service
     }
 }

@@ -3,7 +3,6 @@ package ca.usherbrooke.notifius.entities;
 import ca.usherbrooke.notifius.models.Service;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity(name = "service")
@@ -40,5 +39,4 @@ public class ServiceEntity
         this.setId(id);
         return this;
     }
-
 }

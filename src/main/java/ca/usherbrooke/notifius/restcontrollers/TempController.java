@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
+// todo enlever a la fin, utilisé pour tester
 @RestController
 @RequestMapping("temp")
 public class TempController

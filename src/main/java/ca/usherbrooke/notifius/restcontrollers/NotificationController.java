@@ -84,7 +84,7 @@ public class NotificationController
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
     public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userIdParam,
-                                                                @RequestBody Notification notification)
+                                                                 @RequestBody Notification notification)
     {
         String userId = userIdParam.toLowerCase();
         notificationValidator.validNotificationThrowIfNotValid(notification);

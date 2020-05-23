@@ -1,7 +1,5 @@
 package ca.usherbrooke.notifius.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -12,21 +10,6 @@ public class Notification implements Serializable
     private String content;
     private Date date;
     private Service service;
-
-    public Notification()
-    {
-    }
-
-    public Notification(@JsonProperty("title") String title,
-                        @JsonProperty("content") String content,
-                        @JsonProperty("date") Date date,
-                        @JsonProperty("service") Service service)
-    {
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.service = service;
-    }
 
     public String getTitle()
     {
