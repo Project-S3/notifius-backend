@@ -1,7 +1,9 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.services.UserService;
+import ca.usherbrooke.notifius.zeuz.clients.ZeuzNewsClient;
 import ca.usherbrooke.notifius.zeuz.clients.ZeuzTrimesterClient;
+import ca.usherbrooke.notifius.zeuz.models.News;
 import ca.usherbrooke.notifius.zeuz.models.Trimester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ public class TempController
     private UserService userService;
     @Autowired
     private ZeuzTrimesterClient zeuzTrimesterClient;
+    @Autowired
+    private ZeuzNewsClient zeuzNewsClient;
 
     @GetMapping(path = "/create",
                 produces = "application/json")
@@ -43,5 +47,16 @@ public class TempController
         c.set(2019, Calendar.APRIL , 1);
 
         return zeuzTrimesterClient.getTrimester(c.getTime(), null);
+    }
+
+    @GetMapping(path = "/zeuz/news",
+                produces = "application/json")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<News> getNews()
+    {
+        Calendar c = new GregorianCalendar();
+        c.set(2019, Calendar.APRIL , 1);
+
+        return zeuzNewsClient.getNews(c.getTime(), null, "21073");
     }
 }
