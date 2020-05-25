@@ -54,5 +54,10 @@
       "name": "notifius.email.domain",
       "type": "java.lang.String",
       "description": "Description for notifius.email.domain."
+    },
+    {
+      "name": "zeuz.ms.base-url",
+      "type": "java.lang.String",
+      "description": "Description for zeuz.ms.base-url."
     }
   ] }
