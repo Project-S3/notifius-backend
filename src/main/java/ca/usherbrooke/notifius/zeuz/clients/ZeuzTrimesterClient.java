@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class ZeuzTrimestersClient
+public class ZeuzTrimesterClient
 {
     private static final String TRIMESTER_URL_WITH_PARAMS = "/trimestre" +
                                                             "?inscription={inscription}" +

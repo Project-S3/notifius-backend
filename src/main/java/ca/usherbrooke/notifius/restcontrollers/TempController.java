@@ -1,7 +1,7 @@
 package ca.usherbrooke.notifius.restcontrollers;
 
 import ca.usherbrooke.notifius.services.UserService;
-import ca.usherbrooke.notifius.zeuz.clients.ZeuzTrimestersClient;
+import ca.usherbrooke.notifius.zeuz.clients.ZeuzTrimesterClient;
 import ca.usherbrooke.notifius.zeuz.models.Trimester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class TempController
     @Autowired
     private UserService userService;
     @Autowired
-    private ZeuzTrimestersClient zeuzTrimesterClient;
+    private ZeuzTrimesterClient zeuzTrimesterClient;
 
     @GetMapping(path = "/create",
                 produces = "application/json")
