@@ -31,7 +31,7 @@ public class ZeuzUsersByGroupClient
         RestTemplate restTemplate = new RestTemplate();
         UserByGroup[] result = restTemplate.getForObject(zeuzMsBaseURL + USERS_BY_GROUP_URL_WITH_PARAMS,
                                                          UserByGroup[].class,
-                                                       param);
+                                                         param);
         return result == null ? new ArrayList<>() : Arrays.asList(result);
     }
 }
