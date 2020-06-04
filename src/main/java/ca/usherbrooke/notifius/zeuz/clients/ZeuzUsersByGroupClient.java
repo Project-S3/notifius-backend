@@ -24,9 +24,15 @@ public class ZeuzUsersByGroupClient
 
     public List<UserByGroup> getUsers(Date inscription, String trimesterId)
     {
+        return getUsers(inscription, trimesterId, null);
+    }
+
+    public List<UserByGroup> getUsers(Date inscription, String trimesterId, String profilId)
+    {
         Map<String, String> param = new HashMap<>();
         param.put("inscription", zeuzDateFormat.format(inscription));
         param.put("trimesterId", trimesterId);
+        param.put("profil_id", profilId);
 
         RestTemplate restTemplate = new RestTemplate();
         UserByGroup[] result = restTemplate.getForObject(zeuzMsBaseURL + USERS_BY_GROUP_URL_WITH_PARAMS,
