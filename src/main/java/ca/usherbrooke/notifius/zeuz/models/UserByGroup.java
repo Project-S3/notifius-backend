@@ -12,8 +12,6 @@ public class UserByGroup
     private String userId;
     @JsonProperty("departement")
     private String department;
-    @JsonProperty("groupes")
-    private String group;
     @JsonProperty("inscription")
     private String inscription;
     @JsonProperty("nom")
@@ -57,16 +55,6 @@ public class UserByGroup
     public void setDepartment(String department)
     {
         this.department = department;
-    }
-
-    public String getGroup()
-    {
-        return group;
-    }
-
-    public void setGroup(String group)
-    {
-        this.group = group;
     }
 
     public String getInscription()
@@ -150,7 +138,6 @@ public class UserByGroup
         if (!Objects.equals(appName, that.appName)) return false;
         if (!Objects.equals(userId, that.userId)) return false;
         if (!Objects.equals(department, that.department)) return false;
-        if (!Objects.equals(group, that.group)) return false;
         if (!Objects.equals(inscription, that.inscription)) return false;
         if (!Objects.equals(userLastName, that.userLastName)) return false;
         if (!Objects.equals(userFirstName, that.userFirstName))
@@ -167,7 +154,6 @@ public class UserByGroup
         int result = appName != null ? appName.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (department != null ? department.hashCode() : 0);
-        result = 31 * result + (group != null ? group.hashCode() : 0);
         result = 31 * result + (inscription != null ? inscription.hashCode() : 0);
         result = 31 * result + (userLastName != null ? userLastName.hashCode() : 0);
         result = 31 * result + (userFirstName != null ? userFirstName.hashCode() : 0);
@@ -185,7 +171,6 @@ public class UserByGroup
                "appName='" + appName + '\'' +
                ", userId='" + userId + '\'' +
                ", department='" + department + '\'' +
-               ", group='" + group + '\'' +
                ", inscription='" + inscription + '\'' +
                ", userLastName='" + userLastName + '\'' +
                ", userFirstName='" + userFirstName + '\'' +

@@ -3,8 +3,11 @@ package ca.usherbrooke.notifius.restcontrollers;
 import ca.usherbrooke.notifius.services.UserService;
 import ca.usherbrooke.notifius.zeuz.clients.ZeuzNewsClient;
 import ca.usherbrooke.notifius.zeuz.clients.ZeuzTrimesterClient;
+import ca.usherbrooke.notifius.zeuz.clients.ZeuzUsersByGroupClient;
 import ca.usherbrooke.notifius.zeuz.models.News;
 import ca.usherbrooke.notifius.zeuz.models.Trimester;
+import ca.usherbrooke.notifius.zeuz.models.UserByGroup;
+import org.bouncycastle.util.Integers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 // todo enlever a la fin, utilisé pour tester
@@ -28,6 +33,8 @@ public class TempController
     private ZeuzTrimesterClient zeuzTrimesterClient;
     @Autowired
     private ZeuzNewsClient zeuzNewsClient;
+    @Autowired
+    private ZeuzUsersByGroupClient zeuzUsersByGroupClient;
 
     @GetMapping(path = "/create",
                 produces = "application/json")
@@ -44,7 +51,7 @@ public class TempController
     public List<Trimester> getTrimester()
     {
         Calendar c = new GregorianCalendar();
-        c.set(2019, Calendar.APRIL , 1);
+        c.set(2019, Calendar.APRIL, 1);
 
         return zeuzTrimesterClient.getTrimester(c.getTime(), null);
     }
@@ -55,9 +62,26 @@ public class TempController
     public List<News> getNews()
     {
         Calendar c = new GregorianCalendar();
-        c.set(2019, Calendar.APRIL , 1);
+        c.set(2019, Calendar.APRIL, 1);
 
         return zeuzNewsClient.getNews(c.getTime(), null, "21073");
+    }
+
+    @GetMapping(path = "/zeuz/user-group",
+                produces = "application/json")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<UserByGroup> getUser()
+    {
+        String tId = "E20";
+        String aId = "s3iapp1";
+
+        Calendar c = new GregorianCalendar();
+        c.set(2000 + Integers.valueOf(Integer.parseInt(tId.substring(1, 2))), Calendar.APRIL, 1);
+
+        return zeuzUsersByGroupClient.getUsers(c.getTime(), tId)
+                                     .stream()
+                                     .filter(userByGroup -> aId.equals(userByGroup.getActivityId()))
+                                     .collect(Collectors.toCollection(LinkedList::new));
     }
 }
 
