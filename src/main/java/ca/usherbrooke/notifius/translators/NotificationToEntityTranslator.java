@@ -14,7 +14,7 @@ public class NotificationToEntityTranslator
     public NotificationEntity toEntity(Notification notification)
     {
         return new NotificationEntity().withTitle(notification.getTitle())
-                                       .withContent(notification.getTitle())
+                                       .withContent(notification.getContent())
                                        .withDate(notification.getDate())
                                        .withService(serviceToEntityTranslator.toEntity(notification.getService()));
     }

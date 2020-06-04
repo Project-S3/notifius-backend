@@ -94,21 +94,16 @@ public class NotificationController
                                                                  @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
-
         userId = sanitizeUserId(userId);
-        notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        Optional<User> user = userService.getUser(userId);
-        if (user.isPresent()) {
-            if (notificationService.create(notification, user.get())) {
-                notificationSenderService.sendNotifications(notification, user.get());
-                return new ResponseEntity<>(notification, HttpStatus.CREATED);
+        User user = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
 
-            } else {
-                return new ResponseEntity<>(notification, HttpStatus.OK);
-            }
+        if (notificationService.create(notification, user)) {
+            notificationSenderService.sendNotifications(notification, user);
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
+
         } else {
-            throw new UserNotFoundException(userId);
+            return new ResponseEntity<>(notification, HttpStatus.OK);
         }
     }
 

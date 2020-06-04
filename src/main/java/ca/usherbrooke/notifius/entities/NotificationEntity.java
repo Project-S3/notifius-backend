@@ -12,7 +12,7 @@ public class NotificationEntity
     private Long id;
     @Column
     private String title;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String content;
     @Column
     private Date date;
