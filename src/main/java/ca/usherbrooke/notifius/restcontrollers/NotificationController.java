@@ -108,12 +108,11 @@ public class NotificationController
         return notification;
     }
 
-    @PostMapping(path = "/departments/{departmentId}/sessions/{sessionId}/trimesters/{trimesterId}/users/notifications",
+    @PostMapping(path = "/trimesters/{trimesterId}/profile/{profileId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Notification createNotificationsByDepartment(@PathVariable("departmentId") String departmentId,
-                                                        @PathVariable("sessionId") String sessionId,
-                                                        @PathVariable("trimesterId") String trimesterId,
+    public Notification createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
+                                                        @PathVariable("profileId") String profileId,
                                                         @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
