@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Set;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -131,6 +135,19 @@ public class NotificationController
                                                         @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
+
+        trimesterId = trimesterId.strip().toUpperCase();
+        profileId = profileId.strip().toLowerCase();
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(2000 + Integers.valueOf(Integer.parseInt(profileId.substring(1, 2))), Calendar.APRIL, 1);
+        zeuzUsersByGroupClient.getUsers(calendar.getTime(), profileId)
+                              .stream()
+                              .map(UserByGroup::getUserId)
+                              .distinct()
+                              .forEach(userID -> {
+                                  notificationSenderService.sendNotifications(notification, userID);
+                              });
 
         return notification;
     }
