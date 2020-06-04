@@ -40,7 +40,6 @@ public class NotificationController
     @Autowired
     private NotificationService notificationService;
 
-
     // todo need to be restricted
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
@@ -91,10 +90,10 @@ public class NotificationController
 
         if (notificationService.createOrUpdateNotification(notification, userId)) {
             notificationSenderService.sendNotifications(notification, userId);
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(notification, HttpStatus.OK);
         }
-        return new ResponseEntity<>(notification, HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",

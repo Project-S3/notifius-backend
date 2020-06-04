@@ -13,9 +13,9 @@ import java.util.*;
 public class ZeuzNewsClient
 {
     private static final String NEWS_URL_WITH_PARAMS = "/nouvelle" +
-                                                            "?inscription={inscription}" +
-                                                            "&cip={userId}" +
-                                                            "&id={newsId}";
+                                                       "?inscription={inscription}" +
+                                                       "&cip={userId}" +
+                                                       "&id={newsId}";
 
     @Autowired
     private DateFormat zeuzDateFormat;
