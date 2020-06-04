@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -70,7 +67,7 @@ public class TempController
     @GetMapping(path = "/zeuz/user-group",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<UserByGroup> getUser()
+    public Set<UserByGroup> getUser()
     {
         String tId = "E20";
         String aId = "s3iapp1";
@@ -81,7 +78,7 @@ public class TempController
         return zeuzUsersByGroupClient.getUsers(c.getTime(), tId)
                                      .stream()
                                      .filter(userByGroup -> aId.equals(userByGroup.getActivityId()))
-                                     .collect(Collectors.toCollection(LinkedList::new));
+                                     .collect(Collectors.toCollection(HashSet::new));
     }
 }
 
