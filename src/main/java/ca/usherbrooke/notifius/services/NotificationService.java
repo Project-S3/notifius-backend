@@ -1,18 +1,18 @@
 package ca.usherbrooke.notifius.services;
 
-import ca.usherbrooke.notifius.entities.NotificationEntity;
-import ca.usherbrooke.notifius.entities.UserEntity;
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.Service;
+import ca.usherbrooke.notifius.models.User;
 import ca.usherbrooke.notifius.repositories.NotificationRepository;
 import ca.usherbrooke.notifius.repositories.UserRepository;
-import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.translators.ServiceToEntityTranslator;
+import ca.usherbrooke.notifius.translators.UserToEntityTranslator;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,14 +26,32 @@ public class NotificationService
     @Autowired
     private NotificationToEntityTranslator notificationToEntityTranslator;
     @Autowired
+    private UserToEntityTranslator userToEntityTranslator;
+    @Autowired
     private ServiceToEntityTranslator serviceToEntityTranslator;
 
-    public boolean createOrUpdateNotification(Notification notification, String userId)
+    public boolean create(Notification notification, User user)
     {
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         try {
-            NotificationEntity temp = notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
-                                                                                                .withUser(userEntity));
+            notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
+                                                                      .withUser(userToEntityTranslator.toEntity(user)));
+            return true;
+        } catch (Exception e) {
+            if (((ConstraintViolationException) e.getCause()).getSQLException().getSQLState().equals("23505")) {
+                return false;
+            } else throw e;
+        }
+    }
+
+    public boolean createAllNotificationForUsers(Notification notification, List<User> allUser)
+    {
+        try {
+            notificationRepository.saveAll(allUser.stream()
+                                                  .map(userToEntityTranslator::toEntity)
+                                                  .map(userEntity -> notificationToEntityTranslator
+                                                          .toEntity(notification)
+                                                          .withUser(userEntity))
+                                                  .collect(Collectors.toList()));
             return true;
         } catch (Exception e) {
             if (((ConstraintViolationException) e.getCause()).getSQLException().getSQLState().equals("23505")) {

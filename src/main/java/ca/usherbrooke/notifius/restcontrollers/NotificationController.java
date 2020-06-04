@@ -22,10 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
 
@@ -100,12 +98,17 @@ public class NotificationController
         userId = sanitizeUserId(userId);
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        if (notificationService.createOrUpdateNotification(notification, userId)) {
-            notificationSenderService.sendNotifications(notification, userId);
-            return new ResponseEntity<>(notification, HttpStatus.CREATED);
+        Optional<User> user = userService.getUser(userId);
+        if (user.isPresent()) {
+            if (notificationService.create(notification, user.get())) {
+                notificationSenderService.sendNotifications(notification, user.get());
+                return new ResponseEntity<>(notification, HttpStatus.CREATED);
 
+            } else {
+                return new ResponseEntity<>(notification, HttpStatus.OK);
+            }
         } else {
-            return new ResponseEntity<>(notification, HttpStatus.OK);
+            throw new UserNotFoundException(userId);
         }
     }
 
@@ -124,12 +127,16 @@ public class NotificationController
         Calendar calendar = new GregorianCalendar();
         calendar.set(2000 + Integers.valueOf(Integer.parseInt(trimesterId.substring(1, 2))), Calendar.APRIL, 1);
 
-        zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
-                              .stream()
-                              .filter(userByGroup -> finalActivityId.equals(userByGroup.getActivityId()))
-                              .map(UserByGroup::getUserId)
-                              .distinct()
-                              .forEach(userId -> saveAndSendNotificationAndImportUserIfNotExist(notification, userId));
+
+        List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
+                                                       .stream()
+                                                       .filter(userByGroup -> finalActivityId
+                                                               .equals(userByGroup.getActivityId()))
+                                                       .map(UserByGroup::getUserId)
+                                                       .distinct()
+                                                       .collect(Collectors.toList());
+
+        saveAndSendNotificationAndImportUserIfNotExist(notification, allUserId);
 
         return notification;
     }
@@ -148,53 +155,62 @@ public class NotificationController
 
         Calendar calendar = new GregorianCalendar();
         calendar.set(2000 + Integers.valueOf(Integer.parseInt(profileId.substring(1, 2))), Calendar.APRIL, 1);
-        zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
-                              .stream()
-                              .map(UserByGroup::getUserId)
-                              .distinct()
-                              .forEach(userId -> saveAndSendNotificationAndImportUserIfNotExist(notification, userId));
+        List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
+                                                       .stream()
+                                                       .map(UserByGroup::getUserId)
+                                                       .distinct()
+                                                       .collect(Collectors.toList());
+
+        saveAndSendNotificationAndImportUserIfNotExist(notification, allUserId);
 
         return notification;
     }
 
-    private void saveAndSendNotificationAndImportUserIfNotExist(Notification notification, String userId)
+    //todo 200 si pas créé
+    private void saveAndSendNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
     {
-        try {
-            if (notificationService.createOrUpdateNotification(notification, userId)) {
-                notificationSenderService.sendNotifications(notification, userId);
-            }
-        } catch (UserNotFoundException e) {
-            userService.getUser(userId);
-            saveAndSendNotificationAndImportUserIfNotExist(notification, userId);
-        }
+        List<User> allUser = userService.getAllUser(allUserId);
+
+        allUserId.removeAll(allUser.stream().map(User::getId).collect(Collectors.toList()));
+        allUser.addAll(userService.createAllUser(allUserId));
+
+        notificationService.createAllNotificationForUsers(notification, allUser);
+
+        allUser.parallelStream().forEach(user -> notificationSenderService.sendNotifications(notification, user));
     }
 
-    private String sanitizeUserId(String userId) {
+    private String sanitizeUserId(String userId)
+    {
         if (userId == null) return null;
         return userId.strip().toLowerCase();
     }
 
-    private String sanitizeService(String service) {
+    private String sanitizeService(String service)
+    {
         if (service == null) return null;
         return service.strip().toUpperCase();
     }
 
-    private String sanitizeDate(String date) {
+    private String sanitizeDate(String date)
+    {
         if (date == null) return null;
         return date.strip();
     }
 
-    private String sanitizeTrimesterId(String trimesterId) {
+    private String sanitizeTrimesterId(String trimesterId)
+    {
         if (trimesterId == null) return null;
         return trimesterId.strip().toUpperCase();
     }
 
-    private String sanitizeActivityId(String activityId) {
+    private String sanitizeActivityId(String activityId)
+    {
         if (activityId == null) return null;
         return activityId.strip().toLowerCase();
     }
 
-    private String sanitizeProfileId(String profileId) {
+    private String sanitizeProfileId(String profileId)
+    {
         if (profileId == null) return null;
         return profileId.strip().toLowerCase();
     }

@@ -2,7 +2,6 @@ package ca.usherbrooke.notifius.services;
 
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.User;
-import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +16,8 @@ public class NotificationSenderService
     private UserService userService;
 
     // TODO METTRE DES LOGS
-    public void sendNotifications(Notification notification, String userId)
+    public void sendNotifications(Notification notification, User user)
     {
-        User user = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
-
         if (user.getSettings().getEnableServices().contains(notification.getService()))
         {
             if (user.getSettings().getEmailServiceEnable()) {
