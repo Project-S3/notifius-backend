@@ -26,8 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
-import java.util.*;
-import java.util.stream.Collectors;
 
 // todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
 
@@ -123,11 +121,17 @@ public class NotificationController
                                 .filter(userByGroup -> aId.equals(userByGroup.getActivityId()))
                                 .map(UserByGroup::getUserId)
                                 .distinct()
-                                .forEach(userId -> notificationSenderService.sendNotifications(notification, userId));
+                                .forEach(userId -> {
+                                    try {
+                                        notificationSenderService.sendNotifications(notification, userId);
+                                    } catch (UserNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                });
         return notification;
     }
 
-    @PostMapping(path = "/trimesters/{trimesterId}/profile/{profileId}/users/notifications",
+    @PostMapping(path = "/trimesters/{trimesterId}/profiles/{profileId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Notification createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
@@ -140,13 +144,17 @@ public class NotificationController
         profileId = profileId.strip().toLowerCase();
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integers.valueOf(Integer.parseInt(profileId.substring(1, 2))), Calendar.APRIL, 1);
-        zeuzUsersByGroupClient.getUsers(calendar.getTime(), profileId)
+        calendar.set(2000, Calendar.APRIL, 1);
+        zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
                               .stream()
                               .map(UserByGroup::getUserId)
                               .distinct()
-                              .forEach(userID -> {
-                                  notificationSenderService.sendNotifications(notification, userID);
+                              .forEach(userId -> {
+                                  try {
+                                      notificationSenderService.sendNotifications(notification, userId);
+                                  } catch (UserNotFoundException e) {
+                                      e.printStackTrace();
+                                  }
                               });
 
         return notification;

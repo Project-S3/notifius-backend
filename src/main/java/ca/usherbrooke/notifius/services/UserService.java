@@ -41,7 +41,13 @@ public class UserService
 
         userRepository.save(new UserEntity().withId(userId)
                                             .withEmail(String.format("%s@%s", userId, notifiusEmailDomain))
-                                            .withSettings(settingsEntity));
+                                            .withSettings(settingsEntity)
+                                            .withNotifications(new HashSet<>()));
+    }
+
+    public void updateUser(User user)
+    {
+        userRepository.save(userToEntityTranslator.toEntity(user));
     }
 
     public Optional<User> getUser(String userId)
