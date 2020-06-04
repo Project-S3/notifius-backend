@@ -26,8 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
-import java.util.*;
-import java.util.stream.Collectors;
 
 // todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
 
@@ -53,17 +51,20 @@ public class NotificationController
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
-    public Set<Notification> getNotifications(@PathVariable("userId") String userIdParam,
+    public Set<Notification> getNotifications(@PathVariable("userId") String userId,
                                               @RequestParam(value = "service", required = false) String serviceParam,
                                               @RequestParam(value = "date", required = false) String dateParam)
     {
-        String userId = userIdParam.toLowerCase();
-        User user = userService.getUser(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        String finalUserId = sanitizeUserId(userId);
+        serviceParam = sanitizeService(serviceParam);
+        dateParam = sanitizeDate(dateParam);
+
+        User user = userService.getUser(finalUserId).orElseThrow(() -> new UserNotFoundException(finalUserId));
 
         Service service = null;
         if (StringUtils.hasText(serviceParam)) {
             try {
-                service = Service.valueOf(serviceParam.strip().toUpperCase());
+                service = Service.valueOf(serviceParam);
             } catch (IllegalArgumentException e) {
                 // todo on fait quoi si le service existe pas
             }
@@ -71,7 +72,7 @@ public class NotificationController
         Date date = null;
         if (StringUtils.hasText(dateParam)) {
             try {
-                date = dateFormat.parse(dateParam.strip());
+                date = dateFormat.parse(dateParam);
             } catch (ParseException e) {
                 // todo on fait quoi si la date est mal formaté
             }
@@ -91,15 +92,18 @@ public class NotificationController
 
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
-    public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userIdParam,
+    public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userId,
                                                                  @RequestBody Notification notification)
     {
-        String userId = userIdParam.toLowerCase();
+        notificationValidator.validNotificationThrowIfNotValid(notification);
+
+        userId = sanitizeUserId(userId);
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
         if (notificationService.createOrUpdateNotification(notification, userId)) {
             notificationSenderService.sendNotifications(notification, userId);
             return new ResponseEntity<>(notification, HttpStatus.CREATED);
+
         } else {
             return new ResponseEntity<>(notification, HttpStatus.OK);
         }
@@ -112,27 +116,21 @@ public class NotificationController
                                                       @PathVariable("activityId") String activityId,
                                                       @RequestBody Notification notification)
     {
-        String tId = trimesterId.toUpperCase().strip();
-        String aId = activityId.toLowerCase().strip();
+        notificationValidator.validNotificationThrowIfNotValid(notification);
+
+        trimesterId = sanitizeTrimesterId(trimesterId);
+        String finalActivityId = sanitizeActivityId(activityId);
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integers.valueOf(Integer.parseInt(tId.substring(1, 2))), Calendar.APRIL, 1);
+        calendar.set(2000 + Integers.valueOf(Integer.parseInt(trimesterId.substring(1, 2))), Calendar.APRIL, 1);
 
-        zeuzUsersByGroupClient.getUsers(calendar.getTime(), tId)
-                                .stream()
-                                .filter(userByGroup -> aId.equals(userByGroup.getActivityId()))
-                                .map(UserByGroup::getUserId)
-                                .distinct()
-                                .forEach(userId ->{
-                                    try
-                                    {
-                                        notificationSenderService.sendNotifications(notification, userId);
-                                    }
-                                    catch(UserNotFoundException e)
-                                    {
-                                        e.printStackTrace();
-                                    }
-                                });
+        zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
+                              .stream()
+                              .filter(userByGroup -> finalActivityId.equals(userByGroup.getActivityId()))
+                              .map(UserByGroup::getUserId)
+                              .distinct()
+                              .forEach(userId -> saveAndSendNotificationAndImportUserIfNotExist(notification, userId));
+
         return notification;
     }
 
@@ -145,8 +143,8 @@ public class NotificationController
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
-        trimesterId = trimesterId.strip().toUpperCase();
-        profileId = profileId.strip().toLowerCase();
+        trimesterId = sanitizeTrimesterId(trimesterId);
+        profileId = sanitizeProfileId(profileId);
 
         Calendar calendar = new GregorianCalendar();
         calendar.set(2000 + Integers.valueOf(Integer.parseInt(profileId.substring(1, 2))), Calendar.APRIL, 1);
@@ -154,17 +152,51 @@ public class NotificationController
                               .stream()
                               .map(UserByGroup::getUserId)
                               .distinct()
-                              .forEach(userId ->{
-                                  try
-                                  {
-                                      notificationSenderService.sendNotifications(notification, userId);
-                                  }
-                                  catch(UserNotFoundException e)
-                                  {
-                                      e.printStackTrace();
-                                  }
-                              });
+                              .forEach(userId -> saveAndSendNotificationAndImportUserIfNotExist(notification, userId));
 
         return notification;
     }
+
+    private void saveAndSendNotificationAndImportUserIfNotExist(Notification notification, String userId)
+    {
+        try {
+            if (notificationService.createOrUpdateNotification(notification, userId)) {
+                notificationSenderService.sendNotifications(notification, userId);
+            }
+        } catch (UserNotFoundException e) {
+            userService.getUser(userId);
+            saveAndSendNotificationAndImportUserIfNotExist(notification, userId);
+        }
+    }
+
+    private String sanitizeUserId(String userId) {
+        if (userId == null) return null;
+        return userId.strip().toLowerCase();
+    }
+
+    private String sanitizeService(String service) {
+        if (service == null) return null;
+        return service.strip().toUpperCase();
+    }
+
+    private String sanitizeDate(String date) {
+        if (date == null) return null;
+        return date.strip();
+    }
+
+    private String sanitizeTrimesterId(String trimesterId) {
+        if (trimesterId == null) return null;
+        return trimesterId.strip().toUpperCase();
+    }
+
+    private String sanitizeActivityId(String activityId) {
+        if (activityId == null) return null;
+        return activityId.strip().toLowerCase();
+    }
+
+    private String sanitizeProfileId(String profileId) {
+        if (profileId == null) return null;
+        return profileId.strip().toLowerCase();
+    }
+
 }
