@@ -1,6 +1,5 @@
 package ca.usherbrooke.notifius.zeuz.clients;
 
-import ca.usherbrooke.notifius.zeuz.models.Trimester;
 import ca.usherbrooke.notifius.zeuz.models.UserByGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +12,7 @@ import java.util.*;
 @Service
 public class ZeuzUsersByGroupClient
 {
-    private static final String USERSBYGROUP_URL_WITH_PARAMS = "/etudiant_groupe" +
+    private static final String USERS_BY_GROUP_URL_WITH_PARAMS = "/etudiant_groupe" +
                                                             "?inscription={inscription}" +
                                                             "&trimestre_id={trimesterId}";
 
@@ -23,11 +22,6 @@ public class ZeuzUsersByGroupClient
     @Value("${zeuz.ms.base-url}")
     private String zeuzMsBaseURL;
 
-    public List<UserByGroup> getUsers(Date inscription)
-    {
-        return getUsers(inscription, null);
-    }
-
     public List<UserByGroup> getUsers(Date inscription, String trimesterId)
     {
         Map<String, String> param = new HashMap<>();
@@ -35,7 +29,7 @@ public class ZeuzUsersByGroupClient
         param.put("trimesterId", trimesterId);
 
         RestTemplate restTemplate = new RestTemplate();
-        UserByGroup[] result = restTemplate.getForObject(zeuzMsBaseURL + USERSBYGROUP_URL_WITH_PARAMS,
+        UserByGroup[] result = restTemplate.getForObject(zeuzMsBaseURL + USERS_BY_GROUP_URL_WITH_PARAMS,
                                                          UserByGroup[].class,
                                                        param);
         return result == null ? new ArrayList<>() : Arrays.asList(result);
