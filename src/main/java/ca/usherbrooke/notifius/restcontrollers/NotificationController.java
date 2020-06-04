@@ -8,6 +8,9 @@ import ca.usherbrooke.notifius.services.NotificationSenderService;
 import ca.usherbrooke.notifius.services.NotificationService;
 import ca.usherbrooke.notifius.services.UserService;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
+import ca.usherbrooke.notifius.zeuz.clients.ZeuzUsersByGroupClient;
+import ca.usherbrooke.notifius.zeuz.models.UserByGroup;
+import org.bouncycastle.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
 
@@ -39,6 +42,8 @@ public class NotificationController
     private NotificationSenderService notificationSenderService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private ZeuzUsersByGroupClient zeuzUsersByGroupClient;
 
     // todo need to be restricted
     @GetMapping(path = "/users/{userId}/notifications",
@@ -103,8 +108,18 @@ public class NotificationController
                                                       @PathVariable("activityId") String activityId,
                                                       @RequestBody Notification notification)
     {
-        notificationValidator.validNotificationThrowIfNotValid(notification);
+        String tId = trimesterId.toUpperCase().strip();
+        String aId = activityId.toLowerCase().strip();
 
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(2000 + Integers.valueOf(Integer.parseInt(tId.substring(1, 2))), Calendar.APRIL, 1);
+
+        zeuzUsersByGroupClient.getUsers(calendar.getTime(), tId)
+                                .stream()
+                                .filter(userByGroup -> aId.equals(userByGroup.getActivityId()))
+                                .map(UserByGroup::getUserId)
+                                .distinct()
+                                .forEach(userId -> notificationSenderService.sendNotifications(notification, userId));
         return notification;
     }
 
