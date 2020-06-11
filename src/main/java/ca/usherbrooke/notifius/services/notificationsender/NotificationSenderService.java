@@ -2,6 +2,7 @@ package ca.usherbrooke.notifius.services.notificationsender;
 
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.User;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class NotificationSenderService
         notificationSenderSubscribers.add(subscriber);
     }
 
-    // TODO METTRE DES LOGS
+    @Async
     public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getEnableServices().contains(notification.getService())) {

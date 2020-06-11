@@ -4,9 +4,9 @@ import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.Service;
 import ca.usherbrooke.notifius.models.User;
 import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
-import ca.usherbrooke.notifius.services.notificationsender.NotificationSenderService;
 import ca.usherbrooke.notifius.services.NotificationService;
 import ca.usherbrooke.notifius.services.UserService;
+import ca.usherbrooke.notifius.services.notificationsender.NotificationSenderService;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
 import ca.usherbrooke.notifius.zeuz.clients.ZeuzUsersByGroupClient;
 import ca.usherbrooke.notifius.zeuz.models.UserByGroup;
@@ -109,8 +109,7 @@ public class NotificationController
 
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
                  consumes = "application/json")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public Notification createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
+    public ResponseEntity<Notification> createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
                                                       @PathVariable("activityId") String activityId,
                                                       @RequestBody Notification notification)
     {
@@ -131,15 +130,18 @@ public class NotificationController
                                                        .distinct()
                                                        .collect(Collectors.toList());
 
-        saveAndSendNotificationAndImportUserIfNotExist(notification, allUserId);
+        if (saveNotificationAndImportUserIfNotExist(notification, allUserId)) {
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
 
-        return notification;
+        } else {
+            return new ResponseEntity<>(notification, HttpStatus.OK);
+        }
     }
 
     @PostMapping(path = "/trimesters/{trimesterId}/profiles/{profileId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Notification createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
+    public ResponseEntity<Notification> createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
                                                         @PathVariable("profileId") String profileId,
                                                         @RequestBody Notification notification)
     {
@@ -156,21 +158,31 @@ public class NotificationController
                                                        .distinct()
                                                        .collect(Collectors.toList());
 
-        saveAndSendNotificationAndImportUserIfNotExist(notification, allUserId);
+        if (saveNotificationAndImportUserIfNotExist(notification, allUserId)) {
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
 
-        return notification;
+        } else {
+            return new ResponseEntity<>(notification, HttpStatus.OK);
+        }
     }
 
-    //todo 200 si pas créé
-    private void saveAndSendNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
+    private boolean saveNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
     {
         List<User> allUser = userService.getAllUser(allUserId);
 
         allUserId.removeAll(allUser.stream().map(User::getId).collect(Collectors.toList()));
         allUser.addAll(userService.createAllUser(allUserId));
 
-        notificationService.createAllNotificationForUsers(notification, allUser);
+        boolean created = notificationService.createAllNotificationForUsers(notification, allUser);
 
+        if (created) {
+            sendNotificationForAllUsers(notification, allUser);
+        }
+
+        return created;
+    }
+
+    public void sendNotificationForAllUsers(Notification notification, List<User> allUser) {
         allUser.parallelStream().forEach(user -> notificationSenderService.sendNotifications(notification, user));
     }
 
