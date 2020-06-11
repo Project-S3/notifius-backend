@@ -80,6 +80,8 @@ public class UserService
     {
         return new SettingsEntity().withEmailServiceEnable(true)
                                    .withSmsServiceEnable(false)
+                                   .withHttpServiceEnable(false)
+                                   .withDiscordWebhookEnable(false)
                                    .withEnableServices(new HashSet<>(serviceRepository.findAll()));
     }
 

@@ -15,6 +15,8 @@ public class UserEntity
     private String phoneNumber;
     @Column
     private String customUrl;
+    @Column
+    private String discordWebhookUrl;
 
     @OneToOne(cascade = CascadeType.DETACH)
     private SettingsEntity settings;
@@ -77,6 +79,22 @@ public class UserEntity
     public void setCustomUrl(String customUrl)
     {
         this.customUrl = customUrl;
+    }
+
+    public String getDiscordWebhookUrl()
+    {
+        return discordWebhookUrl;
+    }
+
+    public void setDiscordWebhookUrl(String discordWebhookUrl)
+    {
+        this.discordWebhookUrl = discordWebhookUrl;
+    }
+
+    public UserEntity withDiscordWebhookUrl(String discordWebhookUrl)
+    {
+        setDiscordWebhookUrl(discordWebhookUrl);
+        return this;
     }
 
     public UserEntity withCustomUrl(String customUrl) {

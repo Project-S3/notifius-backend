@@ -15,6 +15,8 @@ public class SettingsEntity
     private Boolean smsServiceEnable;
     @Column
     private Boolean httpServiceEnable;
+    @Column
+    private Boolean discordWebhookEnable;
 
     @ManyToMany
     @JoinTable(
@@ -83,6 +85,22 @@ public class SettingsEntity
 
     public SettingsEntity withHttpServiceEnable(Boolean httpServiceEnable) {
         setHttpServiceEnable(httpServiceEnable);
+        return this;
+    }
+
+    public Boolean getDiscordWebhookEnable()
+    {
+        return discordWebhookEnable;
+    }
+
+    public void setDiscordWebhookEnable(Boolean discordWebhookEnable)
+    {
+        this.discordWebhookEnable = discordWebhookEnable;
+    }
+
+    public SettingsEntity withDiscordWebhookEnable(Boolean discordWebhookEnable)
+    {
+        setDiscordWebhookEnable(discordWebhookEnable);
         return this;
     }
 

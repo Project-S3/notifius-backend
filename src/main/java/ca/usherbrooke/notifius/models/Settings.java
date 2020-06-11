@@ -10,6 +10,7 @@ public class Settings
     private Boolean emailServiceEnable;
     private Boolean smsServiceEnable;
     private Boolean httpServiceEnable;
+    private Boolean discordWebhookEnable;
     private Set<Service> enableServices = new HashSet<>();
 
     public Long getId()
@@ -67,6 +68,22 @@ public class Settings
     public Settings withHttpServiceEnable(Boolean httpServiceEnable)
     {
         setHttpServiceEnable(httpServiceEnable);
+        return this;
+    }
+
+    public Boolean getDiscordWebhookEnable()
+    {
+        return discordWebhookEnable;
+    }
+
+    public void setDiscordWebhookEnable(Boolean discordWebhookEnable)
+    {
+        this.discordWebhookEnable = discordWebhookEnable;
+    }
+
+    public Settings withDiscordWebhookEnable(Boolean discordWebhookEnable)
+    {
+        setDiscordWebhookEnable(discordWebhookEnable);
         return this;
     }
 
