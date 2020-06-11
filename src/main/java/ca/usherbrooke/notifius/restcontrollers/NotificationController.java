@@ -4,7 +4,7 @@ import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.Service;
 import ca.usherbrooke.notifius.models.User;
 import ca.usherbrooke.notifius.resterrors.UserNotFoundException;
-import ca.usherbrooke.notifius.services.NotificationSenderService;
+import ca.usherbrooke.notifius.services.notificationsender.NotificationSenderService;
 import ca.usherbrooke.notifius.services.NotificationService;
 import ca.usherbrooke.notifius.services.UserService;
 import ca.usherbrooke.notifius.validators.NotificationValidator;
