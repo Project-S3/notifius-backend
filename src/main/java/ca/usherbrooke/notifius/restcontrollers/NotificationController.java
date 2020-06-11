@@ -88,6 +88,7 @@ public class NotificationController
         return user.getNotifications();
     }
 
+    @CrossOrigin(value = "*")
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
     public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userId,
@@ -107,6 +108,7 @@ public class NotificationController
         }
     }
 
+    @CrossOrigin(value = "*")
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
                  consumes = "application/json")
     public ResponseEntity<Notification> createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
@@ -138,6 +140,7 @@ public class NotificationController
         }
     }
 
+    @CrossOrigin(value = "*")
     @PostMapping(path = "/trimesters/{trimesterId}/profiles/{profileId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
