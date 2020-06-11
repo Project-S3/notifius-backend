@@ -20,6 +20,7 @@ public class UserToEntityTranslator
         return new UserEntity().withId(user.getId())
                                .withEmail(user.getEmail())
                                .withPhoneNumber(user.getPhoneNumber())
+                               .withCustomUrl(user.getCustomUrl())
                                .withSettings(settingsToEntityTranslator.toEntity(user.getSettings()))
                                .withNotifications(user.getNotifications()
                                                       .stream()
@@ -30,12 +31,13 @@ public class UserToEntityTranslator
     public User toModel(UserEntity userEntity)
     {
         return new User().withId(userEntity.getId())
-                .withEmail(userEntity.getEmail())
-                .withPhoneNumber(userEntity.getPhoneNumber())
-                .withSettings(settingsToEntityTranslator.toModel(userEntity.getSettings()))
-                .withNotifications(userEntity.getNotifications()
-                                             .stream()
-                                             .map(notificationToEntityTranslator::toModel)
-                                             .collect(Collectors.toSet()));
+                         .withEmail(userEntity.getEmail())
+                         .withPhoneNumber(userEntity.getPhoneNumber())
+                         .withCustomUrl(userEntity.getCustomUrl())
+                         .withSettings(settingsToEntityTranslator.toModel(userEntity.getSettings()))
+                         .withNotifications(userEntity.getNotifications()
+                                                      .stream()
+                                                      .map(notificationToEntityTranslator::toModel)
+                                                      .collect(Collectors.toSet()));
     }
 }

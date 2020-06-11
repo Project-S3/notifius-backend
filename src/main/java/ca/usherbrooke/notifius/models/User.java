@@ -9,6 +9,7 @@ public class User
     private String id;
     private String email;
     private String phoneNumber;
+    private String customUrl;
     private Settings settings;
     private Set<Notification> notifications = new HashSet<>();
 
@@ -52,6 +53,21 @@ public class User
     public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCustomUrl()
+    {
+        return customUrl;
+    }
+
+    public User withCustomUrl(String customUrl) {
+        setCustomUrl(customUrl);
+        return this;
+    }
+
+    public void setCustomUrl(String customUrl)
+    {
+        this.customUrl = customUrl;
     }
 
     public User withPhoneNumber(String phoneNumber)
@@ -103,6 +119,7 @@ public class User
         if (!Objects.equals(id, user.id)) return false;
         if (!Objects.equals(email, user.email)) return false;
         if (!Objects.equals(phoneNumber, user.phoneNumber)) return false;
+        if (!Objects.equals(customUrl, user.customUrl)) return false;
         if (!Objects.equals(settings, user.settings)) return false;
         return Objects.equals(notifications, user.notifications);
     }
@@ -113,6 +130,7 @@ public class User
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (customUrl != null ? customUrl.hashCode() : 0);
         result = 31 * result + (settings != null ? settings.hashCode() : 0);
         result = 31 * result + (notifications != null ? notifications.hashCode() : 0);
         return result;
@@ -125,6 +143,7 @@ public class User
                "id='" + id + '\'' +
                ", email='" + email + '\'' +
                ", phoneNumber='" + phoneNumber + '\'' +
+               ", customUrl='" + customUrl + '\'' +
                ", settings=" + settings +
                ", notifications=" + notifications +
                '}';

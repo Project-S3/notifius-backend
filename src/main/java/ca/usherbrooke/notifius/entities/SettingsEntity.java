@@ -13,6 +13,8 @@ public class SettingsEntity
     private Boolean emailServiceEnable;
     @Column
     private Boolean smsServiceEnable;
+    @Column
+    private Boolean httpServiceEnable;
 
     @ManyToMany
     @JoinTable(
@@ -66,6 +68,21 @@ public class SettingsEntity
     public SettingsEntity withSmsServiceEnable(Boolean smsService)
     {
         setSmsServiceEnable(smsService);
+        return this;
+    }
+
+    public Boolean getHttpServiceEnable()
+    {
+        return httpServiceEnable;
+    }
+
+    public void setHttpServiceEnable(Boolean httpServiceEnable)
+    {
+        this.httpServiceEnable = httpServiceEnable;
+    }
+
+    public SettingsEntity withHttpServiceEnable(Boolean httpServiceEnable) {
+        setHttpServiceEnable(httpServiceEnable);
         return this;
     }
 

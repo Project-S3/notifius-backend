@@ -9,6 +9,7 @@ public class Settings
     private Long id;
     private Boolean emailServiceEnable;
     private Boolean smsServiceEnable;
+    private Boolean httpServiceEnable;
     private Set<Service> enableServices = new HashSet<>();
 
     public Long getId()
@@ -53,6 +54,22 @@ public class Settings
         this.smsServiceEnable = smsServiceEnable;
     }
 
+    public Boolean getHttpServiceEnable()
+    {
+        return httpServiceEnable;
+    }
+
+    public void setHttpServiceEnable(Boolean httpServiceEnable)
+    {
+        this.httpServiceEnable = httpServiceEnable;
+    }
+
+    public Settings withHttpServiceEnable(Boolean httpServiceEnable)
+    {
+        setHttpServiceEnable(httpServiceEnable);
+        return this;
+    }
+
     public Settings withSmsServiceEnable(Boolean smsService)
     {
         setSmsServiceEnable(smsService);
@@ -86,6 +103,7 @@ public class Settings
         if (!Objects.equals(id, settings.id)) return false;
         if (!Objects.equals(emailServiceEnable, settings.emailServiceEnable)) return false;
         if (!Objects.equals(smsServiceEnable, settings.smsServiceEnable)) return false;
+        if (!Objects.equals(httpServiceEnable, settings.httpServiceEnable)) return false;
         return Objects.equals(enableServices, settings.enableServices);
     }
 
@@ -95,6 +113,7 @@ public class Settings
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (emailServiceEnable != null ? emailServiceEnable.hashCode() : 0);
         result = 31 * result + (smsServiceEnable != null ? smsServiceEnable.hashCode() : 0);
+        result = 31 * result + (httpServiceEnable != null ? httpServiceEnable.hashCode() : 0);
         result = 31 * result + (enableServices != null ? enableServices.hashCode() : 0);
         return result;
     }

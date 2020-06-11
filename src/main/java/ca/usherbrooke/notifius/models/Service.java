@@ -10,5 +10,5 @@ public enum Service
     STEWARD,
     GRADE,
     MESSAGE,
-    TEST
+    TEST,
 }

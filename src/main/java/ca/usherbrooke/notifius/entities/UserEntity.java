@@ -13,6 +13,8 @@ public class UserEntity
     private String email;
     @Column
     private String phoneNumber;
+    @Column
+    private String customUrl;
 
     @OneToOne(cascade = CascadeType.DETACH)
     private SettingsEntity settings;
@@ -64,6 +66,21 @@ public class UserEntity
     public UserEntity withPhoneNumber(String phoneNumber)
     {
         setPhoneNumber(phoneNumber);
+        return this;
+    }
+
+    public String getCustomUrl()
+    {
+        return customUrl;
+    }
+
+    public void setCustomUrl(String customUrl)
+    {
+        this.customUrl = customUrl;
+    }
+
+    public UserEntity withCustomUrl(String customUrl) {
+        setCustomUrl(customUrl);
         return this;
     }
 
