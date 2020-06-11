@@ -59,5 +59,10 @@
       "name": "zeuz.ms.base-url",
       "type": "java.lang.String",
       "description": "Description for zeuz.ms.base-url."
+    },
+    {
+      "name": "notifius.doc-url",
+      "type": "java.lang.String",
+      "description": "Description for notifius.doc-url."
     }
   ] }
