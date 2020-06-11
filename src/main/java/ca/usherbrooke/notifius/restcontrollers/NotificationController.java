@@ -14,13 +14,11 @@ import org.bouncycastle.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,15 +44,6 @@ public class NotificationController
     private NotificationService notificationService;
     @Autowired
     private ZeuzUsersByGroupClient zeuzUsersByGroupClient;
-
-    @GetMapping(path = "")
-    @ResponseStatus(code = HttpStatus.MOVED_PERMANENTLY)
-    ResponseEntity<ResponseEntity> redirect( )  {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("https://documenter.getpostman.com/view/11266465/SzmmTEBG?version=latest"));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-    }
-
 
     // todo need to be restricted
     @GetMapping(path = "/users/{userId}/notifications",
