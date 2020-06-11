@@ -1,7 +1,10 @@
-package ca.usherbrooke.notifius.services;
+package ca.usherbrooke.notifius.services.notificationsender;
 
 import ca.usherbrooke.notifius.models.Notification;
 import ca.usherbrooke.notifius.models.User;
+import ca.usherbrooke.notifius.services.EmailService;
+import ca.usherbrooke.notifius.services.SmsService;
+import ca.usherbrooke.notifius.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
