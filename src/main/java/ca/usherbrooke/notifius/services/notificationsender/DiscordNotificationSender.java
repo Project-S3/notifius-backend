@@ -28,7 +28,7 @@ public class DiscordNotificationSender extends NotificationSender
             try {
                 notif.put("username", discordUsername);
                 notif.put("avatar_url", discordAvatarId);
-                notif.put("content", String.format(">>> **%s**\\n%s", notification.getTitle(), notification.getContent()));
+                notif.put("content", String.format(">>> **%s**\n%s", notification.getTitle(), notification.getContent()));
 
             } catch (JSONException e) {
                 e.printStackTrace();
