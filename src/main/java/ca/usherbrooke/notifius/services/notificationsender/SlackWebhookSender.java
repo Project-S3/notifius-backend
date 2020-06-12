@@ -24,7 +24,7 @@ public class SlackWebhookSender extends NotificationSender
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            httpService.postJson(user.getTeamsWebhookUrl(), notif);
+            httpService.postJson(user.getSlackWebhookUrl(), notif);
         }
     }
 }
