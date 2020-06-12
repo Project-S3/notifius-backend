@@ -12,6 +12,7 @@ public class User
     private String customUrl;
     private String discordWebhookUrl;
     private String teamsWebhookUrl;
+    private String slackWebhookUrl;
     private Settings settings;
     private Set<Notification> notifications = new HashSet<>();
 
@@ -101,6 +102,22 @@ public class User
     public User withTeamsWebhookUrl(String teamsWebhookUrl)
     {
         setTeamsWebhookUrl(teamsWebhookUrl);
+        return this;
+    }
+
+    public String getSlackWebhookUrl()
+    {
+        return slackWebhookUrl;
+    }
+
+    public void setSlackWebhookUrl(String slackWebhookUrl)
+    {
+        this.slackWebhookUrl = slackWebhookUrl;
+    }
+
+    public User withSlackWebhookUrl(String slackWebhookUrl)
+    {
+        setSlackWebhookUrl(slackWebhookUrl);
         return this;
     }
 

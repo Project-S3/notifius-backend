@@ -19,6 +19,8 @@ public class UserEntity
     private String discordWebhookUrl;
     @Column
     private String teamsWebhookUrl;
+    @Column
+    private String slackWebhookUrl;
 
     @OneToOne(cascade = CascadeType.DETACH)
     private SettingsEntity settings;
@@ -112,6 +114,22 @@ public class UserEntity
     public UserEntity withTeamsWebhookUrl(String teamsWebhookUrl)
     {
         setTeamsWebhookUrl(teamsWebhookUrl);
+        return this;
+    }
+
+    public String getSlackWebhookUrl()
+    {
+        return slackWebhookUrl;
+    }
+
+    public void setSlackWebhookUrl(String slackWebhookUrl)
+    {
+        this.slackWebhookUrl = slackWebhookUrl;
+    }
+
+    public UserEntity withSlackWebhookUrl(String slackWebhookUrl)
+    {
+        setSlackWebhookUrl(slackWebhookUrl);
         return this;
     }
 

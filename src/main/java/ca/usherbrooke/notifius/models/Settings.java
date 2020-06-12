@@ -12,6 +12,7 @@ public class Settings
     private Boolean httpServiceEnable;
     private Boolean discordWebhookEnable;
     private Boolean teamsWebhookEnable;
+    private Boolean slackWebhookEnable;
     private Set<Service> enableServices = new HashSet<>();
 
     public Long getId()
@@ -101,6 +102,22 @@ public class Settings
     public Settings withTeamsWebhookEnable(Boolean teamsWebhookEnable)
     {
         setTeamsWebhookEnable(teamsWebhookEnable);
+        return this;
+    }
+
+    public Boolean getSlackWebhookEnable()
+    {
+        return slackWebhookEnable;
+    }
+
+    public void setSlackWebhookEnable(Boolean slackWebhookEnable)
+    {
+        this.slackWebhookEnable = slackWebhookEnable;
+    }
+
+    public Settings withSlackWebhookEnable(Boolean slackWebhookEnable)
+    {
+        setSlackWebhookEnable(slackWebhookEnable);
         return this;
     }
 
