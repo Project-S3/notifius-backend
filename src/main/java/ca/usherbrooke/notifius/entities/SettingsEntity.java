@@ -17,6 +17,8 @@ public class SettingsEntity
     private Boolean httpServiceEnable;
     @Column
     private Boolean discordWebhookEnable;
+    @Column
+    private Boolean teamsWebhookEnable;
 
     @ManyToMany
     @JoinTable(
@@ -101,6 +103,22 @@ public class SettingsEntity
     public SettingsEntity withDiscordWebhookEnable(Boolean discordWebhookEnable)
     {
         setDiscordWebhookEnable(discordWebhookEnable);
+        return this;
+    }
+
+    public Boolean getTeamsWebhookEnable()
+    {
+        return teamsWebhookEnable;
+    }
+
+    public void setTeamsWebhookEnable(Boolean teamsWebhookEnable)
+    {
+        this.teamsWebhookEnable = teamsWebhookEnable;
+    }
+
+    public SettingsEntity withTeamsWebhookEnable(Boolean teamsWebhookEnable)
+    {
+        setTeamsWebhookEnable(teamsWebhookEnable);
         return this;
     }
 

@@ -11,6 +11,7 @@ public class Settings
     private Boolean smsServiceEnable;
     private Boolean httpServiceEnable;
     private Boolean discordWebhookEnable;
+    private Boolean teamsWebhookEnable;
     private Set<Service> enableServices = new HashSet<>();
 
     public Long getId()
@@ -84,6 +85,22 @@ public class Settings
     public Settings withDiscordWebhookEnable(Boolean discordWebhookEnable)
     {
         setDiscordWebhookEnable(discordWebhookEnable);
+        return this;
+    }
+
+    public Boolean getTeamsWebhookEnable()
+    {
+        return teamsWebhookEnable;
+    }
+
+    public void setTeamsWebhookEnable(Boolean teamsWebhookEnable)
+    {
+        this.teamsWebhookEnable = teamsWebhookEnable;
+    }
+
+    public Settings withTeamsWebhookEnable(Boolean teamsWebhookEnable)
+    {
+        setTeamsWebhookEnable(teamsWebhookEnable);
         return this;
     }
 

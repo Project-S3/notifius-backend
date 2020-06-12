@@ -11,6 +11,7 @@ public class User
     private String phoneNumber;
     private String customUrl;
     private String discordWebhookUrl;
+    private String teamsWebhookUrl;
     private Settings settings;
     private Set<Notification> notifications = new HashSet<>();
 
@@ -84,6 +85,22 @@ public class User
     public User withDiscordWebhookUrl(String discordWebhookUrl)
     {
         setDiscordWebhookUrl(discordWebhookUrl);
+        return this;
+    }
+
+    public String getTeamsWebhookUrl()
+    {
+        return teamsWebhookUrl;
+    }
+
+    public void setTeamsWebhookUrl(String teamsWebhookUrl)
+    {
+        this.teamsWebhookUrl = teamsWebhookUrl;
+    }
+
+    public User withTeamsWebhookUrl(String teamsWebhookUrl)
+    {
+        setTeamsWebhookUrl(teamsWebhookUrl);
         return this;
     }
 
