@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 public class SettingsController
 {
     private final Logger logger = LoggerFactory.getLogger(SettingsController.class);
 
-    @GetMapping(path = "/restricted/users/{userID}/settings",
+    @GetMapping(path = "/users/{userID}/settings",
                 produces = "application/json")
     public ResponseEntity<Settings> getSettingByUser(@PathVariable("userID") String userID)
     {
@@ -24,7 +23,7 @@ public class SettingsController
         return new ResponseEntity<>(body, headers, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/restricted/users/{userID}/settings",
+    @PostMapping(path = "/users/{userID}/settings",
                  consumes = "application/json")
     public ResponseEntity<Settings> setSettingByUser(@PathVariable("userID") String userID,
                                                      @RequestBody Settings settings)
