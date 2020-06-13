@@ -7,7 +7,6 @@ import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzNewsClient;
 import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzTrimesterClient;
 import ca.usherbrooke.notifius.backend.zeuz.models.News;
 import ca.usherbrooke.notifius.backend.zeuz.models.Trimester;
-import org.bouncycastle.util.Integers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +74,7 @@ public class TempController
         String aId = "s3iapp1";
 
         Calendar c = new GregorianCalendar();
-        c.set(2000 + Integers.valueOf(Integer.parseInt(tId.substring(1, 2))), Calendar.APRIL, 1);
+        c.set(2000 + Integer.parseInt(tId.substring(1, 2)), Calendar.APRIL, 1);
 
         return zeuzUsersByGroupClient.getUsers(c.getTime(), tId)
                                      .stream()

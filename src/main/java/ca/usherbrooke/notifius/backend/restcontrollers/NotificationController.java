@@ -3,14 +3,13 @@ package ca.usherbrooke.notifius.backend.restcontrollers;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.backend.services.NotificationService;
 import ca.usherbrooke.notifius.backend.services.UserService;
 import ca.usherbrooke.notifius.backend.services.notificationsender.NotificationSenderService;
 import ca.usherbrooke.notifius.backend.validators.NotificationValidator;
 import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzUsersByGroupClient;
 import ca.usherbrooke.notifius.backend.zeuz.models.UserByGroup;
-import ca.usherbrooke.notifius.backend.resterrors.UserNotFoundException;
-import org.bouncycastle.util.Integers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,7 +118,7 @@ public class NotificationController
         String finalActivityId = sanitizeActivityId(activityId);
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integers.valueOf(Integer.parseInt(trimesterId.substring(1, 2))), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 2)), Calendar.APRIL, 1);
 
 
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
@@ -151,7 +150,7 @@ public class NotificationController
         profileId = sanitizeProfileId(profileId);
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integers.valueOf(Integer.parseInt(profileId.substring(1, 2))), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(profileId.substring(1, 2)), Calendar.APRIL, 1);
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
                                                        .stream()
                                                        .map(UserByGroup::getUserId)

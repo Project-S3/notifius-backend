@@ -2,7 +2,6 @@ package ca.usherbrooke.notifius.backend.validators;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.resterrors.*;
-import ca.usherbrooke.notifius.resterrors.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
