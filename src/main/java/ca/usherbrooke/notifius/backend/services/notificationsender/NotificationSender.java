@@ -2,6 +2,7 @@ package ca.usherbrooke.notifius.backend.services.notificationsender;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.repositories.NotificationSenderRepository;
 import ca.usherbrooke.notifius.backend.services.NotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,9 @@ public abstract class NotificationSender
     }
 
     @PostConstruct
-    public void subscribe() {
+    public void subscribe()
+    {
         notificationSenderService.addNotificationSenderSubscriber(this);
-
-        System.out.println(getNotificationSenderId());
     }
 
     public NotificationSenderService getNotificationSenderService()
