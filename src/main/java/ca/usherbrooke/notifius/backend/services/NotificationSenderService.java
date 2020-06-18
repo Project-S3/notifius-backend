@@ -24,7 +24,7 @@ public class NotificationSenderService
     {
         notificationSenderSubscribers.add(subscriber);
 
-        notificationSenderRepository.save( (new NotificationSenderEntity() ).withId(subscriber.getNotificationSenderId()) );
+        notificationSenderRepository.save(new NotificationSenderEntity()).withId(subscriber.getNotificationSenderId());
         subscriber.getNotificationSenderId();
     }
 
@@ -35,6 +35,4 @@ public class NotificationSenderService
             notificationSenderSubscribers.forEach(o -> o.sendNotifications(notification, user));
         }
     }
-
-
 }

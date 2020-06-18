@@ -20,22 +20,20 @@ public class NotificationHttpSender extends NotificationSender
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
-        if (attribute != null)
-        {
-            JSONObject notif = new JSONObject();
-            try {
-                notif.put("title", notification.getTitle());
-                notif.put("content", notification.getContent());
-                notif.put("date", notification.getDate());
-                notif.put("service", notification.getService());
+        userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
+                                     .ifPresent(customUrl -> {
+                                         JSONObject notif = new JSONObject();
+                                         try {
+                                             notif.put("title", notification.getTitle());
+                                             notif.put("content", notification.getContent());
+                                             notif.put("date", notification.getDate());
+                                             notif.put("service", notification.getService());
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            httpService.postJson(attribute, notif);
-        }
+                                         } catch (JSONException e) {
+                                             e.printStackTrace();
+                                         }
+                                         httpService.postJson(customUrl, notif);
+                                     });
     }
 
     @Override

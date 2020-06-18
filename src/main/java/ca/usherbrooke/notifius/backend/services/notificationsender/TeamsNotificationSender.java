@@ -20,18 +20,17 @@ public class TeamsNotificationSender extends NotificationSender
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
-        if (attribute != null)
-        {
-            JSONObject notif = new JSONObject();
-            try {
-                notif.put("title", notification.getTitle());
-                notif.put("text", notification.getContent());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            httpService.postJson(attribute, notif);
-        }
+        userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
+                                     .ifPresent(teamsWebhookUrl -> {
+                                         JSONObject notif = new JSONObject();
+                                         try {
+                                             notif.put("title", notification.getTitle());
+                                             notif.put("text", notification.getContent());
+                                         } catch (JSONException e) {
+                                             e.printStackTrace();
+                                         }
+                                         httpService.postJson(teamsWebhookUrl, notif);
+                                     });
     }
 
     @Override

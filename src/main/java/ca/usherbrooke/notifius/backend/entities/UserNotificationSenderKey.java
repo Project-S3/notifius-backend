@@ -15,7 +15,6 @@ public class UserNotificationSenderKey implements Serializable
 
     public UserNotificationSenderKey()
     {
-
     }
 
     public UserNotificationSenderKey(String userId, String notificationSenderId)

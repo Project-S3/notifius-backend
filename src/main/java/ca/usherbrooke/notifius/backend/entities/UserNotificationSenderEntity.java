@@ -1,7 +1,6 @@
 package ca.usherbrooke.notifius.backend.entities;
 
 import javax.persistence.*;
-import java.util.Optional;
 
 @Entity(name = "user_notification_sender")
 public class UserNotificationSenderEntity
@@ -20,7 +19,7 @@ public class UserNotificationSenderEntity
     private NotificationSenderEntity notificationSender;
 
     @Column
-    private String attribute;
+    private String value;
 
     public UserEntity getUser()
     {
@@ -54,19 +53,19 @@ public class UserNotificationSenderEntity
         return this;
     }
 
-    public String getAttribute()
+    public String getValue()
     {
-        return attribute;
+        return value;
     }
 
-    public void setAttribute(String attribute)
+    public void setValue(String attribute)
     {
-        this.attribute = attribute;
+        this.value = value;
     }
 
-    public UserNotificationSenderEntity withAttribute(String attribute)
+    public UserNotificationSenderEntity withValue(String value)
     {
-        this.setAttribute(attribute);
+        this.setValue(value);
         return this;
     }
 

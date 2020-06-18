@@ -8,6 +8,8 @@ import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class EmailNotificationSender extends NotificationSender
 {
@@ -19,13 +21,10 @@ public class EmailNotificationSender extends NotificationSender
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
-        if (attribute != null)
-        {
-            emailService.sendEmail(attribute,
-                                   notification.getTitle(),
-                                   notification.getContent());
-        }
+        userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
+                                     .ifPresent(email -> emailService.sendEmail(email,
+                                                                                notification.getTitle(),
+                                                                                notification.getContent()));
     }
 
     @Override

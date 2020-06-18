@@ -26,21 +26,20 @@ public class DiscordNotificationSender extends NotificationSender
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
-        if (attribute != null)
-        {
-            JSONObject notif = new JSONObject();
-            try {
-                notif.put("username", discordUsername);
-                notif.put("avatar_url", discordAvatarId);
-                notif.put("content", String.format(">>> **%s**\n%s", notification.getTitle(), notification.getContent()));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            httpService.postJson(attribute, notif);
-        }
+        userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
+                                     .ifPresent(discordWebhookUrl -> {
+                                         JSONObject notif = new JSONObject();
+                                         try {
+                                             notif.put("username", discordUsername);
+                                             notif.put("avatar_url", discordAvatarId);
+                                             notif.put("content", String.format(">>> **%s**\n%s",
+                                                                                notification.getTitle(),
+                                                                                notification.getContent()));
+                                         } catch (JSONException e) {
+                                             e.printStackTrace();
+                                         }
+                                         httpService.postJson(discordWebhookUrl, notif);
+                                     });
     }
 
     @Override

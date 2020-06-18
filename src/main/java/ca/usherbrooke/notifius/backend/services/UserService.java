@@ -42,12 +42,13 @@ public class UserService
         UserEntity userEntity = constructUserEntity(userId, settingsEntity);
         userRepository.save(userEntity);
 
-        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER").orElseThrow(() -> new NotificationSenderNotFoundException());
+        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER")
+                                                                                        .orElseThrow(NotificationSenderNotFoundException::new);
 
         UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
                 .withNotificationSender(notificationSenderEntity)
                 .withUser(userEntity)
-                .withAttribute(String.format("%s@%s", userId, notifiusEmailDomain))
+                .withValue(String.format("%s@%s", userId, notifiusEmailDomain))
                 .withId(new UserNotificationSenderKey(userId,"EMAIL_SENDER"));
         userNotificationSenderRepository.save(userNotificationSenderEntity);
     }
@@ -70,7 +71,7 @@ public class UserService
             UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
                     .withNotificationSender(notificationSenderEntity)
                     .withUser(userEntity)
-                    .withAttribute(String.format("%s@%s", id, notifiusEmailDomain))
+                    .withValue(String.format("%s@%s", id, notifiusEmailDomain))
                     .withId(new UserNotificationSenderKey(id,"EMAIL_SENDER"));
             userNotificationSenderEntities.add(userNotificationSenderEntity);
 

@@ -1,7 +1,5 @@
 package ca.usherbrooke.notifius.backend.entities;
 
-import ca.usherbrooke.notifius.backend.models.Service;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,8 +14,8 @@ public class NotificationSenderEntity
 
     public NotificationSenderEntity()
     {
-
     }
+
     public NotificationSenderEntity(String id)
     {
         this.id = id;
