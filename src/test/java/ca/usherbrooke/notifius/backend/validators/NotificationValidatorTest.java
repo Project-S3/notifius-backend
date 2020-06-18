@@ -17,19 +17,22 @@ public class NotificationValidatorTest
     private static final int MAX_LENGTH = 10;
 
     private NotificationValidator notificationValidator;
+    private Notification notification;
 
     @Before
-    public void init() {
+    public void init()
+    {
         notificationValidator = new NotificationValidator();
         notificationValidator.setMaxStringLength(MAX_LENGTH);
+        notification = new Notification().withTitle("title")
+                                         .withContent("content")
+                                         .withDate(new Date())
+                                         .withService(TEST);
     }
 
     @Test(expected = TitleTooLongException.class)
-    public void test() {
-        Notification notification = new Notification().withTitle("A very long title nani")
-                                                      .withContent("content")
-                                                      .withDate(new Date())
-                                                      .withService(TEST);
-        notificationValidator.validNotificationThrowIfNotValid(notification);
+    public void testNotificationTitleTooLong()
+    {
+        notificationValidator.validNotificationThrowIfNotValid(notification.withTitle("Very long title bla bla bla"));
     }
 }
