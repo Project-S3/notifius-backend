@@ -31,7 +31,7 @@ public class NotificationSenderService
     @Async
     public void sendNotifications(Notification notification, User user)
     {
-        if (user.getSettings().getEnableServices().contains(notification.getService())) {
+        if (user.getEnableServices().contains(notification.getService())) {
             notificationSenderSubscribers.forEach(o -> o.sendNotifications(notification, user));
         }
     }

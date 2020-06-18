@@ -10,13 +10,18 @@ public class UserEntity
     @Id
     private String id;
 
-    @OneToOne(cascade = CascadeType.DETACH)
-    private SettingsEntity settings;
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
 
     @OneToMany(mappedBy = "user")
     Set<UserNotificationSenderEntity> userNotificationSender;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_services",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id"))
+    private Set<ServiceEntity> enableServices;
 
     public String getId()
     {
@@ -34,22 +39,6 @@ public class UserEntity
         return this;
     }
 
-    public SettingsEntity getSettings()
-    {
-        return settings;
-    }
-
-    public void setSettings(SettingsEntity settings)
-    {
-        this.settings = settings;
-    }
-
-    public UserEntity withSettings(SettingsEntity settings)
-    {
-        setSettings(settings);
-        return this;
-    }
-
     public Set<NotificationEntity> getNotifications()
     {
         return notifications;
@@ -64,4 +53,21 @@ public class UserEntity
         setNotifications(notifications);
         return this;
     }
+
+    public Set<ServiceEntity> getEnableServices()
+    {
+        return enableServices;
+    }
+
+    public void setEnableServices(Set<ServiceEntity> enableServices)
+    {
+        this.enableServices = enableServices;
+    }
+
+    public UserEntity withEnableServices(Set<ServiceEntity> enableServices)
+    {
+        this.setEnableServices(enableServices);
+        return this;
+    }
 }
+

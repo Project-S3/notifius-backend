@@ -7,8 +7,8 @@ import java.util.Set;
 public class User
 {
     private String id;
-       private Settings settings;
     private Set<Notification> notifications = new HashSet<>();
+    private Set<Service> enableServices = new HashSet<>();
 
     public String getId()
     {
@@ -26,21 +26,6 @@ public class User
         return this;
     }
 
-    public Settings getSettings()
-    {
-        return settings;
-    }
-
-    public void setSettings(Settings settings)
-    {
-        this.settings = settings;
-    }
-
-    public User withSettings(Settings settings)
-    {
-        setSettings(settings);
-        return this;
-    }
 
     public Set<Notification> getNotifications()
     {
@@ -58,6 +43,22 @@ public class User
         return this;
     }
 
+    public Set<Service> getEnableServices()
+    {
+        return enableServices;
+    }
+
+    public void setEnableServices(Set<Service> enableServices)
+    {
+        this.enableServices = enableServices;
+    }
+
+    public User withEnableServices(Set<Service> enableServices)
+    {
+        setNotifications(notifications);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -67,7 +68,6 @@ public class User
         User user = (User) o;
 
         if (!Objects.equals(id, user.id)) return false;
-        if (!Objects.equals(settings, user.settings)) return false;
         return Objects.equals(notifications, user.notifications);
     }
 
@@ -75,7 +75,6 @@ public class User
     public int hashCode()
     {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (settings != null ? settings.hashCode() : 0);
         result = 31 * result + (notifications != null ? notifications.hashCode() : 0);
         return result;
     }
@@ -85,7 +84,6 @@ public class User
     {
         return "User{" +
                "id='" + id + '\'' +
-               ", settings=" + settings +
                ", notifications=" + notifications +
                '}';
     }

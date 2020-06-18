@@ -13,7 +13,7 @@ public class ServiceEntity
     private Service id;
 
     @ManyToMany(mappedBy = "enableServices")
-    private Set<SettingsEntity> settings;
+    private Set<UserEntity> user;
 
     public ServiceEntity()
     {
@@ -40,3 +40,4 @@ public class ServiceEntity
         return this;
     }
 }
+

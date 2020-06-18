@@ -23,8 +23,6 @@ public class UserService
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private SettingsRepository settingsRepository;
-    @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
     private NotificationSenderRepository notificationSenderRepository;
@@ -38,10 +36,7 @@ public class UserService
 
     public void createUser(String userId)
     {
-        SettingsEntity settingsEntity = constructSettingEntity();
-        settingsRepository.save(settingsEntity);
-
-        UserEntity userEntity = constructUserEntity(userId, settingsEntity);
+        UserEntity userEntity = constructUserEntity(userId);
         userRepository.save(userEntity);
 
         NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById(EMAIL_SENDER_ID)
@@ -57,15 +52,11 @@ public class UserService
 
     public List<User> createAllUser(List<String> allUserId)
     {
-        List<SettingsEntity> settingsEntities = new ArrayList<>();
         List<UserEntity> userEntities = new ArrayList<>();
         List<UserNotificationSenderEntity> userNotificationSenderEntities = new ArrayList<>();
 
         for (String id : allUserId) {
-            SettingsEntity settingsEntity = constructSettingEntity();
-            settingsEntities.add(settingsEntity);
-
-            UserEntity userEntity = constructUserEntity(id, settingsEntity);
+            UserEntity userEntity = constructUserEntity(id);
             userEntities.add(userEntity);
 
             NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER").orElseThrow(() -> new NotificationSenderNotFoundException());
@@ -79,7 +70,6 @@ public class UserService
 
         }
 
-        settingsRepository.saveAll(settingsEntities);
         userRepository.saveAll(userEntities);
         userNotificationSenderRepository.saveAll(userNotificationSenderEntities);
 
@@ -106,15 +96,11 @@ public class UserService
                              .collect(Collectors.toList());
     }
 
-    private SettingsEntity constructSettingEntity()
-    {
-        return new SettingsEntity().withEnableServices(new HashSet<>(serviceRepository.findAll()));
-    }
-
-    private UserEntity constructUserEntity(String userId, SettingsEntity settingsEntity)
+    private UserEntity constructUserEntity(String userId)
     {
         return new UserEntity().withId(userId)
-                               .withSettings(settingsEntity)
-                               .withNotifications(new HashSet<>());
+                               .withNotifications(new HashSet<>())
+                               .withEnableServices(new HashSet<>(serviceRepository.findAll()));
+
     }
 }

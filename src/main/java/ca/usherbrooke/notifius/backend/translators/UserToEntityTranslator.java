@@ -11,27 +11,33 @@ import java.util.stream.Collectors;
 public class UserToEntityTranslator
 {
     @Autowired
-    private SettingsToEntityTranslator settingsToEntityTranslator;
+    private ServiceToEntityTranslator serviceToEntityTranslator;
     @Autowired
     private NotificationToEntityTranslator notificationToEntityTranslator;
 
     public UserEntity toEntity(User user)
     {
         return new UserEntity().withId(user.getId())
-                               .withSettings(settingsToEntityTranslator.toEntity(user.getSettings()))
                                .withNotifications(user.getNotifications()
                                                       .stream()
                                                       .map(notificationToEntityTranslator::toEntity)
+                                                      .collect(Collectors.toSet()))
+                               .withEnableServices(user.getEnableServices()
+                                                      .stream()
+                                                      .map(serviceToEntityTranslator::toEntity)
                                                       .collect(Collectors.toSet()));
     }
 
     public User toModel(UserEntity userEntity)
     {
         return new User().withId(userEntity.getId())
-                         .withSettings(settingsToEntityTranslator.toModel(userEntity.getSettings()))
                          .withNotifications(userEntity.getNotifications()
                                                       .stream()
                                                       .map(notificationToEntityTranslator::toModel)
-                                                      .collect(Collectors.toSet()));
+                                                      .collect(Collectors.toSet()))
+                         .withEnableServices(userEntity.getEnableServices()
+                                                       .stream()
+                                                       .map(serviceToEntityTranslator::toModel)
+                                                       .collect(Collectors.toSet()));
     }
 }
