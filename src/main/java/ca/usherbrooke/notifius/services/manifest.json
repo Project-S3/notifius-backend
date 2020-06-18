@@ -1,0 +1,20 @@
+{
+ "manifest_version": 2,
+  "name": "Notifus",
+  "version": "1.0",
+ "description": "Envoie des notification pour les étudiants en Génie UdeS",
+ "icons": {
+  "128": "Notifus_Logo.png"
+ },
+ "permissions": [
+  "notifications"
+ ],
+ "browser_action": {
+  "default_popup": "popup.html",
+  "default_title": "Notifus"
+ },
+ "background": {
+  "scripts": ["background.js"],
+  "persistent": false
+ }
+}
