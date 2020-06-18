@@ -118,7 +118,7 @@ public class NotificationController
         String finalActivityId = sanitizeActivityId(activityId);
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 2)), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
 
 
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
@@ -149,10 +149,14 @@ public class NotificationController
         trimesterId = sanitizeTrimesterId(trimesterId);
         profileId = sanitizeProfileId(profileId);
 
+        String finalProfilId = profileId;
+
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integer.parseInt(profileId.substring(1, 2)), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
                                                        .stream()
+                                                       .filter(userByGroup -> finalProfilId
+                                                               .equals(userByGroup.getProfileId()))
                                                        .map(UserByGroup::getUserId)
                                                        .distinct()
                                                        .collect(Collectors.toList());
