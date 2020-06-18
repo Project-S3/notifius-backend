@@ -64,5 +64,15 @@
       "name": "notifius.doc-url",
       "type": "java.lang.String",
       "description": "Description for notifius.doc-url."
+    },
+    {
+      "name": "notifius.discord.username",
+      "type": "java.lang.String",
+      "description": "Description for notifius.discord.username."
+    },
+    {
+      "name": "notifius.discord.avatar-url",
+      "type": "java.lang.String",
+      "description": "Description for notifius.discord.avatar-url."
     }
   ] }

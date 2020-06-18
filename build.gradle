@@ -20,7 +20,8 @@ repositories {
 }
 
 dependencies {
-    compile('org.jasig.cas.client:cas-client-support-springboot:3.6.0')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0')
+    implementation('com.squareup.okhttp3:okhttp:4.3.1')
     implementation('com.twilio.sdk:twilio:7.50.1')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
