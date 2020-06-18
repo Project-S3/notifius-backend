@@ -3,6 +3,7 @@ package ca.usherbrooke.notifius.backend.services.notificationsender;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.services.HttpService;
+import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -13,18 +14,22 @@ public class SlackWebhookSender extends NotificationSender
 {
     @Autowired
     private HttpService httpService;
+    @Autowired
+    private UserNotificationSenderService userNotificationSenderService;
 
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        if (user.getSettings().getSlackWebhookEnable()) {
+        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
+        if (attribute != null)
+        {
             JSONObject notif = new JSONObject();
             try {
                 notif.put("text", String.format("*%s*\n%s",notification.getTitle(), notification.getContent()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            httpService.postJson(user.getSlackWebhookUrl(), notif);
+            httpService.postJson(attribute, notif);
         }
     }
 

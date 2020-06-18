@@ -1,11 +1,9 @@
 package ca.usherbrooke.notifius.backend.services;
 
-import ca.usherbrooke.notifius.backend.entities.SettingsEntity;
-import ca.usherbrooke.notifius.backend.entities.UserEntity;
+import ca.usherbrooke.notifius.backend.entities.*;
 import ca.usherbrooke.notifius.backend.models.User;
-import ca.usherbrooke.notifius.backend.repositories.ServiceRepository;
-import ca.usherbrooke.notifius.backend.repositories.SettingsRepository;
-import ca.usherbrooke.notifius.backend.repositories.UserRepository;
+import ca.usherbrooke.notifius.backend.repositories.*;
+import ca.usherbrooke.notifius.backend.resterrors.NotificationSenderNotFoundException;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +25,10 @@ public class UserService
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired
+    private NotificationSenderRepository notificationSenderRepository;
+    @Autowired
+    private UserNotificationSenderRepository userNotificationSenderRepository;
+    @Autowired
     private UserToEntityTranslator userToEntityTranslator;
 
     @Value("${notifius.email.domain}")
@@ -36,22 +38,47 @@ public class UserService
     {
         SettingsEntity settingsEntity = constructSettingEntity();
         settingsRepository.save(settingsEntity);
-        userRepository.save(constructUserEntity(userId, settingsEntity));
+
+        UserEntity userEntity = constructUserEntity(userId, settingsEntity);
+        userRepository.save(userEntity);
+
+        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER").orElseThrow(() -> new NotificationSenderNotFoundException());
+
+        UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
+                .withNotificationSender(notificationSenderEntity)
+                .withUser(userEntity)
+                .withAttribute(String.format("%s@%s", userId, notifiusEmailDomain))
+                .withId(new UserNotificationSenderKey(userId,"EMAIL_SENDER"));
+        userNotificationSenderRepository.save(userNotificationSenderEntity);
     }
 
     public List<User> createAllUser(List<String> allUserId)
     {
         List<SettingsEntity> settingsEntities = new ArrayList<>();
         List<UserEntity> userEntities = new ArrayList<>();
+        List<UserNotificationSenderEntity> userNotificationSenderEntities = new ArrayList<>();
 
         for (String id : allUserId) {
             SettingsEntity settingsEntity = constructSettingEntity();
             settingsEntities.add(settingsEntity);
-            userEntities.add(constructUserEntity(id, settingsEntity));
+
+            UserEntity userEntity = constructUserEntity(id, settingsEntity);
+            userEntities.add(userEntity);
+
+            NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER").orElseThrow(() -> new NotificationSenderNotFoundException());
+
+            UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
+                    .withNotificationSender(notificationSenderEntity)
+                    .withUser(userEntity)
+                    .withAttribute(String.format("%s@%s", id, notifiusEmailDomain))
+                    .withId(new UserNotificationSenderKey(id,"EMAIL_SENDER"));
+            userNotificationSenderEntities.add(userNotificationSenderEntity);
+
         }
 
         settingsRepository.saveAll(settingsEntities);
         userRepository.saveAll(userEntities);
+        userNotificationSenderRepository.saveAll(userNotificationSenderEntities);
 
         return userEntities.stream()
                            .map(userToEntityTranslator::toModel)
@@ -82,6 +109,8 @@ public class UserService
                                    .withSmsServiceEnable(false)
                                    .withHttpServiceEnable(false)
                                    .withDiscordWebhookEnable(false)
+                                   .withTeamsWebhookEnable(false)
+                                   .withSlackWebhookEnable(false)
                                    .withEnableServices(new HashSet<>(serviceRepository.findAll()));
     }
 

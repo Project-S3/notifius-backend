@@ -3,6 +3,7 @@ package ca.usherbrooke.notifius.backend.services.notificationsender;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.services.HttpService;
+import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -14,6 +15,8 @@ public class DiscordNotificationSender extends NotificationSender
 {
     @Autowired
     private HttpService httpService;
+    @Autowired
+    private UserNotificationSenderService userNotificationSenderService;
 
     @Value("${notifius.discord.username}")
     private String discordUsername;
@@ -23,7 +26,9 @@ public class DiscordNotificationSender extends NotificationSender
     @Override
     public void sendNotifications(Notification notification, User user)
     {
-        if (user.getSettings().getDiscordWebhookEnable()) {
+        String attribute = userNotificationSenderService.getAttributeIfExists(user.getId(),this.getNotificationSenderId());
+        if (attribute != null)
+        {
             JSONObject notif = new JSONObject();
             try {
                 notif.put("username", discordUsername);
@@ -34,8 +39,8 @@ public class DiscordNotificationSender extends NotificationSender
                 e.printStackTrace();
             }
 
-            httpService.postJson(user.getDiscordWebhookUrl(), notif);
-         }
+            httpService.postJson(attribute, notif);
+        }
     }
 
     @Override

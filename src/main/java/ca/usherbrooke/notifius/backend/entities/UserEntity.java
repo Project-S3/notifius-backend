@@ -27,6 +27,9 @@ public class UserEntity
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
 
+    @OneToMany(mappedBy = "user")
+    Set<UserNotificationSenderEntity> userNotificationSender;
+
     public String getId()
     {
         return id;

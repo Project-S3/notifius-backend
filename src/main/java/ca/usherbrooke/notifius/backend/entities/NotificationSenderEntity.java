@@ -11,6 +11,9 @@ public class NotificationSenderEntity
     @Id
     private String id;
 
+    @OneToMany(mappedBy = "notificationSender")
+    Set<UserNotificationSenderEntity> userNotificationSender;
+
     public NotificationSenderEntity()
     {
 

@@ -18,7 +18,7 @@ public class NotificationSenderService
     private final List<NotificationSender> notificationSenderSubscribers = new ArrayList<>();
 
     @Autowired
-    NotificationSenderRepository notificationSenderRepository;
+    private NotificationSenderRepository notificationSenderRepository;
 
     public void addNotificationSenderSubscriber(NotificationSender subscriber)
     {
