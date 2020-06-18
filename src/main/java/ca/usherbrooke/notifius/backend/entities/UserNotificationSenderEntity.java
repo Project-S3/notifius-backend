@@ -58,7 +58,7 @@ public class UserNotificationSenderEntity
         return value;
     }
 
-    public void setValue(String attribute)
+    public void setValue(String value)
     {
         this.value = value;
     }

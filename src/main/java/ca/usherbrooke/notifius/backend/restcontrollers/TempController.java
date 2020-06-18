@@ -39,7 +39,6 @@ public class TempController
     {
         userService.createUser("gram3504");
         userService.createUser("lemj0601");
-        userService.updateUser(userService.getUser("gram3504").get().withPhoneNumber("+15819881231"));
         return "ok";
     }
 

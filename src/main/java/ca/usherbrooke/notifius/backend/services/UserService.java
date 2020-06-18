@@ -108,19 +108,12 @@ public class UserService
 
     private SettingsEntity constructSettingEntity()
     {
-        return new SettingsEntity().withEmailServiceEnable(true)
-                                   .withSmsServiceEnable(false)
-                                   .withHttpServiceEnable(false)
-                                   .withDiscordWebhookEnable(false)
-                                   .withTeamsWebhookEnable(false)
-                                   .withSlackWebhookEnable(false)
-                                   .withEnableServices(new HashSet<>(serviceRepository.findAll()));
+        return new SettingsEntity().withEnableServices(new HashSet<>(serviceRepository.findAll()));
     }
 
     private UserEntity constructUserEntity(String userId, SettingsEntity settingsEntity)
     {
         return new UserEntity().withId(userId)
-                               .withEmail(String.format("%s@%s", userId, notifiusEmailDomain))
                                .withSettings(settingsEntity)
                                .withNotifications(new HashSet<>());
     }
