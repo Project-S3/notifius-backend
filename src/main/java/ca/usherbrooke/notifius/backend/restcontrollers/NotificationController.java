@@ -6,7 +6,7 @@ import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.backend.services.NotificationService;
 import ca.usherbrooke.notifius.backend.services.UserService;
-import ca.usherbrooke.notifius.backend.services.notificationsender.NotificationSenderService;
+import ca.usherbrooke.notifius.backend.services.NotificationSenderService;
 import ca.usherbrooke.notifius.backend.validators.NotificationValidator;
 import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzUsersByGroupClient;
 import ca.usherbrooke.notifius.backend.zeuz.models.UserByGroup;
@@ -109,8 +109,8 @@ public class NotificationController
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
                  consumes = "application/json")
     public ResponseEntity<Notification> createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
-                                                      @PathVariable("activityId") String activityId,
-                                                      @RequestBody Notification notification)
+                                                                      @PathVariable("activityId") String activityId,
+                                                                      @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
@@ -141,8 +141,8 @@ public class NotificationController
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<Notification> createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
-                                                        @PathVariable("profileId") String profileId,
-                                                        @RequestBody Notification notification)
+                                                                        @PathVariable("profileId") String profileId,
+                                                                        @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
@@ -181,7 +181,8 @@ public class NotificationController
         return created;
     }
 
-    public void sendNotificationForAllUsers(Notification notification, List<User> allUser) {
+    public void sendNotificationForAllUsers(Notification notification, List<User> allUser)
+    {
         allUser.parallelStream().forEach(user -> notificationSenderService.sendNotifications(notification, user));
     }
 

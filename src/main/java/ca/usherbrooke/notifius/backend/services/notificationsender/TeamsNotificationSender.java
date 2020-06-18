@@ -15,7 +15,7 @@ public class TeamsNotificationSender extends NotificationSender
     private HttpService httpService;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getTeamsWebhookEnable()) {
             JSONObject notif = new JSONObject();
@@ -27,5 +27,11 @@ public class TeamsNotificationSender extends NotificationSender
             }
             httpService.postJson(user.getTeamsWebhookUrl(), notif);
          }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "TEAMS_SENDER";
     }
 }

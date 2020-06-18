@@ -21,7 +21,7 @@ public class DiscordNotificationSender extends NotificationSender
     private String discordAvatarId;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getDiscordWebhookEnable()) {
             JSONObject notif = new JSONObject();
@@ -36,5 +36,11 @@ public class DiscordNotificationSender extends NotificationSender
 
             httpService.postJson(user.getDiscordWebhookUrl(), notif);
          }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "DISCORD_SENDER";
     }
 }

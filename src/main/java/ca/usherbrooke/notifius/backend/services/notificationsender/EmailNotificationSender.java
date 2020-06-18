@@ -13,12 +13,18 @@ public class EmailNotificationSender extends NotificationSender
     private EmailService emailService;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getEmailServiceEnable()) {
             emailService.sendEmail(user.getEmail(),
                                    notification.getTitle(),
                                    notification.getContent());
         }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "EMAIL_SENDER";
     }
 }

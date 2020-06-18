@@ -15,7 +15,7 @@ public class NotificationHttpSender extends NotificationSender
     private HttpService httpService;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getHttpServiceEnable()) {
             JSONObject notif = new JSONObject();
@@ -31,5 +31,11 @@ public class NotificationHttpSender extends NotificationSender
 
             httpService.postJson(user.getCustomUrl(), notif);
         }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "HTTP_SENDER";
     }
 }

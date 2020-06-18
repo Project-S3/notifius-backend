@@ -23,7 +23,7 @@ public class SettingsController
         return new ResponseEntity<>(body, headers, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/users/{userID}/settings",
+    @PostMapping(path = "Notifi/users/{userID}/settings",
                  consumes = "application/json")
     public ResponseEntity<Settings> setSettingByUser(@PathVariable("userID") String userID,
                                                      @RequestBody Settings settings)

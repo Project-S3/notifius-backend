@@ -13,7 +13,7 @@ public class SmsNotificationSender extends NotificationSender
     private SmsService smsService;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getSmsServiceEnable()) {
             smsService.sendSMS(user.getPhoneNumber(),
@@ -21,5 +21,11 @@ public class SmsNotificationSender extends NotificationSender
                                              notification.getTitle(),
                                              notification.getContent()));
         }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "SMS_SENDER";
     }
 }

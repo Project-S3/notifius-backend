@@ -15,7 +15,7 @@ public class SlackWebhookSender extends NotificationSender
     private HttpService httpService;
 
     @Override
-    void sendNotifications(Notification notification, User user)
+    public void sendNotifications(Notification notification, User user)
     {
         if (user.getSettings().getSlackWebhookEnable()) {
             JSONObject notif = new JSONObject();
@@ -26,5 +26,11 @@ public class SlackWebhookSender extends NotificationSender
             }
             httpService.postJson(user.getSlackWebhookUrl(), notif);
         }
+    }
+
+    @Override
+    public String getNotificationSenderId()
+    {
+        return "SLACK_SENDER";
     }
 }

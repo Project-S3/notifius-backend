@@ -1,7 +1,8 @@
-package ca.usherbrooke.notifius.backend.services.notificationsender;
+package ca.usherbrooke.notifius.backend.services;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.services.notificationsender.NotificationSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
