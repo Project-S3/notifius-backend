@@ -30,6 +30,8 @@ public class UserService
     private UserNotificationSenderRepository userNotificationSenderRepository;
     @Autowired
     private UserToEntityTranslator userToEntityTranslator;
+    @Autowired
+    private UserNotificationSenderService userNotificationSenderService;
 
     @Value("${notifius.email.domain}")
     private String notifiusEmailDomain;
@@ -39,15 +41,9 @@ public class UserService
         UserEntity userEntity = constructUserEntity(userId);
         userRepository.save(userEntity);
 
-        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById(EMAIL_SENDER_ID)
-                                                                                        .orElseThrow(NotificationSenderNotFoundException::new);
-
-        UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
-                .withNotificationSender(notificationSenderEntity)
-                .withUser(userEntity)
-                .withValue(String.format("%s@%s", userId, notifiusEmailDomain))
-                .withId(new UserNotificationSenderKey(userId,EMAIL_SENDER_ID));
-        userNotificationSenderRepository.save(userNotificationSenderEntity);
+        userNotificationSenderService.createOrUpdate(userEntity,
+                                                     EMAIL_SENDER_ID,
+                                                     String.format("%s@%s", userId, notifiusEmailDomain));
     }
 
     public List<User> createAllUser(List<String> allUserId)

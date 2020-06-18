@@ -1,5 +1,7 @@
 package ca.usherbrooke.notifius.backend.restcontrollers;
 
+import ca.usherbrooke.notifius.backend.repositories.UserRepository;
+import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import ca.usherbrooke.notifius.backend.services.UserService;
 import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzUsersByGroupClient;
 import ca.usherbrooke.notifius.backend.zeuz.models.UserByGroup;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ca.usherbrooke.notifius.backend.services.notificationsender.EmailNotificationSender.EMAIL_SENDER_ID;
 
 // todo enlever a la fin, utilisé pour tester
 @RestController
@@ -31,6 +34,10 @@ public class TempController
     private ZeuzNewsClient zeuzNewsClient;
     @Autowired
     private ZeuzUsersByGroupClient zeuzUsersByGroupClient;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserNotificationSenderService userNotificationSenderService;
 
     @GetMapping(path = "/create",
                 produces = "application/json")
@@ -39,6 +46,15 @@ public class TempController
     {
         userService.createUser("gram3504");
         userService.createUser("lemj0601");
+        return "ok";
+    }
+
+    @GetMapping(path = "/delete",
+                produces = "application/json")
+    @ResponseStatus(code = HttpStatus.OK)
+    public String delete()
+    {
+        userNotificationSenderService.delete(userRepository.findById("lemj0601").get(), EMAIL_SENDER_ID);
         return "ok";
     }
 

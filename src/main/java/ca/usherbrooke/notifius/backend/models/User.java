@@ -55,7 +55,7 @@ public class User
 
     public User withEnableServices(Set<Service> enableServices)
     {
-        setNotifications(notifications);
+        setEnableServices(enableServices);
         return this;
     }
 
