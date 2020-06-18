@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class DiscordNotificationSender extends NotificationSender
 {
+    public static final String DISCORD_SENDER_ID = "DISCORD_SENDER";
+
     @Autowired
     private HttpService httpService;
     @Autowired
@@ -45,6 +47,6 @@ public class DiscordNotificationSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "DISCORD_SENDER";
+        return DISCORD_SENDER_ID;
     }
 }

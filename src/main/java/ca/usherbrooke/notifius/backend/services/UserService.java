@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ca.usherbrooke.notifius.backend.services.notificationsender.EmailNotificationSender.EMAIL_SENDER_ID;
+
 @Service
 public class UserService
 {
@@ -42,14 +44,14 @@ public class UserService
         UserEntity userEntity = constructUserEntity(userId, settingsEntity);
         userRepository.save(userEntity);
 
-        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER")
+        NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById(EMAIL_SENDER_ID)
                                                                                         .orElseThrow(NotificationSenderNotFoundException::new);
 
         UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
                 .withNotificationSender(notificationSenderEntity)
                 .withUser(userEntity)
                 .withValue(String.format("%s@%s", userId, notifiusEmailDomain))
-                .withId(new UserNotificationSenderKey(userId,"EMAIL_SENDER"));
+                .withId(new UserNotificationSenderKey(userId,EMAIL_SENDER_ID));
         userNotificationSenderRepository.save(userNotificationSenderEntity);
     }
 

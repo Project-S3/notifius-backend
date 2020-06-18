@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class TeamsNotificationSender extends NotificationSender
 {
+    public static final String TEAMS_SENDER_ID = "TEAMS_SENDER";
+
     @Autowired
     private HttpService httpService;
     @Autowired
@@ -36,6 +38,6 @@ public class TeamsNotificationSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "TEAMS_SENDER";
+        return TEAMS_SENDER_ID;
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SlackWebhookSender extends NotificationSender
 {
+    public static final String SLACK_SENDER_ID = "SLACK_SENDER";
+
     @Autowired
     private HttpService httpService;
     @Autowired
@@ -37,6 +39,6 @@ public class SlackWebhookSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "SLACK_SENDER";
+        return SLACK_SENDER_ID;
     }
 }

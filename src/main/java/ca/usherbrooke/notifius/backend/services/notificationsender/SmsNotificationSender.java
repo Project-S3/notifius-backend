@@ -1,17 +1,17 @@
 package ca.usherbrooke.notifius.backend.services.notificationsender;
 
-import ca.usherbrooke.notifius.backend.services.SmsService;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.services.SmsService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SmsNotificationSender extends NotificationSender
 {
+    public static final String SMS_SENDER_ID = "SMS_SENDER";
+
     @Autowired
     private SmsService smsService;
     @Autowired
@@ -31,6 +31,6 @@ public class SmsNotificationSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "SMS_SENDER";
+        return SMS_SENDER_ID;
     }
 }

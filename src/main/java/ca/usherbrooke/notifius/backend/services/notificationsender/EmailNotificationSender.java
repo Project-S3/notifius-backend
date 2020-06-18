@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailNotificationSender extends NotificationSender
 {
+    public static final String EMAIL_SENDER_ID = "EMAIL_SENDER";
+
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -27,6 +29,6 @@ public class EmailNotificationSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "EMAIL_SENDER";
+        return EMAIL_SENDER_ID;
     }
 }

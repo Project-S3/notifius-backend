@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationHttpSender extends NotificationSender
 {
+    public static final String HTTP_SENDER_ID = "HTTP_SENDER";
+
     @Autowired
     private HttpService httpService;
     @Autowired
@@ -39,6 +41,6 @@ public class NotificationHttpSender extends NotificationSender
     @Override
     public String getNotificationSenderId()
     {
-        return "HTTP_SENDER";
+        return HTTP_SENDER_ID;
     }
 }
