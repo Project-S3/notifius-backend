@@ -1,8 +1,8 @@
-package ca.usherbrooke.notifius.backend.services.notificationsender;
+package ca.usherbrooke.notifius.backend.notificationsenders;
 
+import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
-import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -10,9 +10,9 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SlackWebhookSender extends NotificationSender
+public class NotificationHttpSender extends NotificationSender
 {
-    public static final String SLACK_SENDER_ID = "SLACK_SENDER";
+    public static final String HTTP_SENDER_ID = "HTTP_SENDER";
 
     @Autowired
     private HttpService httpService;
@@ -23,22 +23,24 @@ public class SlackWebhookSender extends NotificationSender
     public void sendNotifications(Notification notification, User user)
     {
         userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
-                                     .ifPresent(slackWebhookUrl -> {
+                                     .ifPresent(customUrl -> {
                                          JSONObject notif = new JSONObject();
                                          try {
-                                             notif.put("text", String.format("*%s*\n%s",
-                                                                             notification.getTitle(),
-                                                                             notification.getContent()));
+                                             notif.put("title", notification.getTitle());
+                                             notif.put("content", notification.getContent());
+                                             notif.put("date", notification.getDate());
+                                             notif.put("service", notification.getService());
+
                                          } catch (JSONException e) {
                                              e.printStackTrace();
                                          }
-                                         httpService.postJson(slackWebhookUrl, notif);
+                                         httpService.postJson(customUrl, notif);
                                      });
     }
 
     @Override
     public String getNotificationSenderId()
     {
-        return SLACK_SENDER_ID;
+        return HTTP_SENDER_ID;
     }
 }

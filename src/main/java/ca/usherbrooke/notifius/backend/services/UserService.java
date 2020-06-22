@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ca.usherbrooke.notifius.backend.notificationsender.EmailNotificationSender.EMAIL_SENDER_ID;
+import static ca.usherbrooke.notifius.backend.notificationsenders.EmailNotificationSender.EMAIL_SENDER_ID;
 
 @Service
 public class UserService
