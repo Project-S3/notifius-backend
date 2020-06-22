@@ -3,9 +3,7 @@ package ca.usherbrooke.notifius.backend.restcontrollers;
 import ca.usherbrooke.notifius.backend.models.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,22 +13,18 @@ public class SettingsController
 
     @GetMapping(path = "/users/{userID}/settings",
                 produces = "application/json")
-    public ResponseEntity<Settings> getSettingByUser(@PathVariable("userID") String userID)
+    @ResponseStatus(code = HttpStatus.OK)
+    public Settings getSettingByUser(@PathVariable("userID") String userID)
     {
-        Settings body = new Settings();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("is-auth", "true");
-        return new ResponseEntity<>(body, headers, HttpStatus.OK);
+      return null;
     }
 
-    @PostMapping(path = "Notifi/users/{userID}/settings",
+    @PostMapping(path = "/users/{userID}/settings",
                  consumes = "application/json")
-    public ResponseEntity<Settings> setSettingByUser(@PathVariable("userID") String userID,
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public Settings setSettingByUser(@PathVariable("userID") String userID,
                                                      @RequestBody Settings settings)
     {
-        Settings body = new Settings();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("is-auth", "true");
-        return new ResponseEntity<>(body, headers, HttpStatus.CREATED);
+        return null;
     }
 }
