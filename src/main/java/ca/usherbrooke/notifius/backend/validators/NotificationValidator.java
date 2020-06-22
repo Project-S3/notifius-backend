@@ -32,4 +32,14 @@ public class NotificationValidator
 
         // todo service
     }
+
+    public Integer getMaxStringLength()
+    {
+        return maxStringLength;
+    }
+
+    public void setMaxStringLength(Integer maxStringLength)
+    {
+        this.maxStringLength = maxStringLength;
+    }
 }

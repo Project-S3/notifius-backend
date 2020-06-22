@@ -15,7 +15,7 @@ public class DocController
     @Value("${notifius.doc-url}")
     private String notifiusDocURL;
 
-    @GetMapping(path = "")
+    @GetMapping(path = "/")
     public ResponseEntity<Void> redirect()
     {
         HttpHeaders headers = new HttpHeaders();
