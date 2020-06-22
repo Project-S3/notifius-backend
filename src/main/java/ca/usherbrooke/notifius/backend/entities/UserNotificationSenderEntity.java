@@ -1,6 +1,7 @@
 package ca.usherbrooke.notifius.backend.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "user_notification_sender")
 public class UserNotificationSenderEntity
@@ -19,6 +20,7 @@ public class UserNotificationSenderEntity
     private NotificationSenderEntity notificationSender;
 
     @Column
+    @NotNull
     private String value;
 
     public UserEntity getUser()

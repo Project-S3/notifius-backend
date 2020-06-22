@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
@@ -24,6 +25,13 @@ public class ServiceService
         return serviceRepository.findById(id)
                                 .map(serviceToEntityTranslator::toModel)
                                 .orElseThrow(UnknownServiceException::new);
+    }
+
+    public Set<Service> getAll()
+    {
+        return serviceRepository.findAll().stream()
+                                .map(serviceToEntityTranslator::toModel)
+                                .collect(Collectors.toSet());
     }
 
     @PostConstruct

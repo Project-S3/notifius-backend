@@ -17,8 +17,8 @@ public class ServiceEntity
 
     public ServiceEntity()
     {
-
     }
+
     public ServiceEntity(Service service)
     {
         this.id = service;

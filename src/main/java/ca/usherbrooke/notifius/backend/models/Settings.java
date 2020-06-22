@@ -1,29 +1,11 @@
 package ca.usherbrooke.notifius.backend.models;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Settings
 {
-    private Long id;
     private Set<Service> enableServices = new HashSet<>();
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-
-    public Settings withId(Long id)
-    {
-        setId(id);
-        return this;
-    }
+    private Map<String, String> notificationSenders = new HashMap<>();
 
     public Set<Service> getEnableServices()
     {
@@ -37,7 +19,23 @@ public class Settings
 
     public Settings withEnableServices(Set<Service> enableServices)
     {
-        this.setEnableServices(enableServices);
+        setEnableServices(enableServices);
+        return this;
+    }
+
+    public Map<String, String> getNotificationSenders()
+    {
+        return notificationSenders;
+    }
+
+    public void setNotificationSenders(Map<String, String> notificationSenders)
+    {
+        this.notificationSenders = notificationSenders;
+    }
+
+    public Settings withNotificationSenders(Map<String, String> notificationSenders)
+    {
+        setNotificationSenders(notificationSenders);
         return this;
     }
 
@@ -49,15 +47,16 @@ public class Settings
 
         Settings settings = (Settings) o;
 
-        if (!Objects.equals(id, settings.id)) return false;
-        return Objects.equals(enableServices, settings.enableServices);
+        if (!Objects.equals(enableServices, settings.enableServices))
+            return false;
+        return Objects.equals(notificationSenders, settings.notificationSenders);
     }
 
     @Override
     public int hashCode()
     {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (enableServices != null ? enableServices.hashCode() : 0);
+        int result = enableServices != null ? enableServices.hashCode() : 0;
+        result = 31 * result + (notificationSenders != null ? notificationSenders.hashCode() : 0);
         return result;
     }
 
@@ -65,8 +64,8 @@ public class Settings
     public String toString()
     {
         return "Settings{" +
-               "id=" + id +
-               ", enableServices=" + enableServices +
+               "enableServices=" + enableServices +
+               ", notificationSenders=" + notificationSenders +
                '}';
     }
 }
