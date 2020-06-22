@@ -4,7 +4,7 @@ import ca.usherbrooke.notifius.backend.entities.NotificationSenderEntity;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.repositories.NotificationSenderRepository;
-import ca.usherbrooke.notifius.backend.services.notificationsender.NotificationSender;
+import ca.usherbrooke.notifius.backend.notificationsender.NotificationSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

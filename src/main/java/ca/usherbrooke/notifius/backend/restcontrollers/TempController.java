@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ca.usherbrooke.notifius.backend.services.notificationsender.EmailNotificationSender.EMAIL_SENDER_ID;
+import static ca.usherbrooke.notifius.backend.notificationsender.EmailNotificationSender.EMAIL_SENDER_ID;
 
 // todo enlever a la fin, utilisé pour tester
 @RestController
