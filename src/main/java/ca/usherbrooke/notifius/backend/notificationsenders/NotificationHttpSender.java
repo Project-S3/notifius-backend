@@ -43,4 +43,10 @@ public class NotificationHttpSender extends NotificationSender
     {
         return HTTP_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "URL HTTP personalisée";
+    }
 }

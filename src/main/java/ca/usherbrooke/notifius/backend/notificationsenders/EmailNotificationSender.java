@@ -31,4 +31,10 @@ public class EmailNotificationSender extends NotificationSender
     {
         return EMAIL_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "Courriel";
+    }
 }

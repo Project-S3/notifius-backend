@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,15 +27,17 @@ public class NotificationSenderService
     {
         notificationSenderSubscribers.add(subscriber);
 
-        notificationSenderRepository.save(new NotificationSenderEntity().withId(subscriber.getNotificationSenderId()));
+        notificationSenderRepository.save(
+                new NotificationSenderEntity().withId(subscriber.getNotificationSenderId())
+                                              .withDisplayName(subscriber.getNotificationSenderDisplayName()));
         subscriber.getNotificationSenderId();
     }
 
-    public Set<String> getAll()
+    public Map<String, String> getAll()
     {
         return notificationSenderRepository.findAll().stream()
-                                           .map(NotificationSenderEntity::getId)
-                                           .collect(Collectors.toSet());
+                                           .collect(Collectors.toMap(NotificationSenderEntity::getId,
+                                                                     NotificationSenderEntity::getDisplayName));
     }
 
     @Async

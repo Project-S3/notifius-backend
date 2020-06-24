@@ -40,4 +40,10 @@ public class TeamsNotificationSender extends NotificationSender
     {
         return TEAMS_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "Microsoft Teams";
+    }
 }
