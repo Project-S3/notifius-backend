@@ -87,6 +87,7 @@ public class NotificationController
         return user.getNotifications();
     }
 
+
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
     public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userId,
