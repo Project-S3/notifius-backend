@@ -49,4 +49,10 @@ public class DiscordNotificationSender extends NotificationSender
     {
         return DISCORD_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "Discord";
+    }
 }

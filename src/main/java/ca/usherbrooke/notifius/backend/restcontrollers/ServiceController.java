@@ -16,7 +16,7 @@ public class ServiceController
     @Autowired
     private ServiceService serviceService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public Set<Service> getAllService()
     {
         return serviceService.getAll();

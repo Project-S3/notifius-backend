@@ -33,4 +33,10 @@ public class SmsNotificationSender extends NotificationSender
     {
         return SMS_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "Texto";
+    }
 }

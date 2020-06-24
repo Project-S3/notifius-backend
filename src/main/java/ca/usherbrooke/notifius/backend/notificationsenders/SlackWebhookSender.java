@@ -41,4 +41,10 @@ public class SlackWebhookSender extends NotificationSender
     {
         return SLACK_SENDER_ID;
     }
+
+    @Override
+    public String getNotificationSenderDisplayName()
+    {
+        return "Slack";
+    }
 }
