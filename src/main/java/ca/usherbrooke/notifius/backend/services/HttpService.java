@@ -6,7 +6,7 @@ package ca.usherbrooke.notifius.backend.services;
 
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

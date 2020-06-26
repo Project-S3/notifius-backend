@@ -8,10 +8,10 @@ import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class NotificationHttpSender extends NotificationSender
@@ -29,15 +29,10 @@ public class NotificationHttpSender extends NotificationSender
         userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
                                      .ifPresent(customUrl -> {
                                          JSONObject notif = new JSONObject();
-                                         try {
-                                             notif.put("title", notification.getTitle());
-                                             notif.put("content", notification.getContent());
-                                             notif.put("date", notification.getDate());
-                                             notif.put("service", notification.getService());
-
-                                         } catch (JSONException e) {
-                                             e.printStackTrace();
-                                         }
+                                         notif.put("title", notification.getTitle());
+                                         notif.put("content", notification.getContent());
+                                         notif.put("date", notification.getDate().toString());
+                                         notif.put("service", notification.getService().toString());
                                          httpService.postJson(customUrl, notif);
                                      });
     }
