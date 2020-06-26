@@ -10,7 +10,8 @@ public enum Service
     STEWARD ("Évaluation des intendants","Projet S3 Équipe 7"),
     GRADE ("Grille de notes","Alerte lors d'une nouvelle note"),
     MESSAGE ("Message","Alerte lors d'un nouveau message sur les sites de sessions"),
-    NOTIFIUS ("Test","Envoie de notification pour tester vos paramètres");
+    NOTIFIUS ("Notifius","Envoie de notification pour tester vos paramètres"),
+    TEST ("Test","utiliser pour les tests");
 
     private String displayName;
     private String description;

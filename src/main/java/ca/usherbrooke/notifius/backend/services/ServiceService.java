@@ -12,9 +12,14 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ca.usherbrooke.notifius.backend.models.Service.NOTIFIUS;
+import static ca.usherbrooke.notifius.backend.models.Service.TEST;
+
 @org.springframework.stereotype.Service
 public class ServiceService
 {
+    public static final Set<Service> EXCLUDED_SERVICES = Set.of(NOTIFIUS, TEST);
+
     @Autowired
     private ServiceRepository serviceRepository;
     @Autowired

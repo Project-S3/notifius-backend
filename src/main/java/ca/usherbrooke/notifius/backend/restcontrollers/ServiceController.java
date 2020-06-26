@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static ca.usherbrooke.notifius.backend.services.ServiceService.EXCLUDED_SERVICES;
+
 @RestController
 @RequestMapping("/services")
 public class ServiceController
@@ -21,12 +23,15 @@ public class ServiceController
     @GetMapping("")
     public List<Map<String, String>> getAllService()
     {
-        return serviceService.getAll().stream().map(service -> {
-            Map<String, String> s = new HashMap<>();
-            s.put("id", service.name());
-            s.put("displayName", service.getDisplayName());
-            s.put("description", service.getDescription());
-            return s;
-        }).collect(Collectors.toList());
+        return serviceService.getAll().stream()
+                             .filter(service -> !EXCLUDED_SERVICES.contains(service))
+                             .map(service -> {
+                                 Map<String, String> s = new HashMap<>();
+                                 s.put("id", service.name());
+                                 s.put("displayName", service.getDisplayName());
+                                 s.put("description", service.getDescription());
+                                 return s;
+                             })
+                             .collect(Collectors.toList());
     }
 }
