@@ -2,6 +2,7 @@ package ca.usherbrooke.notifius.backend.services;
 
 import ca.usherbrooke.notifius.backend.entities.NotificationSenderEntity;
 import ca.usherbrooke.notifius.backend.models.Notification;
+import ca.usherbrooke.notifius.backend.models.NotificationSenderModel;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.notificationsenders.NotificationSender;
 import ca.usherbrooke.notifius.backend.repositories.NotificationSenderRepository;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,11 +32,13 @@ public class NotificationSenderService
         subscriber.getNotificationSenderId();
     }
 
-    public Map<String, String> getAll()
+    public List<NotificationSenderModel> getAll()
     {
-        return notificationSenderRepository.findAll().stream()
-                                           .collect(Collectors.toMap(NotificationSenderEntity::getId,
-                                                                     NotificationSenderEntity::getDisplayName));
+        return notificationSenderRepository.findAll()
+                                           .stream()
+                                           .map(nse -> new NotificationSenderModel().withId(nse.getId())
+                                                                                    .withDisplayName(nse.getDisplayName()))
+                                           .collect(Collectors.toList());
     }
 
     @Async
