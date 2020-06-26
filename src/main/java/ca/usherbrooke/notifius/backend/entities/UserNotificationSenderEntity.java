@@ -8,17 +8,14 @@ public class UserNotificationSenderEntity
 {
     @EmbeddedId
     UserNotificationSenderKey id;
-
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
     @ManyToOne
     @MapsId("notification_sender_id")
     @JoinColumn(name = "notification_sender_id", nullable = false)
     private NotificationSenderEntity notificationSender;
-
     @Column
     @NotNull
     private String value;

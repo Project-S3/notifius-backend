@@ -1,19 +1,20 @@
 package ca.usherbrooke.notifius.backend.entities;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity(name = "notification_sender")
 public class NotificationSenderEntity
 {
-    @Id
-    private String id;
-
-    @Column
-    private String displayName;
-
     @OneToMany(mappedBy = "notificationSender")
     Set<UserNotificationSenderEntity> userNotificationSender;
+    @Id
+    private String id;
+    @Column
+    private String displayName;
 
     public NotificationSenderEntity()
     {

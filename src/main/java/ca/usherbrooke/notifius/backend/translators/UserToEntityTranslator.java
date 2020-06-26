@@ -23,9 +23,9 @@ public class UserToEntityTranslator
                                                       .map(notificationToEntityTranslator::toEntity)
                                                       .collect(Collectors.toSet()))
                                .withEnableServices(user.getEnableServices()
-                                                      .stream()
-                                                      .map(serviceToEntityTranslator::toEntity)
-                                                      .collect(Collectors.toSet()));
+                                                       .stream()
+                                                       .map(serviceToEntityTranslator::toEntity)
+                                                       .collect(Collectors.toSet()));
     }
 
     public User toModel(UserEntity userEntity)

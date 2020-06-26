@@ -15,12 +15,6 @@ public abstract class NotificationSender
 
     abstract public void sendNotifications(Notification notification, User user);
 
-    @Autowired
-    public final void setNotificationSenderService(NotificationSenderService notificationSenderService)
-    {
-        this.notificationSenderService = notificationSenderService;
-    }
-
     @PostConstruct
     public void subscribe()
     {
@@ -30,6 +24,12 @@ public abstract class NotificationSender
     public NotificationSenderService getNotificationSenderService()
     {
         return notificationSenderService;
+    }
+
+    @Autowired
+    public final void setNotificationSenderService(NotificationSenderService notificationSenderService)
+    {
+        this.notificationSenderService = notificationSenderService;
     }
 
     abstract public String getNotificationSenderId();

@@ -9,7 +9,6 @@ public class UserNotificationSenderKey implements Serializable
 {
     @Column(name = "user_id")
     String userId;
-
     @Column(name = "notification_sender_id")
     String notificationSenderId;
 
@@ -23,4 +22,3 @@ public class UserNotificationSenderKey implements Serializable
         this.notificationSenderId = notificationSenderId;
     }
 }
-

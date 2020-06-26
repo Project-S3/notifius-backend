@@ -1,5 +1,6 @@
 package ca.usherbrooke.notifius.backend.models;
 
+
 import java.util.*;
 
 public class Settings

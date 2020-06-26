@@ -35,7 +35,7 @@ public class SettingsController
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Settings setSettingByUser(@PathVariable("userID") String userID,
-                                                     @RequestBody Settings settings)
+                                     @RequestBody Settings settings)
     {
         User user = userService.getUser(userID).orElseThrow(() -> new UserNotFoundException(userID));
         settingsService.updateSettings(user, settings);

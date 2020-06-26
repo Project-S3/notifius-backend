@@ -11,10 +11,8 @@ public class ServiceEntity
     @Id
     @Enumerated(EnumType.STRING)
     private Service id;
-
     @Column
     private String displayName;
-
     @Column
     private String description;
 
@@ -28,7 +26,7 @@ public class ServiceEntity
     public ServiceEntity(Service service)
     {
         this.id = service;
-        this.displayName =  service.getDisplayName();
+        this.displayName = service.getDisplayName();
         this.description = service.getDescription();
     }
 

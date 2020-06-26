@@ -7,15 +7,13 @@ import java.util.Set;
 @Entity(name = "notifius_user")
 public class UserEntity
 {
+    @OneToMany(mappedBy = "user")
+    Set<UserNotificationSenderEntity> userNotificationSender;
     @Id
     private String id;
 
     @OneToMany(mappedBy = "user")
     private Set<NotificationEntity> notifications;
-
-    @OneToMany(mappedBy = "user")
-    Set<UserNotificationSenderEntity> userNotificationSender;
-
     @ManyToMany
     @JoinTable(
             name = "user_services",
@@ -49,7 +47,8 @@ public class UserEntity
         this.notifications = notifications;
     }
 
-    public UserEntity withNotifications(Set<NotificationEntity> notifications) {
+    public UserEntity withNotifications(Set<NotificationEntity> notifications)
+    {
         setNotifications(notifications);
         return this;
     }

@@ -1,13 +1,13 @@
 package ca.usherbrooke.notifius.backend.services;
 
+import ca.usherbrooke.notifius.backend.models.Notification;
+import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.repositories.NotificationRepository;
 import ca.usherbrooke.notifius.backend.repositories.UserRepository;
-import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
-import ca.usherbrooke.notifius.backend.models.Notification;
-import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
+import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 

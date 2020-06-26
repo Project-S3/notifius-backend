@@ -1,8 +1,14 @@
 package ca.usherbrooke.notifius.backend.services;
 
-import ca.usherbrooke.notifius.backend.entities.*;
+import ca.usherbrooke.notifius.backend.entities.NotificationSenderEntity;
+import ca.usherbrooke.notifius.backend.entities.UserEntity;
+import ca.usherbrooke.notifius.backend.entities.UserNotificationSenderEntity;
+import ca.usherbrooke.notifius.backend.entities.UserNotificationSenderKey;
 import ca.usherbrooke.notifius.backend.models.User;
-import ca.usherbrooke.notifius.backend.repositories.*;
+import ca.usherbrooke.notifius.backend.repositories.NotificationSenderRepository;
+import ca.usherbrooke.notifius.backend.repositories.ServiceRepository;
+import ca.usherbrooke.notifius.backend.repositories.UserNotificationSenderRepository;
+import ca.usherbrooke.notifius.backend.repositories.UserRepository;
 import ca.usherbrooke.notifius.backend.resterrors.NotificationSenderNotFoundException;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +61,15 @@ public class UserService
             UserEntity userEntity = constructUserEntity(id);
             userEntities.add(userEntity);
 
-            NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER").orElseThrow(() -> new NotificationSenderNotFoundException());
+            NotificationSenderEntity notificationSenderEntity = notificationSenderRepository.findById("EMAIL_SENDER")
+                                                                                            .orElseThrow(
+                                                                                                    NotificationSenderNotFoundException::new);
 
             UserNotificationSenderEntity userNotificationSenderEntity = new UserNotificationSenderEntity()
                     .withNotificationSender(notificationSenderEntity)
                     .withUser(userEntity)
                     .withValue(String.format("%s@%s", id, notifiusEmailDomain))
-                    .withId(new UserNotificationSenderKey(id,"EMAIL_SENDER"));
+                    .withId(new UserNotificationSenderKey(id, "EMAIL_SENDER"));
             userNotificationSenderEntities.add(userNotificationSenderEntity);
 
         }

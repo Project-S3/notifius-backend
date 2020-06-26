@@ -10,7 +10,8 @@ import java.io.IOException;
 @Service
 public class HttpService
 {
-    public void postJson(String url, JSONObject body) {
+    public void postJson(String url, JSONObject body)
+    {
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody requestBody = RequestBody.create(body.toString(), mediaType);

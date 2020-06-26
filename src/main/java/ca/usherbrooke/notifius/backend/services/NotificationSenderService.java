@@ -37,7 +37,8 @@ public class NotificationSenderService
         return notificationSenderRepository.findAll()
                                            .stream()
                                            .map(nse -> new NotificationSenderModel().withId(nse.getId())
-                                                                                    .withDisplayName(nse.getDisplayName()))
+                                                                                    .withDisplayName(
+                                                                                            nse.getDisplayName()))
                                            .collect(Collectors.toList());
     }
 

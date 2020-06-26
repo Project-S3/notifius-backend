@@ -1,8 +1,8 @@
 package ca.usherbrooke.notifius.backend.notificationsenders;
 
-import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;

@@ -18,7 +18,6 @@ public class NotificationEntity
     private Date date;
     @OneToOne
     private ServiceEntity service;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;

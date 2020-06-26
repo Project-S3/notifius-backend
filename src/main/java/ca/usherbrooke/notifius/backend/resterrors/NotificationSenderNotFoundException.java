@@ -3,8 +3,6 @@ package ca.usherbrooke.notifius.backend.resterrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.function.Supplier;
-
 public class NotificationSenderNotFoundException extends ResponseStatusException
 {
     public NotificationSenderNotFoundException()

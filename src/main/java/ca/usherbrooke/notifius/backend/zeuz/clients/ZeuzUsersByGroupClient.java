@@ -13,8 +13,8 @@ import java.util.*;
 public class ZeuzUsersByGroupClient
 {
     private static final String USERS_BY_GROUP_URL_WITH_PARAMS = "/etudiant_groupe" +
-                                                            "?inscription={inscription}" +
-                                                            "&trimestre_id={trimesterId}";
+                                                                 "?inscription={inscription}" +
+                                                                 "&trimestre_id={trimesterId}";
 
     @Autowired
     private DateFormat zeuzDateFormat;
