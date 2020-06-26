@@ -4,15 +4,16 @@ import ca.usherbrooke.notifius.backend.entities.UserEntity;
 import ca.usherbrooke.notifius.backend.entities.UserNotificationSenderEntity;
 import ca.usherbrooke.notifius.backend.models.Settings;
 import ca.usherbrooke.notifius.backend.models.User;
-import ca.usherbrooke.notifius.backend.repositories.ServiceRepository;
 import ca.usherbrooke.notifius.backend.repositories.UserNotificationSenderRepository;
-import ca.usherbrooke.notifius.backend.repositories.UserRepository;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static ca.usherbrooke.notifius.backend.services.ServiceService.EXCLUDED_SERVICES;
+
 
 @Service
 public class SettingsService
@@ -40,6 +41,14 @@ public class SettingsService
     public void updateSettings(User user, Settings newSettings)
     {
         Settings oldSettings = getSettings(user);
+
+        EXCLUDED_SERVICES.forEach(service -> {
+            if (oldSettings.getEnableServices().contains(service)) {
+                if (newSettings.getEnableServices().add(service)) {
+                    // todo log un petit commique essait de moifier des truc pas suposée
+                }
+            }
+        });
 
         if (!user.getEnableServices().equals(newSettings.getEnableServices())) {
             userService.updateUser(user.withEnableServices(newSettings.getEnableServices()));
