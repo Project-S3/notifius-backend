@@ -53,8 +53,8 @@ public class NotificationController
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
     public Set<Notification> getNotifications(@PathVariable("userId") String userId,
-                                              @RequestParam(value = "service", required = false) String serviceParam,
-                                              @RequestParam(value = "date", required = false) String dateParam)
+                                              @RequestParam(value = "service", required = false) String serviceParam, // todo list
+                                              @RequestParam(value = "date", required = false) String dateParam) // todo broken
     {
         String finalUserId = sanitizeUserId(userId);
         serviceParam = sanitizeService(serviceParam);

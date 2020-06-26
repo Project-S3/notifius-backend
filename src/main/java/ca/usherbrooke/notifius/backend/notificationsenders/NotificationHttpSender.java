@@ -46,6 +46,6 @@ public class NotificationHttpSender extends NotificationSender
     @Override
     public String getNotificationSenderDisplayName()
     {
-        return "URL HTTP personalisée";
+        return "Webhook personalisée";
     }
 }

@@ -50,6 +50,7 @@ public class TempController
     {
         userService.createUser("gram3504");
         userService.createUser("lemj0601");
+        userService.createUser("paqb2501");
         return "ok";
     }
 
