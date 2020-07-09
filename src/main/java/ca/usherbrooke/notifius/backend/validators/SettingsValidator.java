@@ -39,4 +39,9 @@ public class SettingsValidator
         });
 
     }
+
+    public void setNotificationSenderService(NotificationSenderService notificationSenderService)
+    {
+        this.notificationSenderService = notificationSenderService;
+    }
 }

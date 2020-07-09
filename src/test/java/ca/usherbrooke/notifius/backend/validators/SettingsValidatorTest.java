@@ -21,24 +21,22 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
 public class SettingsValidatorTest
 {
-    @Mock
-    private NotificationSenderService notificationSenderService;
+    private NotificationSenderService notificationSenderServiceMock;
 
-    @InjectMocks
-    private SettingsValidator settingsValidator;
+    private SettingsValidator settingsValidator = new SettingsValidator();
 
     private Settings settings;
 
     @Before
     public void init()
     {
-        MockitoAnnotations.initMocks(this);
-        Mockito.when(notificationSenderService.getAll()).thenReturn(List.of(new EmailNotificationSender()));
+        notificationSenderServiceMock = Mockito.mock(NotificationSenderService.class);
+        Mockito.when(notificationSenderServiceMock.getAll()).thenReturn(List.of(new EmailNotificationSender()));
+        settingsValidator.setNotificationSenderService(notificationSenderServiceMock);
 
-        settingsValidator = new SettingsValidator();
         Set<Service> enableServices = new HashSet<>();
         enableServices.add(Service.TEST);
         Map<String, String> notificationSenders = new HashMap<>();

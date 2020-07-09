@@ -56,8 +56,8 @@ public class DiscordNotificationSender extends NotificationSender
     }
 
     @Override
-    public boolean validValue(String value)
+    public void validValueThrow(String value)
     {
-        return false;
+
     }
 }
