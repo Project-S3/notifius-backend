@@ -39,4 +39,6 @@ public abstract class NotificationSender
     abstract public String getNotificationSenderId();
 
     abstract public String getNotificationSenderDisplayName();
+
+    abstract  public boolean validValue(String value);
 }
