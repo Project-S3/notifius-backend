@@ -20,7 +20,7 @@ public class SettingsValidator
     private NotificationSenderService notificationSenderService;
 
     // todo user validator
-    public void validNotificationThrowIfNotValid(Settings settings)
+    public void validSettingsThrowIfNotValid(Settings settings)
     {
         if (!notificationSenderService.getAll().stream().map(NotificationSenderModel::getId)
                                       .collect(Collectors.toSet())
