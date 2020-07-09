@@ -4,6 +4,7 @@
 
 package ca.usherbrooke.notifius.backend.restcontrollers;
 
+import ca.usherbrooke.notifius.backend.notificationsenders.DiscordNotificationSender;
 import ca.usherbrooke.notifius.backend.repositories.UserRepository;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import ca.usherbrooke.notifius.backend.services.UserService;
@@ -42,6 +43,8 @@ public class TempController
     private UserRepository userRepository;
     @Autowired
     private UserNotificationSenderService userNotificationSenderService;
+    @Autowired
+    private DiscordNotificationSender discordNotificationSender;
 
     @GetMapping(path = "/create",
                 produces = "application/json")
@@ -51,6 +54,7 @@ public class TempController
         userService.createUser("gram3504");
         userService.createUser("lemj0601");
         userService.createUser("paqb2501");
+        userService.createUser("lavj2421");
         return "ok";
     }
 
