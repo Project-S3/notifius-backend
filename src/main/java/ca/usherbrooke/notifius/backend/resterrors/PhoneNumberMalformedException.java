@@ -11,6 +11,6 @@ public class PhoneNumberMalformedException extends ResponseStatusException
 {
     public PhoneNumberMalformedException()
     {
-        super(HttpStatus.BAD_REQUEST, "Le numéro de téléphone est invalide");
+        super(HttpStatus.BAD_REQUEST, "Le numéro de téléphone est invalide.");
     }
 }

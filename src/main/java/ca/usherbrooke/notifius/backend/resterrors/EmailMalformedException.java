@@ -10,6 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class EmailMalformedException extends ResponseStatusException
 {
     public EmailMalformedException() {
-        super(HttpStatus.PRECONDITION_FAILED, "Le email est invalid");
+        super(HttpStatus.PRECONDITION_FAILED, "L'adresse courriel est invalide.");
     }
 }
