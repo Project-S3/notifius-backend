@@ -34,7 +34,7 @@ public class SettingsValidator
         notificationSenders.forEach(notificationSender -> {
             String value = settings.getNotificationSenders().get(notificationSender.getNotificationSenderId());
             if (value != null) {
-                notificationSender.validValue(value);
+                notificationSender.validValueThrow(value);
             }
         });
 
