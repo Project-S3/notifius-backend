@@ -12,7 +12,6 @@ import ca.usherbrooke.notifius.backend.repositories.UserRepository;
 import ca.usherbrooke.notifius.backend.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -34,34 +33,22 @@ public class NotificationService
     @Autowired
     private ServiceToEntityTranslator serviceToEntityTranslator;
 
-    public boolean create(Notification notification, User user)
+    public void create(Notification notification, User user)
     {
-        try {
-            notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
-                                                                      .withUser(userToEntityTranslator.toEntity(user)));
-            return true;
-        } catch (Exception e) {
-            if (((ConstraintViolationException) e.getCause()).getSQLException().getSQLState().equals("23505")) {
-                return false;
-            } else throw e;
-        }
+        notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
+                                                                  .withUser(userToEntityTranslator.toEntity(user)));
     }
 
-    public boolean createAllNotificationForUsers(Notification notification, List<User> allUser)
+    public void createAllNotificationForUsers(Notification notification, List<User> allUser)
     {
-        try {
-            notificationRepository.saveAll(allUser.stream()
-                                                  .map(userToEntityTranslator::toEntity)
-                                                  .map(userEntity -> notificationToEntityTranslator
-                                                          .toEntity(notification)
-                                                          .withUser(userEntity))
-                                                  .collect(Collectors.toList()));
-            return true;
-        } catch (Exception e) {
-            if (((ConstraintViolationException) e.getCause()).getSQLException().getSQLState().equals("23505")) {
-                return false;
-            } else throw e;
-        }
+
+        notificationRepository.saveAll(allUser.stream()
+                                              .map(userToEntityTranslator::toEntity)
+                                              .map(userEntity -> notificationToEntityTranslator
+                                                      .toEntity(notification)
+                                                      .withUser(userEntity))
+                                              .collect(Collectors.toList()));
+
     }
 
     public Set<Notification> getAllNotificationsForUserWithService(String userId, Service service)

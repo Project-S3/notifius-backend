@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,7 +93,8 @@ public class NotificationController
 
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
-    public ResponseEntity<Notification> createNotificationByUser(@PathVariable("userId") String userId,
+    @ResponseStatus(HttpStatus.CREATED)
+    public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                                  @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
@@ -102,18 +102,16 @@ public class NotificationController
 
         User user = userService.getUser(userId).orElseThrow(UserNotFoundException::new);
 
-        if (notificationService.create(notification, user)) {
-            notificationSenderService.sendNotifications(notification, user);
+        notificationService.create(notification, user);
+        notificationSenderService.sendNotifications(notification, user);
 
-            return new ResponseEntity<>(notification, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(notification, HttpStatus.OK);
-        }
+        return notification;
     }
 
     @PostMapping(path = "/trimester/{trimesterId}/activities/{activityId}/users/notifications",
                  consumes = "application/json")
-    public ResponseEntity<Notification> createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
+    @ResponseStatus(HttpStatus.CREATED)
+    public Notification createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
                                                                       @PathVariable("activityId") String activityId,
                                                                       @RequestBody Notification notification)
     {
@@ -133,16 +131,14 @@ public class NotificationController
                                                        .distinct()
                                                        .collect(Collectors.toList());
 
-        return new ResponseEntity<>(notification,
-                                    saveNotificationAndImportUserIfNotExist(notification,
-                                                                            allUserId) ? HttpStatus.CREATED
-                                                                                       : HttpStatus.OK);
+        saveNotificationAndImportUserIfNotExist(notification, allUserId);
+        return notification;
     }
 
     @PostMapping(path = "/trimesters/{trimesterId}/profiles/{profileId}/users/notifications",
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<Notification> createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
+    public Notification createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
                                                                         @PathVariable("profileId") String profileId,
                                                                         @RequestBody Notification notification)
     {
@@ -162,26 +158,21 @@ public class NotificationController
                                                        .map(UserByGroup::getUserId)
                                                        .distinct()
                                                        .collect(Collectors.toList());
-        return new ResponseEntity<>(notification,
-                                    saveNotificationAndImportUserIfNotExist(notification,
-                                                                            allUserId) ? HttpStatus.CREATED
-                                                                                       : HttpStatus.OK);
+
+        saveNotificationAndImportUserIfNotExist(notification, allUserId);
+        return notification;
     }
 
-    private boolean saveNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
+    private void saveNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
     {
         List<User> allUser = userService.getAllUser(allUserId);
 
         allUserId.removeAll(allUser.stream().map(User::getId).collect(Collectors.toList()));
         allUser.addAll(userService.createAllUser(allUserId));
 
-        boolean created = notificationService.createAllNotificationForUsers(notification, allUser);
+        notificationService.createAllNotificationForUsers(notification, allUser);
 
-        if (created) {
-            sendNotificationForAllUsers(notification, allUser);
-        }
-
-        return created;
+        sendNotificationForAllUsers(notification, allUser);
     }
 
     public void sendNotificationForAllUsers(Notification notification, List<User> allUser)
