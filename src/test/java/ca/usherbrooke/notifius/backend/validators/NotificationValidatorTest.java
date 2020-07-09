@@ -5,9 +5,7 @@
 package ca.usherbrooke.notifius.backend.validators;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
-import ca.usherbrooke.notifius.backend.resterrors.ContentTooLongException;
-import ca.usherbrooke.notifius.backend.resterrors.DateInvalidException;
-import ca.usherbrooke.notifius.backend.resterrors.TitleTooLongException;
+import ca.usherbrooke.notifius.backend.resterrors.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,11 +43,37 @@ public class NotificationValidatorTest
         notificationValidator.validNotificationThrowIfNotValid(notification.withTitle("Very long title bla bla bla"));
     }
 
+    @Test(expected = TitleEmptyException.class)
+    public void testNotificationTitleEmpty()
+    {
+        notificationValidator.validNotificationThrowIfNotValid(notification.withTitle(""));
+    }
+
+    @Test(expected = TitleEmptyException.class)
+    public void testNotificationTitleNull()
+    {
+        notificationValidator.validNotificationThrowIfNotValid(notification.withTitle(null));
+    }
+
     @Test(expected = ContentTooLongException.class)
     public void testNotificationContentTooLong()
     {
         notificationValidator.validNotificationThrowIfNotValid(
                 notification.withContent("A very long content Muda! Muda! Muda! Muda! Muda! Muda! "));
+    }
+
+    @Test(expected = ContentEmptyException.class)
+    public void testNotificationContentEmpty()
+    {
+        notificationValidator.validNotificationThrowIfNotValid(
+                notification.withContent(""));
+    }
+
+    @Test(expected = ContentEmptyException.class)
+    public void testNotificationContentNull()
+    {
+        notificationValidator.validNotificationThrowIfNotValid(
+                notification.withContent(null));
     }
 
     @Test(expected = DateInvalidException.class)
