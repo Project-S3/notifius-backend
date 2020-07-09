@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "notification")
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"title", "content", "date", "user_id", "service_id"})})
 public class NotificationEntity
 {
     @Id
