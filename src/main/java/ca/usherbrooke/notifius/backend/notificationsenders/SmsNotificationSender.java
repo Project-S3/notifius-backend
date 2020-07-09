@@ -28,7 +28,7 @@ public class SmsNotificationSender extends NotificationSender
     public void sendNotifications(Notification notification, User user)
     {
         userNotificationSenderService.getValueIfExists(user.getId(), this.getNotificationSenderId())
-                                     .ifPresent(phoneNumber -> smsService.sendSMS(phoneNumber,
+                                     .ifPresent(phoneNumber -> smsService.sendSMS("+1"+ phoneNumber,
                                                                                   String.format(
                                                                                           "%s\n\n%s\n\nEnvoyé par Notifius",
                                                                                           notification.getTitle(),

@@ -32,13 +32,18 @@ public class UserNotificationSenderService
 
     public void createOrUpdate(UserEntity userEntity, String notificationSenderId, String value)
     {
+        String val = value;
+        if(notificationSenderId.equals("SMS_SENDER"))
+        {
+            val = val.replaceAll("[^0-9*]", "");
+        }
         userNotificationSenderRepository.save(new UserNotificationSenderEntity()
                                                       .withNotificationSender(notificationSenderRepository
                                                                                       .findById(notificationSenderId)
                                                                                       .orElseThrow(
                                                                                               NotificationSenderNotFoundException::new))
                                                       .withUser(userEntity)
-                                                      .withValue(value)
+                                                      .withValue(val)
                                                       .withId(new UserNotificationSenderKey(userEntity.getId(),
                                                                                             notificationSenderId)));
     }
