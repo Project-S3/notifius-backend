@@ -11,6 +11,6 @@ public class TitleTooLongException extends ResponseStatusException
 {
     public TitleTooLongException()
     {
-        super(HttpStatus.PRECONDITION_FAILED, "Le titre est trop long.");
+        super(HttpStatus.BAD_REQUEST, "Le titre est trop long.");
     }
 }

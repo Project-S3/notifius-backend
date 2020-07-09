@@ -10,6 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class UrlMalformedException extends ResponseStatusException
 {
     public UrlMalformedException() {
-        super(HttpStatus.PRECONDITION_FAILED, "URL du Webhooks est invalide");
+        super(HttpStatus.BAD_REQUEST, "URL du Webhooks est invalide");
     }
 }

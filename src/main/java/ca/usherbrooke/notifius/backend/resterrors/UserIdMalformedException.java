@@ -11,6 +11,6 @@ public class UserIdMalformedException extends ResponseStatusException
 {
     public UserIdMalformedException()
     {
-        super(HttpStatus.PRECONDITION_FAILED, "Un cip est 4 lettres minuscules et 4 chiffres");
+        super(HttpStatus.BAD_REQUEST, "Un cip est 4 lettres minuscules et 4 chiffres");
     }
 }
