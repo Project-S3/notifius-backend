@@ -6,8 +6,10 @@ package ca.usherbrooke.notifius.backend.notificationsenders;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.resterrors.EmailMalformedException;
 import ca.usherbrooke.notifius.backend.services.EmailService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,8 +45,8 @@ public class EmailNotificationSender extends NotificationSender
     }
 
     @Override
-    public boolean validValue(String value)
+    public void validValueThrow(String value)
     {
-        return false;
+        if (!EmailValidator.getInstance().isValid(value)) throw new EmailMalformedException();
     }
 }
