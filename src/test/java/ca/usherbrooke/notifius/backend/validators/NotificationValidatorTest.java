@@ -30,17 +30,12 @@ public class NotificationValidatorTest
     public void init()
     {
         notificationValidator = new NotificationValidator();
-        notificationValidator.setMaxStringLength(MAX_LENGTH);
+        notificationValidator.setMaxNotificationTileLength(MAX_LENGTH);
+        notificationValidator.setMaxNotificationContentLength(MAX_LENGTH);
         notification = new Notification().withTitle("title")
                                          .withContent("content")
                                          .withDate(new Date())
                                          .withService(TEST);
-    }
-
-    @Test(expected = TitleTooLongException.class)
-    public void testNotificationTitleTooLong()
-    {
-        notificationValidator.validNotificationThrowIfNotValid(notification.withTitle("Very long title bla bla bla"));
     }
 
     @Test(expected = TitleEmptyException.class)
@@ -55,25 +50,29 @@ public class NotificationValidatorTest
         notificationValidator.validNotificationThrowIfNotValid(notification.withTitle(null));
     }
 
-    @Test(expected = ContentTooLongException.class)
-    public void testNotificationContentTooLong()
+    @Test(expected = TitleTooLongException.class)
+    public void testNotificationTitleTooLong()
     {
-        notificationValidator.validNotificationThrowIfNotValid(
-                notification.withContent("A very long content Muda! Muda! Muda! Muda! Muda! Muda! "));
+        notificationValidator.validNotificationThrowIfNotValid(notification.withTitle("Very long title bla bla bla"));
     }
 
     @Test(expected = ContentEmptyException.class)
     public void testNotificationContentEmpty()
     {
-        notificationValidator.validNotificationThrowIfNotValid(
-                notification.withContent(""));
+        notificationValidator.validNotificationThrowIfNotValid(notification.withContent(""));
     }
 
     @Test(expected = ContentEmptyException.class)
     public void testNotificationContentNull()
     {
+        notificationValidator.validNotificationThrowIfNotValid(notification.withContent(null));
+    }
+
+    @Test(expected = ContentTooLongException.class)
+    public void testNotificationContentTooLong()
+    {
         notificationValidator.validNotificationThrowIfNotValid(
-                notification.withContent(null));
+                notification.withContent("A very long content Muda! Muda! Muda! Muda! Muda! Muda! "));
     }
 
     @Test(expected = DateInvalidException.class)

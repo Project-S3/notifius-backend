@@ -74,5 +74,15 @@
       "name": "notifius.discord.avatar-url",
       "type": "java.lang.String",
       "description": "Description for notifius.discord.avatar-url."
+    },
+    {
+      "name": "notifius.request.max-notification-title-length",
+      "type": "java.lang.Integer",
+      "description": "Description for notifius.request.max-notification-title-length."
+    },
+    {
+      "name": "notifius.request.max-notification-content-length",
+      "type": "java.lang.Integer",
+      "description": "Description for notifius.request.max-notification-content-length."
     }
   ] }
