@@ -40,5 +40,5 @@ public abstract class NotificationSender
 
     abstract public String getNotificationSenderDisplayName();
 
-    abstract  public boolean validValue();
+    abstract  public boolean validValue(String value);
 }
