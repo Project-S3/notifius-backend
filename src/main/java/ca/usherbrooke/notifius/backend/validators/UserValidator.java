@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserValidator
 {
     //todo user validator
-    public void validNotificationThrowIfNotValid(Settings settings)
+    public void validUserThrowIfNotValid(Settings settings)
     {
 
     }
