@@ -30,6 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Calendar.APRIL;
+import static java.util.Calendar.JANUARY;
+
 @RestController
 public class NotificationController
 {
@@ -101,8 +104,8 @@ public class NotificationController
 
         if (notificationService.create(notification, user)) {
             notificationSenderService.sendNotifications(notification, user);
-            return new ResponseEntity<>(notification, HttpStatus.CREATED);
 
+            return new ResponseEntity<>(notification, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(notification, HttpStatus.OK);
         }
@@ -120,7 +123,7 @@ public class NotificationController
         String finalActivityId = sanitizeActivityId(activityId);
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), JANUARY, 1);
 
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
                                                        .stream()
@@ -151,7 +154,7 @@ public class NotificationController
         String finalProfileId = profileId;
 
         Calendar calendar = new GregorianCalendar();
-        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
+        calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), APRIL, 1);
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
                                                        .stream()
                                                        .filter(userByGroup -> finalProfileId.equals(

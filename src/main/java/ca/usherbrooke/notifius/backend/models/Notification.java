@@ -4,15 +4,20 @@
 
 package ca.usherbrooke.notifius.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import static com.fasterxml.jackson.annotation.JsonProperty.Access.READ_ONLY;
 
 public class Notification implements Serializable
 {
     private String title;
     private String content;
-    private Date date;
+    @JsonProperty(access = READ_ONLY)
+    private Date date = new Date();
     private Service service;
 
     public String getTitle()
