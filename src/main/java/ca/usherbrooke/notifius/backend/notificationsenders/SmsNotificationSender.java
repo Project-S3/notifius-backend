@@ -50,7 +50,7 @@ public class SmsNotificationSender extends NotificationSender
     @Override
     public void validValueThrow(String value)
     {
-        if (!Pattern.compile("^[0-9]{10}$").matcher(value).matches())
+        if (!Pattern.compile("^[+]*[(]?[0-9]{1,4}[)]?[-\\s\\./0-9]*$").matcher(value).matches())
             throw new PhoneNumberMalformedException();
     }
 }
