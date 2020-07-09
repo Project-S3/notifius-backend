@@ -45,4 +45,10 @@ public class TeamsNotificationSender extends NotificationSender
     {
         return "Microsoft Teams";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

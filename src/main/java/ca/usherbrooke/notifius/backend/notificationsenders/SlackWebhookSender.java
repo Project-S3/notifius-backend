@@ -46,4 +46,10 @@ public class SlackWebhookSender extends NotificationSender
     {
         return "Slack";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

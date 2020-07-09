@@ -54,4 +54,10 @@ public class DiscordNotificationSender extends NotificationSender
     {
         return "Discord";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

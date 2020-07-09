@@ -6,27 +6,38 @@ package ca.usherbrooke.notifius.backend.validators;
 
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.Settings;
+import ca.usherbrooke.notifius.backend.notificationsenders.EmailNotificationSender;
 import ca.usherbrooke.notifius.backend.resterrors.*;
+import ca.usherbrooke.notifius.backend.services.NotificationSenderService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class SettingsValidatorTest
 {
+    @Mock
+    private NotificationSenderService notificationSenderService;
 
+    @InjectMocks
     private SettingsValidator settingsValidator;
+
     private Settings settings;
 
     @Before
     public void init()
     {
+        MockitoAnnotations.initMocks(this);
+        Mockito.when(notificationSenderService.getAll()).thenReturn(List.of(new EmailNotificationSender()));
+
         settingsValidator = new SettingsValidator();
         Set<Service> enableServices = new HashSet<>();
         enableServices.add(Service.TEST);

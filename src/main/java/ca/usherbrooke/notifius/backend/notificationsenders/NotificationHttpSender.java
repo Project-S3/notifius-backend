@@ -48,4 +48,10 @@ public class NotificationHttpSender extends NotificationSender
     {
         return "Webhook personalisée";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

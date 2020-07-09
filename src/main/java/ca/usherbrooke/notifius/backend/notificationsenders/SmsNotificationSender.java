@@ -43,4 +43,10 @@ public class SmsNotificationSender extends NotificationSender
     {
         return "Texto";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

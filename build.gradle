@@ -44,7 +44,7 @@ dependencies {
     compileOnly('org.projectlombok:lombok:1.18.12')
     testCompile('org.springframework.boot:spring-boot-starter-test:2.2.6.RELEASE')
     testCompile('org.junit.jupiter:junit-jupiter-engine:5.2.0')
-    testCompile('org.mockito:mockito-junit-jupiter:2.23.0')
+    testCompile('org.mockito:mockito-junit-jupiter:3.3.3')
 }
 
 test {

@@ -41,4 +41,10 @@ public class EmailNotificationSender extends NotificationSender
     {
         return "Courriel";
     }
+
+    @Override
+    public boolean validValue(String value)
+    {
+        return false;
+    }
 }

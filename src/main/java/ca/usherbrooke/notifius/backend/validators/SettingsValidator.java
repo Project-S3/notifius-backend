@@ -20,7 +20,7 @@ public class SettingsValidator
     @Autowired
     private NotificationSenderService notificationSenderService;
 
-    public void validNotificationThrowIfNotValid(Settings settings)
+    public void validSettingsThrowIfNotValid(Settings settings)
     {
         List<NotificationSender> notificationSenders = notificationSenderService.getAll();
         if (!notificationSenders.stream()
