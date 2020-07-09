@@ -6,7 +6,7 @@ package ca.usherbrooke.notifius.backend.notificationsenders;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
-import ca.usherbrooke.notifius.backend.resterrors.DiscordMalformedException;
+import ca.usherbrooke.notifius.backend.resterrors.UrlMalformedException;
 import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.json.JSONObject;
@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.apache.commons.validator.routines.UrlValidator;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class DiscordNotificationSender extends NotificationSender
@@ -65,7 +62,7 @@ public class DiscordNotificationSender extends NotificationSender
         UrlValidator urlValidator = new UrlValidator();
 
         if(!urlValidator.isValid(value)) {
-            throw new DiscordMalformedException();
+            throw new UrlMalformedException();
         }
     }
 }

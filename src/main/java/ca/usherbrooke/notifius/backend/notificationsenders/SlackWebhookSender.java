@@ -6,8 +6,10 @@ package ca.usherbrooke.notifius.backend.notificationsenders;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.resterrors.UrlMalformedException;
 import ca.usherbrooke.notifius.backend.services.HttpService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,6 +52,10 @@ public class SlackWebhookSender extends NotificationSender
     @Override
     public void validValueThrow(String value)
     {
+        UrlValidator urlValidator = new UrlValidator();
 
+        if(!urlValidator.isValid(value)) {
+            throw new UrlMalformedException();
+        }
     }
 }

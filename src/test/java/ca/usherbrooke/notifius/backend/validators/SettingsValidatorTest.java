@@ -7,16 +7,12 @@ package ca.usherbrooke.notifius.backend.validators;
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.Settings;
 import ca.usherbrooke.notifius.backend.notificationsenders.EmailNotificationSender;
-import ca.usherbrooke.notifius.backend.resterrors.*;
+import ca.usherbrooke.notifius.backend.resterrors.SettingsContainUnknownNotificationSender;
 import ca.usherbrooke.notifius.backend.services.NotificationSenderService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;

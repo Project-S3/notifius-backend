@@ -6,10 +6,13 @@ package ca.usherbrooke.notifius.backend.notificationsenders;
 
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.resterrors.PhoneNumberMalformedException;
 import ca.usherbrooke.notifius.backend.services.SmsService;
 import ca.usherbrooke.notifius.backend.services.UserNotificationSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.regex.Pattern;
 
 @Component
 public class SmsNotificationSender extends NotificationSender
@@ -47,7 +50,8 @@ public class SmsNotificationSender extends NotificationSender
     @Override
     public void validValueThrow(String value)
     {
-
+        if (!Pattern.compile("^[0-9]{10}$").matcher(value).matches())
+            throw new PhoneNumberMalformedException();
     }
 
 
