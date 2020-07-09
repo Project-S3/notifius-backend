@@ -11,6 +11,6 @@ public class SettingsContainUnknownNotificationSender extends ResponseStatusExce
 {
     public SettingsContainUnknownNotificationSender()
     {
-        super(HttpStatus.BAD_REQUEST, "Il y a un type de notification sender qui n'existe pas dans les settingds");
+        super(HttpStatus.BAD_REQUEST, "Il y a un type d'envoi qui n'existe pas.");
     }
 }
