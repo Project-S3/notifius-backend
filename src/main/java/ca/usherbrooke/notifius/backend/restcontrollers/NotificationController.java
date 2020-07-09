@@ -7,9 +7,11 @@ package ca.usherbrooke.notifius.backend.restcontrollers;
 import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.User;
+import ca.usherbrooke.notifius.backend.resterrors.DateInvalidException;
 import ca.usherbrooke.notifius.backend.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.backend.services.NotificationSenderService;
 import ca.usherbrooke.notifius.backend.services.NotificationService;
+import ca.usherbrooke.notifius.backend.services.ServiceService;
 import ca.usherbrooke.notifius.backend.services.UserService;
 import ca.usherbrooke.notifius.backend.validators.NotificationValidator;
 import ca.usherbrooke.notifius.backend.zeuz.clients.ZeuzUsersByGroupClient;
@@ -28,8 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// todo faudrait faire des meilleur valid des param et plus d'erreur pour donnée un feedback faire de quoi de plus propre pour sanitize les donnés
-
 @RestController
 public class NotificationController
 {
@@ -37,6 +37,8 @@ public class NotificationController
 
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+    @Autowired
+    private ServiceService serviceService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -48,7 +50,6 @@ public class NotificationController
     @Autowired
     private ZeuzUsersByGroupClient zeuzUsersByGroupClient;
 
-    // todo need to be restricted
     @GetMapping(path = "/users/{userId}/notifications",
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
@@ -64,18 +65,15 @@ public class NotificationController
 
         Service service = null;
         if (StringUtils.hasText(serviceParam)) {
-            try {
-                service = Service.valueOf(serviceParam);
-            } catch (IllegalArgumentException e) {
-                // todo on fait quoi si le service existe pas
-            }
+            service = serviceService.getServiceByName(serviceParam);
         }
+        
         Date date = null;
         if (StringUtils.hasText(dateParam)) {
             try {
                 date = dateFormat.parse(dateParam);
             } catch (ParseException e) {
-                // todo on fait quoi si la date est mal formaté
+                throw new DateInvalidException();
             }
         }
 
@@ -90,7 +88,6 @@ public class NotificationController
         }
         return user.getNotifications();
     }
-
 
     @PostMapping(path = "/users/{userId}/notifications",
                  consumes = "application/json")
@@ -125,7 +122,6 @@ public class NotificationController
         Calendar calendar = new GregorianCalendar();
         calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
 
-
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId)
                                                        .stream()
                                                        .filter(userByGroup -> finalActivityId
@@ -134,12 +130,10 @@ public class NotificationController
                                                        .distinct()
                                                        .collect(Collectors.toList());
 
-        if (saveNotificationAndImportUserIfNotExist(notification, allUserId)) {
-            return new ResponseEntity<>(notification, HttpStatus.CREATED);
-
-        } else {
-            return new ResponseEntity<>(notification, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(notification,
+                                    saveNotificationAndImportUserIfNotExist(notification,
+                                                                            allUserId) ? HttpStatus.CREATED
+                                                                                       : HttpStatus.OK);
     }
 
     @PostMapping(path = "/trimesters/{trimesterId}/profiles/{profileId}/users/notifications",
@@ -160,18 +154,15 @@ public class NotificationController
         calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
                                                        .stream()
-                                                       .filter(userByGroup -> finalProfileId
-                                                               .equals(userByGroup.getProfileId()))
+                                                       .filter(userByGroup -> finalProfileId.equals(
+                                                               userByGroup.getProfileId()))
                                                        .map(UserByGroup::getUserId)
                                                        .distinct()
                                                        .collect(Collectors.toList());
-
-        if (saveNotificationAndImportUserIfNotExist(notification, allUserId)) {
-            return new ResponseEntity<>(notification, HttpStatus.CREATED);
-
-        } else {
-            return new ResponseEntity<>(notification, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(notification,
+                                    saveNotificationAndImportUserIfNotExist(notification,
+                                                                            allUserId) ? HttpStatus.CREATED
+                                                                                       : HttpStatus.OK);
     }
 
     private boolean saveNotificationAndImportUserIfNotExist(Notification notification, List<String> allUserId)
@@ -230,5 +221,4 @@ public class NotificationController
         if (profileId == null) return null;
         return profileId.strip().toLowerCase();
     }
-
 }

@@ -7,6 +7,7 @@ package ca.usherbrooke.notifius.backend.services;
 import ca.usherbrooke.notifius.backend.entities.ServiceEntity;
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.repositories.ServiceRepository;
+import ca.usherbrooke.notifius.backend.resterrors.ServiceNotFoundException;
 import ca.usherbrooke.notifius.backend.resterrors.UnknownServiceException;
 import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,15 @@ public class ServiceService
     private ServiceRepository serviceRepository;
     @Autowired
     private ServiceToEntityTranslator serviceToEntityTranslator;
+
+    public Service getServiceByName(String service)
+    {
+        try {
+            return Service.valueOf(service);
+        } catch (IllegalArgumentException e) {
+            throw new ServiceNotFoundException(service);
+        }
+    }
 
     public Service getById(Service id)
     {
