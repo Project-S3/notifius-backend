@@ -11,6 +11,6 @@ public class UnknownServiceException extends ResponseStatusException
 {
     public UnknownServiceException()
     {
-        super(HttpStatus.INTERNAL_SERVER_ERROR);
+        super(HttpStatus.BAD_REQUEST);
     }
 }

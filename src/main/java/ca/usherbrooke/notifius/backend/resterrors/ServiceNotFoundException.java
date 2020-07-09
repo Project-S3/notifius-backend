@@ -11,6 +11,6 @@ public class ServiceNotFoundException extends ResponseStatusException
 {
     public ServiceNotFoundException(String service)
     {
-        super(HttpStatus.PRECONDITION_FAILED, String.format("Service %s not found", service));
+        super(HttpStatus.BAD_REQUEST, String.format("Service %s not found", service));
     }
 }

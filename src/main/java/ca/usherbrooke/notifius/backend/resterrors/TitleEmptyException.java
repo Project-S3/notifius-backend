@@ -11,6 +11,6 @@ public class TitleEmptyException extends ResponseStatusException
 {
     public TitleEmptyException()
     {
-        super(HttpStatus.PRECONDITION_REQUIRED, "Vous devez fournir un titre.");
+        super(HttpStatus.BAD_REQUEST, "Vous devez fournir un titre.");
     }
 }
