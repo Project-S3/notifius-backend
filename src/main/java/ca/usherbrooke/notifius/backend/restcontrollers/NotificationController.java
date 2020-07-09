@@ -154,13 +154,13 @@ public class NotificationController
         trimesterId = sanitizeTrimesterId(trimesterId);
         profileId = sanitizeProfileId(profileId);
 
-        String finalProfilId = profileId;
+        String finalProfileId = profileId;
 
         Calendar calendar = new GregorianCalendar();
         calendar.set(2000 + Integer.parseInt(trimesterId.substring(1, 3)), Calendar.APRIL, 1);
         List<String> allUserId = zeuzUsersByGroupClient.getUsers(calendar.getTime(), trimesterId, profileId)
                                                        .stream()
-                                                       .filter(userByGroup -> finalProfilId
+                                                       .filter(userByGroup -> finalProfileId
                                                                .equals(userByGroup.getProfileId()))
                                                        .map(UserByGroup::getUserId)
                                                        .distinct()

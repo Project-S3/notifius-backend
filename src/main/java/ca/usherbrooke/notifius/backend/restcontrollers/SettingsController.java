@@ -9,6 +9,7 @@ import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.resterrors.UserNotFoundException;
 import ca.usherbrooke.notifius.backend.services.SettingsService;
 import ca.usherbrooke.notifius.backend.services.UserService;
+import ca.usherbrooke.notifius.backend.validators.SettingsValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class SettingsController
 {
+    @Autowired
+    private SettingsValidator settingsValidator;
+
     private final Logger logger = LoggerFactory.getLogger(SettingsController.class);
 
     @Autowired
@@ -41,6 +45,8 @@ public class SettingsController
     public Settings setSettingByUser(@PathVariable("userID") String userID,
                                      @RequestBody Settings settings)
     {
+        settingsValidator.validSettingsThrowIfNotValid(settings);
+
         User user = userService.getUser(userID).orElseThrow(() -> new UserNotFoundException(userID));
         settingsService.updateSettings(user, settings);
         return settings;
