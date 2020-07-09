@@ -36,7 +36,12 @@ public class NotificationSenderService
         subscriber.getNotificationSenderId();
     }
 
-    public List<NotificationSenderModel> getAll()
+    public List<NotificationSender> getAll()
+    {
+        return notificationSenderSubscribers;
+    }
+
+    public List<NotificationSenderModel> getAllModel()
     {
         return notificationSenderRepository.findAll()
                                            .stream()

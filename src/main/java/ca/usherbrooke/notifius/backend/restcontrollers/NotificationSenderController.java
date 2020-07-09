@@ -23,6 +23,6 @@ public class NotificationSenderController
     @GetMapping("")
     public List<NotificationSenderModel> getAllNotificationSender()
     {
-        return notificationSenderService.getAll();
+        return notificationSenderService.getAllModel();
     }
 }
