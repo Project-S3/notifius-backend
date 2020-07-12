@@ -111,4 +111,74 @@ public class UserService
                                .withEnableServices(new HashSet<>(serviceRepository.findAll()));
 
     }
+
+    public UserRepository getUserRepository()
+    {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository)
+    {
+        this.userRepository = userRepository;
+    }
+
+    public ServiceRepository getServiceRepository()
+    {
+        return serviceRepository;
+    }
+
+    public void setServiceRepository(ServiceRepository serviceRepository)
+    {
+        this.serviceRepository = serviceRepository;
+    }
+
+    public NotificationSenderRepository getNotificationSenderRepository()
+    {
+        return notificationSenderRepository;
+    }
+
+    public void setNotificationSenderRepository(NotificationSenderRepository notificationSenderRepository)
+    {
+        this.notificationSenderRepository = notificationSenderRepository;
+    }
+
+    public UserNotificationSenderRepository getUserNotificationSenderRepository()
+    {
+        return userNotificationSenderRepository;
+    }
+
+    public void setUserNotificationSenderRepository(UserNotificationSenderRepository userNotificationSenderRepository)
+    {
+        this.userNotificationSenderRepository = userNotificationSenderRepository;
+    }
+
+    public UserToEntityTranslator getUserToEntityTranslator()
+    {
+        return userToEntityTranslator;
+    }
+
+    public void setUserToEntityTranslator(UserToEntityTranslator userToEntityTranslator)
+    {
+        this.userToEntityTranslator = userToEntityTranslator;
+    }
+
+    public UserNotificationSenderService getUserNotificationSenderService()
+    {
+        return userNotificationSenderService;
+    }
+
+    public void setUserNotificationSenderService(UserNotificationSenderService userNotificationSenderService)
+    {
+        this.userNotificationSenderService = userNotificationSenderService;
+    }
+
+    public String getNotifiusEmailDomain()
+    {
+        return notifiusEmailDomain;
+    }
+
+    public void setNotifiusEmailDomain(String notifiusEmailDomain)
+    {
+        this.notifiusEmailDomain = notifiusEmailDomain;
+    }
 }

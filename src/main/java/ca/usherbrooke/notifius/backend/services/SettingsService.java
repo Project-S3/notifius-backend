@@ -70,4 +70,44 @@ public class SettingsService
             }
         }
     }
+
+    public UserNotificationSenderRepository getUserNotificationSenderRepository()
+    {
+        return userNotificationSenderRepository;
+    }
+
+    public void setUserNotificationSenderRepository(UserNotificationSenderRepository userNotificationSenderRepository)
+    {
+        this.userNotificationSenderRepository = userNotificationSenderRepository;
+    }
+
+    public UserNotificationSenderService getUserNotificationSenderService()
+    {
+        return userNotificationSenderService;
+    }
+
+    public void setUserNotificationSenderService(UserNotificationSenderService userNotificationSenderService)
+    {
+        this.userNotificationSenderService = userNotificationSenderService;
+    }
+
+    public UserService getUserService()
+    {
+        return userService;
+    }
+
+    public void setUserService(UserService userService)
+    {
+        this.userService = userService;
+    }
+
+    public UserToEntityTranslator getUserToEntityTranslator()
+    {
+        return userToEntityTranslator;
+    }
+
+    public void setUserToEntityTranslator(UserToEntityTranslator userToEntityTranslator)
+    {
+        this.userToEntityTranslator = userToEntityTranslator;
+    }
 }

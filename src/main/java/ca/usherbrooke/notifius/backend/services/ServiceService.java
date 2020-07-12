@@ -60,4 +60,24 @@ public class ServiceService
                                         .map(ServiceEntity::new)
                                         .collect(Collectors.toSet()));
     }
+
+    public ServiceRepository getServiceRepository()
+    {
+        return serviceRepository;
+    }
+
+    public void setServiceRepository(ServiceRepository serviceRepository)
+    {
+        this.serviceRepository = serviceRepository;
+    }
+
+    public ServiceToEntityTranslator getServiceToEntityTranslator()
+    {
+        return serviceToEntityTranslator;
+    }
+
+    public void setServiceToEntityTranslator(ServiceToEntityTranslator serviceToEntityTranslator)
+    {
+        this.serviceToEntityTranslator = serviceToEntityTranslator;
+    }
 }

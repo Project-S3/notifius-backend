@@ -60,5 +60,23 @@ public class UserNotificationSenderService
                                                                                               notificationSenderId)));
     }
 
+    public UserNotificationSenderRepository getUserNotificationSenderRepository()
+    {
+        return userNotificationSenderRepository;
+    }
 
+    public void setUserNotificationSenderRepository(UserNotificationSenderRepository userNotificationSenderRepository)
+    {
+        this.userNotificationSenderRepository = userNotificationSenderRepository;
+    }
+
+    public NotificationSenderRepository getNotificationSenderRepository()
+    {
+        return notificationSenderRepository;
+    }
+
+    public void setNotificationSenderRepository(NotificationSenderRepository notificationSenderRepository)
+    {
+        this.notificationSenderRepository = notificationSenderRepository;
+    }
 }
