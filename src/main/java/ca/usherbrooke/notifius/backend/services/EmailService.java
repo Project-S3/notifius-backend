@@ -28,8 +28,6 @@ public class EmailService
 
     public void sendEmail(String to, String subject, String text)
     {
-        int numberOfTry = 0;
-
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(String.format("%s <%s>", notifiusEmailDisplayName, notifiusEmail));
         message.setTo(to);
@@ -41,5 +39,35 @@ public class EmailService
         } catch (MailSendException e) {
             logger.warn("Error when trying to send email to: {}", to);
         }
+    }
+
+    public JavaMailSender getEmailSender()
+    {
+        return emailSender;
+    }
+
+    public void setEmailSender(JavaMailSender emailSender)
+    {
+        this.emailSender = emailSender;
+    }
+
+    public String getNotifiusEmail()
+    {
+        return notifiusEmail;
+    }
+
+    public void setNotifiusEmail(String notifiusEmail)
+    {
+        this.notifiusEmail = notifiusEmail;
+    }
+
+    public String getNotifiusEmailDisplayName()
+    {
+        return notifiusEmailDisplayName;
+    }
+
+    public void setNotifiusEmailDisplayName(String notifiusEmailDisplayName)
+    {
+        this.notifiusEmailDisplayName = notifiusEmailDisplayName;
     }
 }
