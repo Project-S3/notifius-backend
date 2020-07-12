@@ -22,7 +22,7 @@ public class SettingsValidator
 
     public void validSettingsThrowIfNotValid(Settings settings)
     {
-        List<NotificationSender> notificationSenders = notificationSenderService.getAll();
+        List<NotificationSender> notificationSenders = notificationSenderService.getNotificationSenderSubscribers();
         if (!notificationSenders.stream()
                                 .map(NotificationSender::getNotificationSenderId)
                                 .collect(Collectors.toSet())

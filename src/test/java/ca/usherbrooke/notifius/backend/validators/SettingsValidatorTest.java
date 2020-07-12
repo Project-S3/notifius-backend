@@ -30,7 +30,7 @@ public class SettingsValidatorTest
     public void init()
     {
         notificationSenderServiceMock = Mockito.mock(NotificationSenderService.class);
-        Mockito.when(notificationSenderServiceMock.getAll()).thenReturn(List.of(new EmailNotificationSender()));
+        Mockito.when(notificationSenderServiceMock.getNotificationSenderSubscribers()).thenReturn(List.of(new EmailNotificationSender()));
         settingsValidator.setNotificationSenderService(notificationSenderServiceMock);
 
         Set<Service> enableServices = new HashSet<>();
