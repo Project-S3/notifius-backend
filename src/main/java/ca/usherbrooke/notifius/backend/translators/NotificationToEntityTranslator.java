@@ -29,6 +29,15 @@ public class NotificationToEntityTranslator
                                  .withContent(notificationEntity.getContent())
                                  .withDate(notificationEntity.getDate())
                                  .withService(serviceToEntityTranslator.toModel(notificationEntity.getService()));
+    }
 
+    public ServiceToEntityTranslator getServiceToEntityTranslator()
+    {
+        return serviceToEntityTranslator;
+    }
+
+    public void setServiceToEntityTranslator(ServiceToEntityTranslator serviceToEntityTranslator)
+    {
+        this.serviceToEntityTranslator = serviceToEntityTranslator;
     }
 }

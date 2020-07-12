@@ -29,9 +29,6 @@ public class NotificationSenderServiceTest
     public static final String NOTIFICATION_SENDER_ID = "NOTIFICATION_SENDER";
     public static final String NOTIFICATION_SENDER_DISPLAY_NAME = "notification sender";
 
-//    public static final String TEST_NOTIFICATION_TITLE = "TITLE";
-//    public static final String TEST_NOTIFICATION_CONTENT = "CONTENT";
-//    public static final Date TEST_NOTIFICATION_DATE = new Date(LocalDate.of(2020, JUNE, 12).toEpochDay());
     public static final Service TEST_NOTIFICATION_SERVICE = TEST;
 
     @Mock

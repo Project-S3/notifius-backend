@@ -8,7 +8,6 @@ import ca.usherbrooke.notifius.backend.models.Notification;
 import ca.usherbrooke.notifius.backend.models.Service;
 import ca.usherbrooke.notifius.backend.models.User;
 import ca.usherbrooke.notifius.backend.repositories.NotificationRepository;
-import ca.usherbrooke.notifius.backend.repositories.UserRepository;
 import ca.usherbrooke.notifius.backend.translators.NotificationToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
@@ -23,8 +22,6 @@ import java.util.stream.Collectors;
 public class NotificationService
 {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private NotificationRepository notificationRepository;
     @Autowired
     private NotificationToEntityTranslator notificationToEntityTranslator;
@@ -35,6 +32,8 @@ public class NotificationService
 
     public void create(Notification notification, User user)
     {
+        if (notification == null || user == null) return;
+
         notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
                                                                   .withUser(userToEntityTranslator.toEntity(user)));
     }
@@ -72,5 +71,45 @@ public class NotificationService
                                                                             date)
                                      .stream()
                                      .map(notificationToEntityTranslator::toModel).collect(Collectors.toSet());
+    }
+
+    public NotificationRepository getNotificationRepository()
+    {
+        return notificationRepository;
+    }
+
+    public void setNotificationRepository(NotificationRepository notificationRepository)
+    {
+        this.notificationRepository = notificationRepository;
+    }
+
+    public NotificationToEntityTranslator getNotificationToEntityTranslator()
+    {
+        return notificationToEntityTranslator;
+    }
+
+    public void setNotificationToEntityTranslator(NotificationToEntityTranslator notificationToEntityTranslator)
+    {
+        this.notificationToEntityTranslator = notificationToEntityTranslator;
+    }
+
+    public UserToEntityTranslator getUserToEntityTranslator()
+    {
+        return userToEntityTranslator;
+    }
+
+    public void setUserToEntityTranslator(UserToEntityTranslator userToEntityTranslator)
+    {
+        this.userToEntityTranslator = userToEntityTranslator;
+    }
+
+    public ServiceToEntityTranslator getServiceToEntityTranslator()
+    {
+        return serviceToEntityTranslator;
+    }
+
+    public void setServiceToEntityTranslator(ServiceToEntityTranslator serviceToEntityTranslator)
+    {
+        this.serviceToEntityTranslator = serviceToEntityTranslator;
     }
 }

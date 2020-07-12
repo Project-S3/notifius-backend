@@ -44,4 +44,24 @@ public class UserToEntityTranslator
                                                        .map(serviceToEntityTranslator::toModel)
                                                        .collect(Collectors.toSet()));
     }
+
+    public ServiceToEntityTranslator getServiceToEntityTranslator()
+    {
+        return serviceToEntityTranslator;
+    }
+
+    public void setServiceToEntityTranslator(ServiceToEntityTranslator serviceToEntityTranslator)
+    {
+        this.serviceToEntityTranslator = serviceToEntityTranslator;
+    }
+
+    public NotificationToEntityTranslator getNotificationToEntityTranslator()
+    {
+        return notificationToEntityTranslator;
+    }
+
+    public void setNotificationToEntityTranslator(NotificationToEntityTranslator notificationToEntityTranslator)
+    {
+        this.notificationToEntityTranslator = notificationToEntityTranslator;
+    }
 }
