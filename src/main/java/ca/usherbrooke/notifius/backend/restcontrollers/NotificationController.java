@@ -92,7 +92,7 @@ public class NotificationController
     }
 
     @PostMapping(path = "/users/{userId}/notifications",
-                 consumes = "application/json")
+                 consumes = "application/json;charset=UTF-8")
     @ResponseStatus(HttpStatus.CREATED)
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
                                                                  @RequestBody Notification notification)
