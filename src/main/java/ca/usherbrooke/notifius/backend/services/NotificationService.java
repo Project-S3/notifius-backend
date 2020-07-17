@@ -36,11 +36,13 @@ public class NotificationService
     {
         if (notification == null || user == null) return;
 
-        Notification notif = notification;
-        notif.setTitle(new String(notification.getTitle().getBytes(), StandardCharsets.UTF_8));
-        notif.setContent(new String(notification.getContent().getBytes(), StandardCharsets.UTF_8));
+        if(notification.getService() == Service.MENTORING)
+        {
+            notification.setTitle(new String(notification.getTitle().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+            notification.setContent(new String(notification.getContent().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+        }
 
-        notificationRepository.save(notificationToEntityTranslator.toEntity(notif)
+        notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
                                                                   .withUser(userToEntityTranslator.toEntity(user)));
     }
 
