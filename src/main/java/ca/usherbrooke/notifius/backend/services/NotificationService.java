@@ -13,6 +13,8 @@ import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +36,11 @@ public class NotificationService
     {
         if (notification == null || user == null) return;
 
-        notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
+        Notification notif = notification;
+        notif.setTitle(new String(notification.getTitle().getBytes(), StandardCharsets.UTF_8));
+        notif.setContent(new String(notification.getContent().getBytes(), StandardCharsets.UTF_8));
+
+        notificationRepository.save(notificationToEntityTranslator.toEntity(notif)
                                                                   .withUser(userToEntityTranslator.toEntity(user)));
     }
 
