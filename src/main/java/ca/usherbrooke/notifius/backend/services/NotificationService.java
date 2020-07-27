@@ -13,6 +13,7 @@ import ca.usherbrooke.notifius.backend.translators.ServiceToEntityTranslator;
 import ca.usherbrooke.notifius.backend.translators.UserToEntityTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class NotificationService
     {
         if (notification == null || user == null) return;
 
-        if(notification.getService() == Service.MENTORING)
+        if(notification.getService() == Service.MENTORING)// Pas suposé de faire ça pour mentoring
         {
             notification.setTitle(new String(notification.getTitle().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
             notification.setContent(new String(notification.getContent().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
