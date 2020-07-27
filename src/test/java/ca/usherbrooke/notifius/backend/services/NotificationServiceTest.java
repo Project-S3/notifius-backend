@@ -63,7 +63,7 @@ public class NotificationServiceTest
         verify(notificationRepositorySpy).save(any(NotificationEntity.class));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testCreateWithNotificationNull()
     {
         notificationService.create(null, userMock);
