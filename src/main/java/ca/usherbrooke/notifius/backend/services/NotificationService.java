@@ -32,6 +32,14 @@ public class NotificationService
 
     public void create(Notification notification, User user)
     {
+        if (notification == null || user == null) return;
+
+        if(notification.getService() == Service.MENTORING)
+        {
+            notification.setTitle(new String(notification.getTitle().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+            notification.setContent(new String(notification.getContent().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8));
+        }
+
         notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
                                                                   .withUser(userToEntityTranslator.toEntity(user)));
     }
