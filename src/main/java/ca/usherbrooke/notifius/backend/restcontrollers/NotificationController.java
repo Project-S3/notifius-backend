@@ -56,8 +56,8 @@ public class NotificationController
                 produces = "application/json")
     @ResponseStatus(code = HttpStatus.OK)
     public Set<Notification> getNotifications(@PathVariable("userId") String userId,
-                                              @RequestParam(value = "service", required = false) String serviceParam, // todo list
-                                              @RequestParam(value = "date", required = false) String dateParam) // todo broken
+                                              @RequestParam(value = "service", required = false) String serviceParam,
+                                              @RequestParam(value = "date", required = false) String dateParam)
     {
         String finalUserId = sanitizeUserId(userId);
         serviceParam = sanitizeService(serviceParam);
@@ -69,7 +69,7 @@ public class NotificationController
         if (StringUtils.hasText(serviceParam)) {
             service = serviceService.getServiceByName(serviceParam);
         }
-        
+
         Date date = null;
         if (StringUtils.hasText(dateParam)) {
             try {
@@ -95,7 +95,7 @@ public class NotificationController
                  consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Notification createNotificationByUser(@PathVariable("userId") String userId,
-                                                                 @RequestBody Notification notification)
+                                                 @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
         userId = sanitizeUserId(userId);
@@ -112,8 +112,8 @@ public class NotificationController
                  consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Notification createNotificationsByActivity(@PathVariable("trimesterId") String trimesterId,
-                                                                      @PathVariable("activityId") String activityId,
-                                                                      @RequestBody Notification notification)
+                                                      @PathVariable("activityId") String activityId,
+                                                      @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 
@@ -139,8 +139,8 @@ public class NotificationController
                  consumes = "application/json")
     @ResponseStatus(code = HttpStatus.CREATED)
     public Notification createNotificationsByDepartment(@PathVariable("trimesterId") String trimesterId,
-                                                                        @PathVariable("profileId") String profileId,
-                                                                        @RequestBody Notification notification)
+                                                        @PathVariable("profileId") String profileId,
+                                                        @RequestBody Notification notification)
     {
         notificationValidator.validNotificationThrowIfNotValid(notification);
 

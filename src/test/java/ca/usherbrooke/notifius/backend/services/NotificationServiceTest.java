@@ -21,7 +21,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static ca.usherbrooke.notifius.backend.models.Service.TEST;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -46,7 +45,7 @@ public class NotificationServiceTest
     private NotificationService notificationService;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         MockitoAnnotations.initMocks(this);
 
@@ -64,7 +63,7 @@ public class NotificationServiceTest
         verify(notificationRepositorySpy).save(any(NotificationEntity.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testCreateWithNotificationNull()
     {
         notificationService.create(null, userMock);
@@ -78,9 +77,4 @@ public class NotificationServiceTest
         verifyNoInteractions(notificationRepositorySpy);
     }
 
-    @Test
-    public void doOtherTests()
-    {
-        fail("Finir les tests");
-    }
 }

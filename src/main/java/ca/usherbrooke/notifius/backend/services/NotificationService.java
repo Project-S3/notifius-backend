@@ -32,8 +32,6 @@ public class NotificationService
 
     public void create(Notification notification, User user)
     {
-        if (notification == null || user == null) return;
-
         notificationRepository.save(notificationToEntityTranslator.toEntity(notification)
                                                                   .withUser(userToEntityTranslator.toEntity(user)));
     }

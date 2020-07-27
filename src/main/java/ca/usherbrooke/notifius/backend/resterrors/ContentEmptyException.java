@@ -11,6 +11,6 @@ public class ContentEmptyException extends ResponseStatusException
 {
     public ContentEmptyException()
     {
-        super(HttpStatus.PRECONDITION_REQUIRED, "Vous devez fournir un contenu.");
+        super(HttpStatus.BAD_REQUEST, "Vous devez fournir un contenu.");
     }
 }
